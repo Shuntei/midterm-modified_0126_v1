@@ -1,5 +1,29 @@
 <div class="container-scroller">
+<<<<<<< HEAD
 
+=======
+    <!-- <div class="row p-0 m-0 proBanner" id="proBanner">
+      <div class="col-md-12 p-0 m-0">
+        <div class="card-body card-body-padding px-3 d-flex align-items-center justify-content-between">
+          <div class="ps-lg-3">
+            <div class="d-flex align-items-center justify-content-between">
+              <p class="mb-0 font-weight-medium me-3 buy-now-text">Free 24/7 customer support, updates, and more with
+                this template!</p>
+              <a href="https://www.bootstrapdash.com/product/star-admin-pro/" target="_blank"
+                class="btn me-2 buy-now-btn border-0">Buy Now</a>
+            </div>
+          </div>
+          <div class="d-flex align-items-center justify-content-between">
+            <a href="https://www.bootstrapdash.com/product/star-admin-pro/"><i class="ti-home me-3 text-white"></i></a>
+            <button id="bannerClose" class="btn border-0 p-0">
+              <i class="ti-close text-white"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <!-- partial:partials/_navbar.html -->
+>>>>>>> f3a15239ed2d7d65cbb4681d5a94064ce94ad1fb
 <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
   <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
     <div class="me-3">
@@ -8,23 +32,42 @@
       </button>
     </div>
     <div>
+<<<<<<< HEAD
       <a class="navbar-brand brand-logo" href="./index_.php">
         <img src="./assets/images/ruined.png" alt="logo" />
       </a>
 
+=======
+      <a class="navbar-brand brand-logo" href="../index.html">
+        <img src="../assets/images/logo.svg" alt="logo" />
+      </a>
+      <a class="navbar-brand brand-logo-mini" href="../index.html">
+        <img src="../assets/images/logo-mini.svg" alt="logo" />
+      </a>
+>>>>>>> f3a15239ed2d7d65cbb4681d5a94064ce94ad1fb
     </div>
   </div>
   <div class="navbar-menu-wrapper d-flex align-items-top">
     <ul class="navbar-nav">
       <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
+<<<<<<< HEAD
         <h1 class="welcome-text">Good Morning, <span class="text-black fw-bold"></span></h1>
         <h3 class="welcome-sub-text"></h3>
+=======
+        <h1 class="welcome-text">Good Morning, <span class="text-black fw-bold">John Doe</span></h1>
+        <h3 class="welcome-sub-text">Your performance summary this week </h3>
+>>>>>>> f3a15239ed2d7d65cbb4681d5a94064ce94ad1fb
       </li>
     </ul>
     <ul class="navbar-nav ms-auto">
       <li class="nav-item dropdown d-none d-lg-block">
+<<<<<<< HEAD
         <!-- <a class="nav-link dropdown-bordered dropdown-toggle dropdown-toggle-split" id="messageDropdown" href="#"
           data-bs-toggle="dropdown" aria-expanded="false"> Select Category </a> -->
+=======
+        <a class="nav-link dropdown-bordered dropdown-toggle dropdown-toggle-split" id="messageDropdown" href="#"
+          data-bs-toggle="dropdown" aria-expanded="false"> Select Category </a>
+>>>>>>> f3a15239ed2d7d65cbb4681d5a94064ce94ad1fb
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0"
           aria-labelledby="messageDropdown">
           <a class="dropdown-item py-3">
@@ -57,14 +100,22 @@
           </a>
         </div>
       </li>
+<<<<<<< HEAD
       <!-- <li class="nav-item d-none d-lg-block">
+=======
+      <li class="nav-item d-none d-lg-block">
+>>>>>>> f3a15239ed2d7d65cbb4681d5a94064ce94ad1fb
         <div id="datepicker-popup" class="input-group date datepicker navbar-date-picker">
           <span class="input-group-addon input-group-prepend border-right">
             <span class="icon-calendar input-group-text calendar-icon"></span>
           </span>
           <input type="text" class="form-control">
         </div>
+<<<<<<< HEAD
       </li> -->
+=======
+      </li>
+>>>>>>> f3a15239ed2d7d65cbb4681d5a94064ce94ad1fb
       <li class="nav-item">
         <form class="search-form" action="#">
           <i class="icon-search"></i>
@@ -152,8 +203,13 @@
         </div>
       </li>
       <li class="nav-item dropdown d-none d-lg-block user-dropdown">
+<<<<<<< HEAD
         <!-- <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
           <img class="img-xs rounded-circle" src="../assets/images/faces/face8.jpg" alt="Profile image"> </a> -->
+=======
+        <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+          <img class="img-xs rounded-circle" src="../assets/images/faces/face8.jpg" alt="Profile image"> </a>
+>>>>>>> f3a15239ed2d7d65cbb4681d5a94064ce94ad1fb
         <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
           <div class="dropdown-header text-center">
             <img class="img-md rounded-circle" src="../assets/images/faces/face8.jpg" alt="Profile image">
@@ -181,7 +237,11 @@
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_settings-panel.html -->
+<<<<<<< HEAD
       <!-- <div class="theme-setting-wrapper">
+=======
+      <div class="theme-setting-wrapper">
+>>>>>>> f3a15239ed2d7d65cbb4681d5a94064ce94ad1fb
   <div id="settings-trigger"><i class="ti-settings"></i></div>
   <div id="theme-settings" class="settings-panel">
     <i class="settings-close ti-close"></i>
@@ -202,7 +262,11 @@
       <div class="tiles default"></div>
     </div>
   </div>
+<<<<<<< HEAD
 </div> -->
+=======
+</div>
+>>>>>>> f3a15239ed2d7d65cbb4681d5a94064ce94ad1fb
 <div id="right-sidebar" class="settings-panel">
   <i class="settings-close ti-close"></i>
   <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
@@ -366,51 +430,101 @@
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
   <ul class="nav">
+<<<<<<< HEAD
     
+=======
+    <li class="nav-item">
+      <a class="nav-link" href="../index.html">
+        <i class="mdi mdi-grid-large menu-icon"></i>
+        <span class="menu-title">Dashboard</span>
+      </a>
+    </li>
+    <li class="nav-item nav-category">UI Elements</li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+        <i class="menu-icon mdi mdi-floor-plan"></i>
+        <span class="menu-title">UI Elements</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="ui-basic">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="login.php">Buttons</a></li>
+          <li class="nav-item"> <a class="nav-link" href="list.php">Dropdowns</a></li>
+          <li class="nav-item"> <a class="nav-link" href="add.php">Typography</a></li>
+        </ul>
+      </div>
+    </li>
+>>>>>>> f3a15239ed2d7d65cbb4681d5a94064ce94ad1fb
     <li class="nav-item nav-category">Forms and Datas</li>
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#form-elements" aria-expanded="false"
         aria-controls="form-elements">
         <i class="menu-icon mdi mdi-card-text-outline"></i>
+<<<<<<< HEAD
         <span class="menu-title">Member</span>
+=======
+        <span class="menu-title">Form elements</span>
+>>>>>>> f3a15239ed2d7d65cbb4681d5a94064ce94ad1fb
         <i class="menu-arrow"></i>
       </a>
       <div class="collapse" id="form-elements">
         <ul class="nav flex-column sub-menu">
+<<<<<<< HEAD
           <li class="nav-item"><a class="nav-link" href="../pages/forms/basic_elements.html">User</a></li>
         </ul>
         <ul class="nav flex-column sub-menu">
           <li class="nav-item"><a class="nav-link" href="../pages/forms/basic_elements.html">UserPermission</a></li>
+=======
+          <li class="nav-item"><a class="nav-link" href="../pages/forms/basic_elements.html">Basic Elements</a></li>
+>>>>>>> f3a15239ed2d7d65cbb4681d5a94064ce94ad1fb
         </ul>
       </div>
     </li>
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
         <i class="menu-icon mdi mdi-chart-line"></i>
+<<<<<<< HEAD
         <span class="menu-title">SNS</span>
+=======
+        <span class="menu-title">Charts</span>
+>>>>>>> f3a15239ed2d7d65cbb4681d5a94064ce94ad1fb
         <i class="menu-arrow"></i>
       </a>
       <div class="collapse" id="charts">
         <ul class="nav flex-column sub-menu">
+<<<<<<< HEAD
           <li class="nav-item"> <a class="nav-link" href="../pages/charts/chartjs.html">Comments</a></li>
           <li class="nav-item"> <a class="nav-link" href="../pages/charts/chartjs.html">Friends</a></li>
+=======
+          <li class="nav-item"> <a class="nav-link" href="../pages/charts/chartjs.html">ChartJs</a></li>
+>>>>>>> f3a15239ed2d7d65cbb4681d5a94064ce94ad1fb
         </ul>
       </div>
     </li>
     <li class="nav-item">
       <a class="nav-link" data-bs-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
+<<<<<<< HEAD
         <i class="menu-icon mdi mdi-message-text"></i>
         <span class="menu-title">ChatRoom</span>
+=======
+        <i class="menu-icon mdi mdi-table"></i>
+        <span class="menu-title">Tables</span>
+>>>>>>> f3a15239ed2d7d65cbb4681d5a94064ce94ad1fb
         <i class="menu-arrow"></i>
       </a>
       <div class="collapse" id="tables">
         <ul class="nav flex-column sub-menu">
+<<<<<<< HEAD
           <li class="nav-item"> <a class="nav-link" href="../pages/tables/basic-table.html">GiftPoint</a></li>
           <li class="nav-item"> <a class="nav-link" href="../pages/tables/basic-table.html">GiftShop</a></li>
+=======
+          <li class="nav-item"> <a class="nav-link" href="../pages/tables/basic-table.html">Basic table</a></li>
+>>>>>>> f3a15239ed2d7d65cbb4681d5a94064ce94ad1fb
         </ul>
       </div>
     </li>
     <li class="nav-item">
+<<<<<<< HEAD
       <a class="nav-link" data-bs-toggle="collapse" href="#shoppingCart" aria-expanded="false" aria-controls="shoppingCart">
         <i class="menu-icon mdi mdi-cart-outline"></i>
         <span class="menu-title">ShoppingCart</span>
@@ -449,6 +563,39 @@
         </ul>
       </div>
     </li>
+=======
+      <a class="nav-link" data-bs-toggle="collapse" href="#icons" aria-expanded="false" aria-controls="icons">
+        <i class="menu-icon mdi mdi-layers-outline"></i>
+        <span class="menu-title">Icons</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="icons">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="../pages/icons/mdi.html">Mdi icons</a></li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item nav-category">pages</li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+        <i class="menu-icon mdi mdi-account-circle-outline"></i>
+        <span class="menu-title">User Pages</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="auth">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="../pages/samples/login.html"> Login </a></li>
+        </ul>
+      </div>
+    </li>
+    <li class="nav-item nav-category">help</li>
+    <li class="nav-item">
+      <a class="nav-link" href="http://bootstrapdash.com/demo/star-admin2-free/docs/documentation.html">
+        <i class="menu-icon mdi mdi-file-document"></i>
+        <span class="menu-title">Documentation</span>
+      </a>
+    </li>
+>>>>>>> f3a15239ed2d7d65cbb4681d5a94064ce94ad1fb
   </ul>
 </nav>
       <!-- partial -->

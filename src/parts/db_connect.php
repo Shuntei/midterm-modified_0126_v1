@@ -1,6 +1,10 @@
 <?php
     $db_host = 'localhost';
+<<<<<<< HEAD
     $db_name = 'prj57';
+=======
+    $db_name = 'proj57';
+>>>>>>> f3a15239ed2d7d65cbb4681d5a94064ce94ad1fb
     $db_user = 'root';
     $db_pass = '';
     
