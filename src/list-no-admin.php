@@ -38,7 +38,7 @@ if ($totalRows > 0) {
 
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include __DIR__ . '/packageUp.php' ?>
+<?php include __DIR__ . '/parts/packageUp.php' ?>
 <?php include __DIR__ . '/parts/navbar.php' ?>
 
 <div class="container-fluid">
@@ -120,5 +120,5 @@ if ($totalRows > 0) {
         }
     }
 </script>
-<?php include __DIR__ . '/packageDown.php' ?>
+<?php include __DIR__ . '/parts/packageDown.php' ?>
 <?php include __DIR__ . '/parts/html-foot.php' ?>

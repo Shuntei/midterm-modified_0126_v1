@@ -7,7 +7,7 @@ if (isset($_SESSION['admin'])) {
 }
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include __DIR__ . '/packageUp.php' ?>
+<?php include __DIR__ . '/parts/packageUp.php' ?>
 <?php include __DIR__ . '/parts/navbar.php' ?>
 <style>
   form .mb-3 .form-text {
@@ -135,5 +135,5 @@ if (isset($_SESSION['admin'])) {
 
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
 </script>
-<?php include __DIR__ . '/packageDown.php' ?>
+<?php include __DIR__ . '/parts/packageDown.php' ?>
 <?php include __DIR__ . '/parts/html-foot.php' ?>

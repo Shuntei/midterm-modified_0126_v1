@@ -3,7 +3,7 @@
   $title = '首頁';
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include __DIR__ . '/packageUp.php' ?>
+<?php include __DIR__ . '/parts/packageUp.php' ?>
 <?php include __DIR__ . '/parts/navbar.php' ?>
 
 <div class="container">
@@ -11,5 +11,5 @@
 </div>
 
 <?php include __DIR__ . '/parts/scripts.php' ?>
-<?php include __DIR__ . '/packageDown.php'?>
+<?php include __DIR__ . '/parts/packageDown.php'?>
 <?php include __DIR__ . '/parts/html-foot.php' ?>
