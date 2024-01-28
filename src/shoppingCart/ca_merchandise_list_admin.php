@@ -40,43 +40,90 @@ if ($totalRows > 0) {
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
 <?php include __DIR__ . '/parts/packageUp.php' ?>
-<?php include __DIR__ . '/parts/navbar.php' ?>
+<?php
+if (empty($pageName)) {
+    $pageName = '';
+}
+?>
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./ca_merchandise_list_admin.php">列表</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./ca_merchandise_add.php">新增</a>
+                    </li>
+                    <!--  page navigation start-->
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    <i class="fa-solid fa-angles-left"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<?= $page - 1 ?>">
+                                    <i class="fa-solid fa-angle-left" href="?page"></i>
+                                </a>
+                            </li>
+                            <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
+                                if ($i >= 1 and $i <= $totalPages) : ?>
+                                    <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                                        <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                                    </li>
+                            <?php endif;
+                            endfor; ?>
+
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<?= $page + 1 ?>">
+                                    <i class="fa-solid fa-angle-right"></i>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                                    <i class="fa-solid fa-angles-right"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+
+<!--  page navigation end-->
+                </ul>
+                <!-- <ul class="navbar-nav mb-2 mb-lg-0">
+          <?php if (isset($_SESSION['admin'])) : ?>
+            <li class="nav-item">
+              <!-- <a class="nav-link">暱稱</a> 
+                <a class="nav-link"><?= $_SESSION['admin']['nickname'] ?></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./logout.php">登出</a>
+                </li>
+            <?php else : ?>
+                <li class="nav-item">
+                    <a class="nav-link <?= $pageName == 'login' ? 'active' : '' ?>" href="./login.php">登入</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $pageName == 'register' ? 'active' : '' ?>" href="./register.php">註冊</a>
+                </li>
+            <?php endif ?>
+            </ul> -->
+            </div>
+        </div>
+    </nav>
+
+</div>
 <div class="container-fluid">
     <div class="row">
         <div class="col">
             <!-- <?= "$totalRows, $totalPages" ?> -->
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="fa-solid fa-angles-left"></i>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="?page=<?= $page - 1 ?>">
-                            <i class="fa-solid fa-angle-left" href="?page"></i>
-                        </a>
-                    </li>
-                    <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
-                        if ($i >= 1 and $i <= $totalPages) : ?>
-                            <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                                <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
-                            </li>
-                    <?php endif;
-                    endfor; ?>
 
-                    <li class="page-item">
-                        <a class="page-link" href="?page=<?= $page + 1 ?>">
-                            <i class="fa-solid fa-angle-right"></i>
-                        </a>
-                    </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="fa-solid fa-angles-right"></i>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
@@ -87,7 +134,7 @@ if ($totalRows > 0) {
                         <th>category_id</th>
                         <th>description</th>
                         <th>unit_price</th>
-                        <th>product_img	</th>
+                        <th>product_img </th>
 
                         <th><i class="fa-solid fa-pen-to-square"></i></th>
                     </tr>
@@ -127,14 +174,14 @@ if ($totalRows > 0) {
                 print_r($stmt->fetch());
                 ?></prev> -->
 </div>
-
+<?php include __DIR__ . '/parts/packageDown.php' ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
     function delete_one(item_id) {
         if (confirm(`是否要刪除編號為${item_id}的資料?`)) {
-            location.href = `delete.php?item_id=${item_id}`;
+            location.href = `ca_merchandise_delete.php?item_id=${item_id}`;
         }
     }
 </script>
-<?php include __DIR__ . '/parts/packageDown.php' ?>
+
 <?php include __DIR__ . '/parts/html-foot.php' ?>

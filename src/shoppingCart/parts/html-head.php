@@ -1,6 +1,6 @@
 
 <?php 
-    $title = isset($title) ? $title . '-小新的網站' : '小新的網站'
+    $title = isset($title) ? $title . '-MFEE47_02' : 'MFEE47_02'
 ?>
 <!DOCTYPE html>
 <html lang="zh">

@@ -1,46 +1,51 @@
-<?php require __DIR__ . '/parts/db_connect_midterm.php'; 
-    $pageName = 'add';
-    $title = '新增';
+<?php require __DIR__ . '/parts/db_connect_midterm.php';
+$pageName = 'add';
+$title = '新增';
 ?>
-<?php  include __DIR__ . '/parts/html-head.php' ?>
+<?php include __DIR__ . '/parts/html-head.php' ?>
 <?php include __DIR__ . '/parts/packageUp.php' ?>
-<?php  include __DIR__ . '/parts/navbar.php' ?>
+
 <style>
-    form .mb-3 .form-text {
-      color: red;
-    }
+  form .mb-3 .form-text {
+    color: red;
+  }
 </style>
 
 <div class="container-fluid">
-<div class="row">
+  <div class="row">
     <div class="col-6">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">新增資料</h5>
           <form name="form1" method="post" onsubmit="sendForm(event)">
             <div class="mb-3">
-              <label for="name" class="form-label">姓名</label>
-              <input type="text" class="form-control" id="name" name="name">
+              <label for="item_name" class="form-label">item_name</label>
+              <input type="text" class="form-control" id="item_name" name="item_name">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="email" class="form-label">email</label>
-              <input type="text" class="form-control" id="email" name="email">
+              <label for="quantity" class="form-label">quantity</label>
+              <input type="text" class="form-control" id="quantity" name="quantity">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="mobile" class="form-label">mobile</label>
-              <input type="text" class="form-control" id="mobile" name="mobile">
+              <label for="category_id" class="form-label">category_id</label>
+              <input type="text" class="form-control" id="category_id" name="category_id">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="birthday" class="form-label">birthday</label>
-              <input type="date" class="form-control" id="birthday" name="birthday">
+              <label for="unit_price" class="form-label">unit_price</label>
+              <input type="text" class="form-control" id="unit_price" name="unit_price">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="address" class="form-label">address</label>
-              <textarea type="text" class="form-control" id="address" name="address" cols="30"></textarea>
+              <label for="product_img" class="form-label">product_img</label>
+              <input type="text" class="form-control" id="product_img" name="product_img">
+              <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">description</label>
+              <textarea type="text" class="form-control" id="description" name="description" cols="80"></textarea>
               <div class="form-text"></div>
             </div>
             <button type="submit" class="btn btn-primary">新增</button>
@@ -51,7 +56,7 @@
   </div>
 
   <!-- Button trigger modal -->
-  
+
   <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
     Launch demo modal
   </button> -->
@@ -78,75 +83,93 @@
     </div>
   </div>
 </div>
-<?php include __DIR__ . '/parts/packageDown.php'?>
-<?php  include __DIR__ . '/parts/scripts.php' ?>
+<?php include __DIR__ . '/parts/packageDown.php' ?>
+<?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
-  const {
-    name: name_f,
-    email: email_f,
-    mobile: mobile_f,
-  } = document.form1;
+  // const {
+  //   name: name_f,
+  //   email: email_f,
+  //   mobile: mobile_f,
+  // } = document.form1;
 
-  function validateEmail(email) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-  }
+  // function validateEmail(email) {
+  //   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  //   return re.test(email);
+  // }
 
-  function validateMobile(mobile) {
-    var re = /^09\d{2}-?\d{3}-?\d{3}$/;
-    return re.test(mobile);
-  }
+  // function validateMobile(mobile) {
+  //   var re = /^09\d{2}-?\d{3}-?\d{3}$/;
+  //   return re.test(mobile);
+  // }
 
+  // const sendForm = e => {
+  //   e.preventDefault();
+  //   name_f.style.border = '1px solid #CCC';
+  //   name_f.nextElementSibling.innerHTML = "";
+  //   email_f.style.border = '1px solid #CCC';
+  //   email_f.nextElementSibling.innerHTML = "";
+  //   mobile_f.style.border = '1px solid #CCC';
+  //   mobile_f.nextElementSibling.innerHTML = "";
+
+  //   // TODO: 資料送出之前, 要做檢查 (有沒有填寫, 格式對不對)
+  //   let isPass = true;
+
+  //   if(name_f.value.length < 2) {
+  //     // alert("請填寫正確的姓名");
+  //     isPass = false;
+  //     name_f.style.border = '1px solid red';
+  //     name_f.nextElementSibling.innerHTML = "請填寫正確的姓名";
+  //   }
+
+  //   if(email_f.value === '' || !validateEmail(email_f.value)) {
+  //     isPass = false;
+  //     email_f.style.border = '1px solid red';
+  //     email_f.nextElementSibling.innerHTML = "請填寫正確的 Email";
+  //   }
+
+  //   if(mobile_f.value === '' || !validateMobile(mobile_f.value)) {
+  //     isPass = false;
+  //     mobile_f.style.border = '1px solid red';
+  //     mobile_f.nextElementSibling.innerHTML = "請填寫正確的手機號碼";
+  //   }
+
+  //   if(isPass) {
+  //     //"沒有外觀"的表單
+  //     const fd = new FormData(document.form1);
+
+  //     fetch('add-api.php', {
+  //       method: 'POST',
+  //       body: fd,
+  //     }).then(r => r.json())
+  //     .then(result => {
+  //       console.log({result});
+  //       if(result.success) {
+  //         myModal.show();
+  //       }
+  //     }).catch(
+  //       e =>console.log(e)
+  //     );
+  //   }
+  // }
   const sendForm = e => {
     e.preventDefault();
-    name_f.style.border = '1px solid #CCC';
-    name_f.nextElementSibling.innerHTML = "";
-    email_f.style.border = '1px solid #CCC';
-    email_f.nextElementSibling.innerHTML = "";
-    mobile_f.style.border = '1px solid #CCC';
-    mobile_f.nextElementSibling.innerHTML = "";
+    const fd = new FormData(document.form1);
 
-    // TODO: 資料送出之前, 要做檢查 (有沒有填寫, 格式對不對)
-    let isPass = true;
-    
-    if(name_f.value.length < 2) {
-      // alert("請填寫正確的姓名");
-      isPass = false;
-      name_f.style.border = '1px solid red';
-      name_f.nextElementSibling.innerHTML = "請填寫正確的姓名";
-    }
-
-    if(email_f.value === '' || !validateEmail(email_f.value)) {
-      isPass = false;
-      email_f.style.border = '1px solid red';
-      email_f.nextElementSibling.innerHTML = "請填寫正確的 Email";
-    }
-
-    if(mobile_f.value === '' || !validateMobile(mobile_f.value)) {
-      isPass = false;
-      mobile_f.style.border = '1px solid red';
-      mobile_f.nextElementSibling.innerHTML = "請填寫正確的手機號碼";
-    }
-
-    if(isPass) {
-      //"沒有外觀"的表單
-      const fd = new FormData(document.form1);
-
-      fetch('add-api.php', {
+    fetch('ca_merchandise_add_api.php', {
         method: 'POST',
         body: fd,
       }).then(r => r.json())
       .then(result => {
-        console.log({result});
-        if(result.success) {
+        console.log({
+          result
+        });
+        if (result.success) {
           myModal.show();
         }
       }).catch(
-        e =>console.log(e)
+        e => console.log(e)
       );
-    }
   }
-
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
 </script>
 

@@ -7,7 +7,7 @@
         </button>
       </div>
       <div>
-        <a class="navbar-brand brand-logo" href="./index_.php">
+        <a class="navbar-brand brand-logo" href="../index_.php">
           <img src="../assets/images/ruined.png" alt="logo" />
         </a>
 
@@ -16,7 +16,7 @@
     <div class="navbar-menu-wrapper d-flex align-items-top">
       <ul class="navbar-nav">
         <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-          <h1 class="welcome-text">Good Morning, <span class="text-black fw-bold"></span></h1>
+          <h1 class="welcome-text">Why are we still here? Just to suffer? <span class="text-black fw-bold"></span></h1>
           <h3 class="welcome-sub-text"></h3>
         </li>
       </ul>
@@ -446,5 +446,5 @@
       </ul>
     </nav>
     <!-- partial -->
-    <div class="main-panel overflow-auto" style="height: 100vh;">
+    <div class="main-panel overflow-auto" style="height: 0;">
       <!-- 這裡引入 -->
