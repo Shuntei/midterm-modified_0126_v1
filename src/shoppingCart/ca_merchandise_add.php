@@ -78,7 +78,7 @@ $title = '新增';
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">繼續新增</button>
-        <a type="button" class="btn btn-primary" href="list.php">到列表頁</a>
+        <a type="button" class="btn btn-primary" href="ca_merchandise_list_admin.php">到列表頁</a>
       </div>
     </div>
   </div>
