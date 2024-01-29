@@ -104,11 +104,11 @@ $row_reply = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 <?php
                                 $commentId = $r['comment_id'];
                                 ?>
-                                <button id="show-<?= $commentId ?>">check details</button>
+                                <button id="show-<?= $commentId ?>">查看回覆</button>
                                 <div style="display:none" id="detail-<?= $commentId ?>">
                                     <?php foreach ($row_reply as $r_reply) {
-                                        if ($r['post_id'] === $r_reply['post_id']) {
-                                            echo $r_reply['content'] . $r_reply['post_id'] . "<br>";
+                                        if ($r['comment_id'] === $r_reply['parent_id']) {
+                                            echo $r_reply['content'] . $r_reply['parent_id'] . "<br>";
                                         }
                                     } ?>
                                 </div>

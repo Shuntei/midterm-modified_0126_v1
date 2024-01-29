@@ -98,14 +98,14 @@ if ($totalRows > 0) {
                 <tbody>
                     <!-- while($r = $stmt->fetch()):  -->
                     <?php foreach ($rows as $r) : ?>
-                        <tr>                       
-                             <td>
+                        <tr>
+                            <td>
                                 <a href="javascript: delete_one(<?= $r['post_id'] ?>)">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </a>
                             </td>
                             <td>
-                                <a href="post-edit.php?post_id=<?= $r['post_id']?>">
+                                <a href="post-edit.php?post_id=<?= $r['post_id'] ?>">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                             </td>
@@ -119,7 +119,7 @@ if ($totalRows > 0) {
                                 <!-- modal -->
                                 <!-- Button trigger modal -->
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailCm-<?= $postId ?>" id="showCm-<?= $postId ?>">
-                                    查看評論
+                                    查看留言
                                 </button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="detailCm-<?= $postId ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -133,7 +133,8 @@ if ($totalRows > 0) {
                                                 <?php foreach ($row_cm as $r_cm) : ?>
                                                     <?php if ($r['post_id'] === $r_cm['post_id']) : ?>
                                                         <?= $r_cm['content'] . $r_cm['post_id'] . "<br>"; ?>
-                                                        
+                                                        <!-- 用api寫 -->
+                                                        <!-- api寫結束 -->
                                                         <!-- 回覆的回覆 改用api寫-->
                                                         <?php foreach ($row_cm as $r_cm) : ?>
                                                             <?php
@@ -147,9 +148,8 @@ if ($totalRows > 0) {
                                                                     <?php endif; ?>
                                                                 <?php endforeach; ?>
                                                             </div>
-                                                            <!-- 回覆的回覆 -->
                                                         <?php endforeach ?>
-
+                                                        <!-- 回覆的回覆 -->
                                                     <?php endif; ?>
                                                 <?php endforeach ?>
                                             </div>
@@ -196,7 +196,7 @@ if ($totalRows > 0) {
                                 <button id="showCmRp-<?= $commentId ?>">check details</button>
                                 <div style="display:none" id="detailCmRp-<?= $commentId ?>">
                                     <?php foreach ($row_reply as $r_reply) {
-                                        if ($r_cm['post_id'] === $r_reply['post_id']) {
+                                        if ($r_cm['comment_id'] === $r_reply['parent_id']) {
                                             echo $r_reply['content'] . $r_reply['post_id'] . "<br>";
                                         }
                                     } ?>
@@ -218,6 +218,8 @@ if ($totalRows > 0) {
             location.href = `post-delete.php?post_id=${post_id}`;
         }
     }
+
+
     // post開啟comment
     <?php foreach ($rows as $r) : ?>
         let showCm<?= $r['post_id'] ?> = document.querySelector('#showCm-<?= $r['post_id'] ?>');
