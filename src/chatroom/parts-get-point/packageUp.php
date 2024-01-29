@@ -21,8 +21,6 @@
       </ul>
       <ul class="navbar-nav ms-auto">
         <li class="nav-item dropdown d-none d-lg-block">
-          <!-- <a class="nav-link dropdown-bordered dropdown-toggle dropdown-toggle-split" id="messageDropdown" href="#"
-          data-bs-toggle="dropdown" aria-expanded="false"> Select Category </a> -->
           <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list pb-0" aria-labelledby="messageDropdown">
             <a class="dropdown-item py-3">
               <p class="mb-0 font-weight-medium float-left">Select category</p>
@@ -54,14 +52,6 @@
             </a>
           </div>
         </li>
-        <!-- <li class="nav-item d-none d-lg-block">
-        <div id="datepicker-popup" class="input-group date datepicker navbar-date-picker">
-          <span class="input-group-addon input-group-prepend border-right">
-            <span class="icon-calendar input-group-text calendar-icon"></span>
-          </span>
-          <input type="text" class="form-control">
-        </div>
-      </li> -->
         <li class="nav-item">
           <form class="search-form" action="#">
             <i class="icon-search"></i>
@@ -147,8 +137,6 @@
           </div>
         </li>
         <li class="nav-item dropdown d-none d-lg-block user-dropdown">
-          <!-- <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-          <img class="img-xs rounded-circle" src="../assets/images/faces/face8.jpg" alt="Profile image"> </a> -->
           <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
             <div class="dropdown-header text-center">
               <img class="img-md rounded-circle" src="../assets/images/faces/face8.jpg" alt="Profile image">
@@ -239,7 +227,7 @@
           </a>
           <div class="collapse" id="tables">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="live_sticker_inventory-list-admin.php">點數消耗紀錄</a></li>
+              <li class="nav-item"> <a class="nav-link" href="./live_sticker_inventory-list-admin.php">點數消耗紀錄</a></li>
               <li class="nav-item"> <a class="nav-link" href="./live_get_point-list-admin.php">貼圖管理</a></li>
             </ul>
           </div>
