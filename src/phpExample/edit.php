@@ -79,6 +79,7 @@ if (empty($row)) {
     </div>
   </div>
 </div>
+<?php include __DIR__ . '/parts/packageDown.php' ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
   const {
@@ -151,5 +152,5 @@ if (empty($row)) {
 
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
 </script>
-<?php include __DIR__ . '/parts/packageDown.php' ?>
+
 <?php include __DIR__ . '/parts/html-foot.php' ?>
