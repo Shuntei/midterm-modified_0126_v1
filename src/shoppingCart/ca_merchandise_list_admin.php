@@ -46,68 +46,68 @@ if (empty($pageName)) {
 }
 ?>
 
-<div class="container-fluid">
+<div class="container-fluid my-3">
     <div class="row">
         <div class="col">
             <!-- <?= "$totalRows, $totalPages" ?> -->
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Hoverable Table</h4>
+                    <h4 class="card-title">Merchandise</h4>
                     <p class="card-description">
-                        Add class <code>.table-hover</code>
+                        
                     </p>
                     <div class="container-fluid">
-    <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container-fluid">
+                        <nav class="navbar navbar-expand-lg bg-light rounded">
+                            <div class="container-fluid">
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./ca_merchandise_list_admin.php">列表</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./ca_merchandise_add.php">新增</a>
-                    </li>
-                    <!--  page navigation start-->
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination">
-                            <li class="page-item">
-                                <a class="page-link" href="#">
-                                    <i class="fa-solid fa-angles-left"></i>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="?page=<?= $page - 1 ?>">
-                                    <i class="fa-solid fa-angle-left" href="?page"></i>
-                                </a>
-                            </li>
-                            <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
-                                if ($i >= 1 and $i <= $totalPages) : ?>
-                                    <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                                        <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
-                                    </li>
-                            <?php endif;
-                            endfor; ?>
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                        <li class="nav-item">
+                                            <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./ca_merchandise_list_admin.php">列表</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./ca_merchandise_add.php">新增</a>
+                                        </li>
+                                        <!--  page navigation start-->
+                                        <nav aria-label="Pagination example">
+                                            <ul class="pagination">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=1">
+                                                        <i class="fa-solid fa-angles-left"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=<?= $page - 1 ?>">
+                                                        <i class="fa-solid fa-angle-left" href="?page"></i>
+                                                    </a>
+                                                </li>
+                                                <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
+                                                    if ($i >= 1 and $i <= $totalPages) : ?>
+                                                        <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                                                            <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                                                        </li>
+                                                <?php endif;
+                                                endfor; ?>
 
-                            <li class="page-item">
-                                <a class="page-link" href="?page=<?= $page + 1 ?>">
-                                    <i class="fa-solid fa-angle-right"></i>
-                                </a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">
-                                    <i class="fa-solid fa-angles-right"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=<?= $page + 1 ?>">
+                                                        <i class="fa-solid fa-angle-right"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=<?= $totalPages ?>">
+                                                        <i class="fa-solid fa-angles-right"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
 
-                    <!--  page navigation end-->
-                </ul>
-                <!-- <ul class="navbar-nav mb-2 mb-lg-0">
+                                        <!--  pagination end-->
+                                    </ul>
+                                    <!-- <ul class="navbar-nav mb-2 mb-lg-0">
           <?php if (isset($_SESSION['admin'])) : ?>
             <li class="nav-item">
               <!-- <a class="nav-link">暱稱</a> 
@@ -125,11 +125,11 @@ if (empty($pageName)) {
                 </li>
             <?php endif ?>
             </ul> -->
-            </div>
-        </div>
-    </nav>
+                                </div>
+                            </div>
+                        </nav>
 
-</div>
+                    </div>
                     <table class="table table-hover">
                         <thead>
                             <tr>
