@@ -83,6 +83,8 @@ if ($totalRows > 0) {
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
+                        <th><i class="fa-solid fa-trash-can"></i></th>
+                        <th><i class="fa-solid fa-pen-to-square"></i></th>
                         <th>post_id</th>
                         <th>user_id</th>
                         <th>content</th>
@@ -96,7 +98,17 @@ if ($totalRows > 0) {
                 <tbody>
                     <!-- while($r = $stmt->fetch()):  -->
                     <?php foreach ($rows as $r) : ?>
-                        <tr>
+                        <tr>                       
+                             <td>
+                                <a href="javascript: delete_one(<?= $r['post_id'] ?>)">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="post-edit.php?post_id=<?= $r['post_id']?>">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                            </td>
                             <td><?= $r['post_id'] ?></td>
                             <td><?= $r['user_id'] ?></td>
                             <td>
@@ -201,9 +213,9 @@ if ($totalRows > 0) {
 
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
-    function delete_one(sid) {
-        if (confirm(`是否要刪除編號為${sid}的資料?`)) {
-            location.href = `delete.php?sid=${sid}`;
+    function delete_one(post_id) {
+        if (confirm(`是否要刪除編號為${post_id}的資料?`)) {
+            location.href = `post-delete.php?post_id=${post_id}`;
         }
     }
     // post開啟comment

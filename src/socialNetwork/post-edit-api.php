@@ -12,40 +12,43 @@
     // TODO: 資料輸入之前, 要做檢查
     # filter_var('bob@example.com', FILTER_VALIDATE_EMAIL);    
     
-    $sid = isset($_POST['sid']) ? intval($_POST['sid']) : 0;
-    if(empty($sid)) {
+    $post_id = isset($_POST['post_id']) ? intval($_POST['post_id']) : 0;
+    if(empty($post_id)) {
         $output['error'] = '沒有資料編號';
         $output['code'] = 401;
         echo json_encode($output, JSON_UNESCAPED_UNICODE);
         exit;
     }
 
-    $birthday = empty($_POST['birthday']) ? null : $_POST['birthday'];
-    $birthday = strtotime($birthday); #轉換為timestamp
-    if($birthday===false) {
-        $birthday = null;
-    }else {
-        $birthday = date('Y-m-d', $birthday);
-    }
+    // $birthday = empty($_POST['birthday']) ? null : $_POST['birthday'];
+    // $birthday = strtotime($birthday); #轉換為timestamp
+    // if($birthday===false) {
+    //     $birthday = null;
+    // }else {
+    //     $birthday = date('Y-m-d', $birthday);
+    // }
 
-
-    $sql = "UPDATE `address_book` SET 
-    `name`=?,
-    `email`=?,
-    `mobile`=?,
-    `birthday`=?,
-    `address`=?
-    WHERE sid=? ";
+    $sql = "UPDATE `sn_posts` SET 
+    `user_id`=?,
+    `content`=?,
+    `image_url`=?,
+    `video_url`=?,
+    `location`=?,
+    `tagged_users`=?,
+    `posts_timestamp`=?
+    WHERE post_id=? ";
 
     $stmt = $pdo->prepare($sql);
     try{
         $stmt->execute([
-            $_POST['name'],
-            $_POST['email'],
-            $_POST['mobile'],
-            $birthday,
-            $_POST['address'],
-            $sid
+            $_POST['user_id'],
+            $_POST['content'],
+            $_POST['image_url'],
+            $_POST['video_url'],
+            $_POST['location'],
+            $_POST['tagged_users'],
+            $_POST['posts_timestamp'],
+            $post_id,
         ]);
     }catch(PDOException $e) {
         $output['error'] = 'SQL failed : ' . $e->getMessage();
