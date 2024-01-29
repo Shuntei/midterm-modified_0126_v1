@@ -158,7 +158,7 @@ if (empty($pageName)) {
                             <!-- <td><?= htmlentities($r['address']) ?></td> -->
                             <!-- <td><?= strip_tags($r['address']) ?></td> -->
                             <td>
-                                <a href="edit.php?item_id=<?= $r['item_id'] ?>">
+                                <a href="ca_merchandise_edit.php?item_id=<?= $r['item_id'] ?>">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                             </td>
