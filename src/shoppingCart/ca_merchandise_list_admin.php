@@ -45,7 +45,18 @@ if (empty($pageName)) {
     $pageName = '';
 }
 ?>
+
 <div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <!-- <?= "$totalRows, $totalPages" ?> -->
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Hoverable Table</h4>
+                    <p class="card-description">
+                        Add class <code>.table-hover</code>
+                    </p>
+                    <div class="container-fluid">
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
 
@@ -94,7 +105,7 @@ if (empty($pageName)) {
                         </ul>
                     </nav>
 
-<!--  page navigation end-->
+                    <!--  page navigation end-->
                 </ul>
                 <!-- <ul class="navbar-nav mb-2 mb-lg-0">
           <?php if (isset($_SESSION['admin'])) : ?>
@@ -119,54 +130,52 @@ if (empty($pageName)) {
     </nav>
 
 </div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col">
-            <!-- <?= "$totalRows, $totalPages" ?> -->
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th><i class="fa-solid fa-trash-can"></i></th>
+                                <th>#</th>
+                                <th>item_name</th>
+                                <th>quantity</th>
+                                <th>category_id</th>
+                                <th>description</th>
+                                <th>unit_price</th>
+                                <th>product_img </th>
 
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th><i class="fa-solid fa-trash-can"></i></th>
-                        <th>#</th>
-                        <th>item_name</th>
-                        <th>quantity</th>
-                        <th>category_id</th>
-                        <th>description</th>
-                        <th>unit_price</th>
-                        <th>product_img </th>
+                                <th><i class="fa-solid fa-pen-to-square"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- while($r = $stmt->fetch()):  -->
+                            <?php foreach ($rows as $r) : ?>
+                                <tr>
+                                    <td>
+                                        <a href="javascript: delete_one(<?= $r['item_id'] ?>)">
+                                            <i class="fa-solid fa-trash-can"></i>
+                                        </a>
+                                    </td>
+                                    <td><?= $r['item_id'] ?></td>
+                                    <td><?= $r['item_name'] ?></td>
+                                    <td><?= $r['quantity'] ?></td>
+                                    <td><?= $r['category_id'] ?></td>
+                                    <td><?= $r['description'] ?></td>
+                                    <td><?= $r['unit_price'] ?></td>
+                                    <td><?= $r['product_img'] ?></td>
+                                    <!-- <td><?= htmlentities($r['address']) ?></td> -->
+                                    <!-- <td><?= strip_tags($r['address']) ?></td> -->
+                                    <td>
+                                        <a href="ca_merchandise_edit.php?item_id=<?= $r['item_id'] ?>">
+                                            <i class="fa-solid fa-pen-to-square"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                <!-- endwhile  -->
+                            <?php endforeach ?>
+                        </tbody>
+                    </table>
 
-                        <th><i class="fa-solid fa-pen-to-square"></i></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- while($r = $stmt->fetch()):  -->
-                    <?php foreach ($rows as $r) : ?>
-                        <tr>
-                            <td>
-                                <a href="javascript: delete_one(<?= $r['item_id'] ?>)">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </a>
-                            </td>
-                            <td><?= $r['item_id'] ?></td>
-                            <td><?= $r['item_name'] ?></td>
-                            <td><?= $r['quantity'] ?></td>
-                            <td><?= $r['category_id'] ?></td>
-                            <td><?= $r['description'] ?></td>
-                            <td><?= $r['unit_price'] ?></td>
-                            <td><?= $r['product_img'] ?></td>
-                            <!-- <td><?= htmlentities($r['address']) ?></td> -->
-                            <!-- <td><?= strip_tags($r['address']) ?></td> -->
-                            <td>
-                                <a href="ca_merchandise_edit.php?item_id=<?= $r['item_id'] ?>">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <!-- endwhile  -->
-                    <?php endforeach ?>
-                </tbody>
-            </table>
+                </div>
+            </div>
         </div>
     </div>
     <!-- <prev><?php
