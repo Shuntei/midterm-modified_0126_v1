@@ -123,7 +123,7 @@ if ($totalRows > 0) {
                 print_r($stmt->fetch());
                 ?></prev> -->
 </div>
-
+<?php include __DIR__ . '/parts/packageDown.php' ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
     function delete_one(sid) {
@@ -132,5 +132,5 @@ if ($totalRows > 0) {
         }
     }
 </script>
-<?php include __DIR__ . '/parts/packageDown.php' ?>
+
 <?php include __DIR__ . '/parts/html-foot.php' ?>
