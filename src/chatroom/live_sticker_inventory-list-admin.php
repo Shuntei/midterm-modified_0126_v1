@@ -125,7 +125,7 @@ if ($totalRows > 0) {
                             </td>
                             <td>
                                 <div class="photo">
-                                    <img  src="./imgs/<?= $r['sticker_pic'] ?>">
+                                    <img src="./imgs/<?= $r['sticker_pic'] ?>">
                                 </div>
                             </td>
                             <td>

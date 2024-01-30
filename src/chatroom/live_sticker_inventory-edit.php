@@ -13,13 +13,30 @@ if (empty($row)) {
 <?php include __DIR__ . '/parts/html-head.php' ?>
 <?php include __DIR__ . '/parts/packageUp.php' ?>
 <?php include __DIR__ . '/parts/navbar.php' ?>
+
+<style>
+  .photo {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    /* border: 1px solid black; */
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 0;
+  }
+</style>
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-6">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">編輯貼圖內容</h5>
-          <form name="form1" method="post" onsubmit="sendForm(event)">
+          <form name="form1" method="post" enctype="multipart/form-data" onsubmit="sendForm(event)">
             <div class="mb-3">
               <label class="form-label">編號</label>
               <input type="text" class="form-control" disabled value="<?= $row['sticker_inventory_id'] ?>">
@@ -37,16 +54,19 @@ if (empty($row)) {
             </div>
             <div class="mb-3">
               <label for="text" class="form-label">圖片</label>
-              <input type="text" class="form-control" id="sticker_pic" name="sticker_pic" value="<?= $row['sticker_pic'] ?>">
-              <div class="form-text"></div>
+              <input type="file" name="upload_file" id="upload_file">
+              <div class="photo">
+                <img src="./imgs/<?= $row['sticker_pic'] ?>" alt="picture">
+              </div>
+              <!-- <input type="text" class="form-control" id="sticker_pic" name="sticker_pic" value="<?= $row['sticker_pic'] ?>">
+              <div class="form-text"></div> -->
             </div>
-            <button type="submit" class="btn btn-primary">修改</button>
+            <button type="submit" name="submit" class="btn btn-primary">修改</button>
           </form>
         </div>
       </div>
     </div>
   </div>
-
 </div>
 
 <!-- Modal -->
