@@ -20,7 +20,7 @@ $title = '新增';
           <form name="form1" method="post" onsubmit="sendForm(event)">
             <div class="mb-3">
               <label for="name" class="form-label">貼圖名稱</label>
-              <input type="text" class="form-control" id="sticker_name" name="sticker_name">
+              <input type="text" class="form-control" id="sticker_title" name="sticker_title">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
@@ -29,8 +29,8 @@ $title = '新增';
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="text" class="form-label">圖片連結</label>
-              <input type="text" class="form-control" id="sticker_link" name="sticker_link">
+              <label for="text" class="form-label">上傳圖片</label>
+              <input type="text" class="form-control" id="sticker_pic" name="sticker_pic">
               <div class="form-text"></div>
             </div>
             <button type="submit" class="btn btn-primary">新增</button>
@@ -57,7 +57,7 @@ $title = '新增';
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">繼續新增</button>
-        <a type="button" class="btn btn-primary" href="list.php">到列表頁</a>
+        <a type="button" class="btn btn-primary" href="live_sticker_inventory-list-admin.php">回列表</a>
       </div>
     </div>
   </div>
@@ -66,50 +66,42 @@ $title = '新增';
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
   const {
-    name: name_f,
-    email: email_f,
-    mobile: mobile_f,
+    sticker_title: sticker_title_f,
+    sticker_cost: sticker_cost_f,
+    sticker_pic: sticker_pic_f,
   } = document.form1;
-
-  function validateEmail(email) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-  }
-
-  function validateMobile(mobile) {
-    var re = /^09\d{2}-?\d{3}-?\d{3}$/;
-    return re.test(mobile);
-  }
 
   const sendForm = e => {
     e.preventDefault();
-    name_f.style.border = '1px solid #CCC';
-    name_f.nextElementSibling.innerHTML = "";
-    email_f.style.border = '1px solid #CCC';
-    email_f.nextElementSibling.innerHTML = "";
-    mobile_f.style.border = '1px solid #CCC';
-    mobile_f.nextElementSibling.innerHTML = "";
+    sticker_title_f.style.border = '1px solid #CCC';
+    sticker_title_f.nextElementSibling.innerHTML = "";
+
+    sticker_cost_f.style.border = '1px solid #CCC';
+    sticker_cost_f.nextElementSibling.innerHTML = "";
+
+    sticker_pic_f.style.border = '1px solid #CCC';
+    sticker_pic_f.nextElementSibling.innerHTML = "";
 
     // TODO: 資料送出之前, 要做檢查 (有沒有填寫, 格式對不對)
     let isPass = true;
 
-    if (name_f.value.length < 2) {
+    if (sticker_title_f.value === "") {
+      isPass = false;
+      sticker_title_f.style.border = '1px solid red';
+      sticker_title_f.nextElementSibling.innerHTML = "請正確填入資料";
+    }
+
+    if (sticker_cost_f.value === "") {
       // alert("請填寫正確的姓名");
       isPass = false;
-      name_f.style.border = '1px solid red';
-      name_f.nextElementSibling.innerHTML = "請填寫正確的姓名";
+      sticker_cost_f.style.border = '1px solid red';
+      sticker_cost_f.nextElementSibling.innerHTML = "請正確填入資料";
     }
 
-    if (email_f.value === '' || !validateEmail(email_f.value)) {
+    if (sticker_pic_f.value === '') {
       isPass = false;
-      email_f.style.border = '1px solid red';
-      email_f.nextElementSibling.innerHTML = "請填寫正確的 Email";
-    }
-
-    if (mobile_f.value === '' || !validateMobile(mobile_f.value)) {
-      isPass = false;
-      mobile_f.style.border = '1px solid red';
-      mobile_f.nextElementSibling.innerHTML = "請填寫正確的手機號碼";
+      sticker_pic_f.style.border = '1px solid red';
+      sticker_pic_f.nextElementSibling.innerHTML = "請正確填入資料";
     }
 
     if (isPass) {

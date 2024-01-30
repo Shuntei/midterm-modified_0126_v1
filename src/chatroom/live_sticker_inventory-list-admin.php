@@ -42,10 +42,10 @@ if ($totalRows > 0) {
 
 <style>
     .photo{
-        width: 50px;
-        height: 50px;
+        width: 100px;
+        height: 100px;
         overflow: hidden;
-        border: 1px solid black;
+        /* border: 1px solid black; */
     }
 
     .table td img {

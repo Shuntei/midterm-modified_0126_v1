@@ -1,4 +1,4 @@
-<div class="container-scroller fixed-top">
+<div class="container-scroller">
   <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-top flex-row fixed-top">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
       <div class="me-3">
@@ -8,7 +8,7 @@
       </div>
       <div>
         <a class="navbar-brand brand-logo" href="/src/index_.php">
-          <img src="/src/assets/images/ruined.png" alt="logo" />
+          <img src="../assets/images//ruined.png" alt="logo" />
         </a>
       </div>
     </div>
@@ -286,5 +286,5 @@
       </ul>
     </nav>
     <!-- partial -->
-    <div class="main-panel overflow-auto" style="height: 100vh;">
+    <div class="main-panel overflow-auto" style="height: 0px;">
       <!-- 這裡引入 -->

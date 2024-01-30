@@ -8,14 +8,14 @@ $output = [
     "errors" => [],
 ];
 
-$sql = "INSERT INTO `live_sticker_inventory`(`sticker_inventory_id`, `sticker_title`, `sticker_cost`, `sticker_pic`) VALUES (?, ?, ?, ?)";
+$sql = "INSERT INTO `live_sticker_inventory`(`sticker_title`, `sticker_cost`, `sticker_pic`) VALUES (?, ?, ?)";
 
 $stmt = $pdo->prepare($sql);
 try {
     $stmt->execute([
-        $_POST['sticker_name'],
+        $_POST['sticker_title'],
         $_POST['sticker_cost'],
-        $_POST['sticker_link'],
+        $_POST['sticker_pic'],
     ]);
 } catch (PDOException $e) {
     $output['error'] = 'SQL failed : ' . $e->getMessage();
