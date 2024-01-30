@@ -1,4 +1,3 @@
-
 <?php 
     $title = isset($title) ? $title . '-MFEE47_02' : 'MFEE47_02'
 ?>

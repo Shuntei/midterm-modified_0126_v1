@@ -1,6 +1,6 @@
 <?php
     $db_host = 'localhost';
-    $db_name = 'midterm';
+    $db_name = 'midterm_db';
     $db_user = 'root';
     $db_pass = '';
     
