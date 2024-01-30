@@ -2,9 +2,9 @@
 
 require __DIR__ . '/parts/db_connect.php';
 
-if (isset($_GET['$comment_id'])) {
+if (isset($_GET['comment_id'])) {
     $comment_id = intval($_GET['comment_id']);
-    $sql = "SELECT * FROM sn_comments WHERE comment_id = :comment_id ORDER BY posts_timestamp DESC";
+    $sql = "SELECT * FROM sn_comments_reply WHERE parent_id = :comment_id ORDER BY comment_timestamp DESC";
     $stmt = $pdo->prepare($sql);
     $stmt->bindParam(':comment_id', $comment_id, PDO::PARAM_INT);
     $stmt->execute();
@@ -14,7 +14,7 @@ if (isset($_GET['$comment_id'])) {
     echo json_encode($replies);
     exit;
 } else {
-    // Handle the case where board_id is not provided.
-    echo json_encode(['error' => 'Board ID not provided']);
+    // Handle the case where parent_id is not provided.
+    echo json_encode(['error' => 'Comment ID not provided']);
     exit;
 }

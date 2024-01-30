@@ -156,13 +156,13 @@ if ($totalRows > 0) {
         event.preventDefault();
 
         fetch(`public-board-api.php?board_id=${boardId}`)
-            .then(response => response.json())
-            .then(posts => {
-                updatePostsTable(posts);
-            })
-            .catch(error => {
-                console.error('Error fetching posts:', error);
-            });
+        .then(response => response.json())
+        .then(posts => {
+            updatePostsTable(posts);
+        })
+        .catch(error => {
+            console.log('Error fetching posts:', error);
+        });
     }
 
     function updatePostsTable(posts) {

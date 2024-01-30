@@ -1,5 +1,6 @@
 <?php
 require __DIR__ . '/parts/db_connect.php';
+
 $pageName = 'list';
 $title = 'posts';
 
@@ -126,7 +127,7 @@ if ($totalRows > 0) {
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                <h5 class="modal-title" id="exampleModalLabel">留言</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -134,22 +135,12 @@ if ($totalRows > 0) {
                                                     <?php if ($r['post_id'] === $r_cm['post_id']) : ?>
                                                         <?= $r_cm['content'] . $r_cm['post_id'] . "<br>"; ?>
                                                         <!-- 用api寫 -->
-                                                        <!-- api寫結束 -->
-                                                        <!-- 回覆的回覆 改用api寫-->
-                                                        <?php foreach ($row_cm as $r_cm) : ?>
-                                                            <?php
-                                                            $commentId = $r_cm['comment_id'];
-                                                            ?>
-                                                            <div style="display:none" id="detailCmRp-<?= $commentId ?>">
-                                                                <?php foreach ($row_reply as $r_reply) : ?>
-                                                                    <?php if ($r_cm['post_id'] === $r_reply['post_id']) : ?>
-                                                                        <button id="showCmRp-<?= $commentId ?>">check details</button>
-                                                                        <?= $r_reply['content'] . $r_reply['post_id'] . "<br>"; ?>
-                                                                    <?php endif; ?>
-                                                                <?php endforeach; ?>
-                                                            </div>
-                                                        <?php endforeach ?>
-                                                        <!-- 回覆的回覆 -->
+                                                        <button onclick="checkReply(<?=$r_cm['comment_id']?>)" 
+                                                        style="margin-top: 5px" class="border-1">查看回覆</button>
+                                                        <?="comment id:" . $r_cm['comment_id'] ?>
+                                                        <div id='showReply<?=$r_cm['comment_id']?>' 
+                                                        style="margin-top: 5px"></div>
+                                                        <!-- api結束 -->
                                                     <?php endif; ?>
                                                 <?php endforeach ?>
                                             </div>
@@ -173,7 +164,8 @@ if ($totalRows > 0) {
                     <?php endforeach ?>
                 </tbody>
             </table>
-            <table class="table table-bordered table-striped">
+            <h4 class="my-3 text-center fw-bold">留言總覽</h4>
+            <table class="table table-bordered table-striped mt-3">
                 <thead>
                     <tr>
                         <th>comment_id</th>
@@ -189,19 +181,7 @@ if ($totalRows > 0) {
                             <td><?= $r_cm['comment_id'] ?></td>
                             <td><?= $r_cm['user_id'] ?></td>
                             <td><?= $r_cm['post_id'] ?></td>
-                            <td><?= $r_cm['content'] ?>
-                                <?php
-                                $commentId = $r_cm['comment_id'];
-                                ?>
-                                <button id="showCmRp-<?= $commentId ?>">check details</button>
-                                <div style="display:none" id="detailCmRp-<?= $commentId ?>">
-                                    <?php foreach ($row_reply as $r_reply) {
-                                        if ($r_cm['comment_id'] === $r_reply['parent_id']) {
-                                            echo $r_reply['content'] . $r_reply['post_id'] . "<br>";
-                                        }
-                                    } ?>
-                                </div>
-                            </td>
+                            <td><?= $r_cm['content'] ?></td>
                             <td><?= $r_cm['comment_timestamp'] ?></td>
                         </tr>
                     <?php endforeach ?>
@@ -219,34 +199,45 @@ if ($totalRows > 0) {
         }
     }
 
+    const checkReply = (commentId) => {
+        event.preventDefault();
 
-    // post開啟comment
-    <?php foreach ($rows as $r) : ?>
-        let showCm<?= $r['post_id'] ?> = document.querySelector('#showCm-<?= $r['post_id'] ?>');
-        let detailCm<?= $r['post_id'] ?> = document.querySelector('#detailCm-<?= $r['post_id'] ?>');
-
-        showCm<?= $r['post_id'] ?>.addEventListener('click', function() {
-            if (detailCm<?= $r['post_id'] ?>.style.display === 'none') {
-                detailCm<?= $r['post_id'] ?>.style.display = 'block';
-            } else {
-                detailCm<?= $r['post_id'] ?>.style.display = 'none';
-            }
+        fetch(`posts-list-no-admin-api.php?comment_id=${commentId}`)
+        .then(response => response.json())
+        .then((replies) => {
+            getReply(replies);
+        }).catch((e) => {
+            console.log('Error fetching parent_id:', e);
         });
-    <?php endforeach ?>
+    }
 
-    // comment開啟comment_reply
-    <?php foreach ($row_cm as $r_cm) : ?>
-        let showCmRp<?= $r_cm['comment_id'] ?> = document.querySelector('#showCmRp-<?= $r_cm['comment_id'] ?>');
-        let detailCmRp<?= $r_cm['comment_id'] ?> = document.querySelector('#detailCmRp-<?= $r_cm['comment_id'] ?>');
+    const getReply = (replies) => {
+        // 加入迴圈for id
 
-        showCmRp<?= $r_cm['comment_id'] ?>.addEventListener('click', function() {
-            if (detailCmRp<?= $r_cm['comment_id'] ?>.style.display === 'none') {
-                detailCmRp<?= $r_cm['comment_id'] ?>.style.display = 'block';
-            } else {
-                detailCmRp<?= $r_cm['comment_id'] ?>.style.display = 'none';
-            }
-        });
-    <?php endforeach ?>
+            console.log('e',replies);    
+            // 原本內容
+                let showReply = document.querySelector(`#showReply${replies[0].parent_id}`);
+                showReply.innerHTML = "";
+            
+            // 將獲取的回覆添加到留言下
+            replies.map((items) => {
+                showReply.innerHTML += `
+                    <div>cr_id: ${items.cr_id}</div>
+                    <div>user_id: ${items.user_id}</div>
+                    <div>post_id: ${items.post_id}</div>
+                    <div>content: ${items.content}</div>
+                    <div>parent_id: ${items.parent_id}</div>
+                    <div>comment_timestamp: ${items.comment_timestamp}</div>
+                    <hr>
+                `;
+            });   
+
+            // 原本內容
+
+        // 加入迴圈for id
+
+    }
+
 </script>
 <?php include __DIR__ . '/parts/packageDown.php' ?>
 <?php include __DIR__ . '/parts/html-foot.php' ?>
