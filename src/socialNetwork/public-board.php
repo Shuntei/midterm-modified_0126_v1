@@ -28,7 +28,7 @@ if ($totalRows > 0) {
         header('Location: ?page=' . $totalPages);
         exit;
     }
-    $sql = sprintf("SELECT * FROM sn_public_boards ORDER BY board_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
+    $sql = sprintf("SELECT * FROM sn_public_boards ORDER BY board_id ASC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
     $stmt = $pdo->query($sql);
     $rows = $stmt->fetchAll();
 }

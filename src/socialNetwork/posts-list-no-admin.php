@@ -30,6 +30,14 @@ $totalRows = $row[0];
 $totalPages = 0;
 $rows = [];
 
+$order = isset($_GET['order']) ? $_GET['order'] : '';
+
+// 切換排序順序
+$newOrder = ($order === 'asc') ? 'desc' : 'asc';
+
+// 生成帶有新排序順序的 URL(第二種寫法,a href要帶入$toggleUrl)
+// $toggleUrl = $_SERVER['PHP_SELF'] . "?order=$newOrder";
+
 if ($totalRows > 0) {
     $totalPages = ceil($totalRows / $perPage);
 
@@ -37,7 +45,7 @@ if ($totalRows > 0) {
         header('Location: ?page=' . $totalPages);
         exit;
     }
-    $sql = sprintf("SELECT * FROM sn_posts ORDER BY post_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
+    $sql = sprintf("SELECT * FROM sn_posts ORDER BY post_id $newOrder LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
     $stmt = $pdo->query($sql);
     $rows = $stmt->fetchAll();
 }
@@ -87,7 +95,12 @@ if ($totalRows > 0) {
                     <tr>
                         <th><i class="fa-solid fa-trash-can"></i></th>
                         <th><i class="fa-solid fa-pen-to-square"></i></th>
-                        <th>post_id</th>
+                        <th>post_id　
+                            <a href="?order=<?= $newOrder; ?>" id="toggleImg" class="text-decoration-none">
+                            <i class="fa-solid fa-up-long" style="display: none"></i>
+                            <i class="fa-solid fa-down-long" style="display: inline-block"></i>
+                            </a>
+                        </th>
                         <th>user_id</th>
                         <th>content</th>
                         <th>image_url</th>
@@ -231,6 +244,14 @@ if ($totalRows > 0) {
                 `;
             });   
     }
+
+    let toggleImg = document.querySelector('#toggleImg');
+    let upImg = document.querySelector('.fa-up-long');
+    let downImg = document.querySelector('.fa-down-long');
+    toggleImg.addEventListener('click', () => {
+        upImg.style.display = "none" ? "inline-block" : "none";
+        downImg.style.display = "inline-block" ? "none" : "inline-block";
+    });
 </script>
 <?php include __DIR__ . '/parts/packageDown.php' ?>
 <?php include __DIR__ . '/parts/html-foot.php' ?>
