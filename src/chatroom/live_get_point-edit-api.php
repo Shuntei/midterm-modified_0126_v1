@@ -8,23 +8,29 @@ $output = [
     "code" => 0,
     "postData" => $_POST,
     "errors" => [],
-];
-// TODO: 資料輸入之前, 要做檢查
-# filter_var('bob@example.com', FILTER_VALIDATE_EMAIL);    
+];   
 
-$sid = isset($_POST['get_point_id']) ? intval($_POST['get_point_id']) : 0;
-if (empty($sid)) {
+$get_point_id = isset($_POST['get_point_id']) ? intval($_POST['get_point_id']) : 0;
+if (empty($get_point_id)) {
     $output['error'] = '沒有資料編號';
     $output['code'] = 401;
     echo json_encode($output, JSON_UNESCAPED_UNICODE);
     exit;
 }
 
+$date_get_point = empty($_POST['date_get_point']) ? null : $_POST['date_get_point'];
+$date_get_point = strtotime($date_get_point); #轉換為timestamp
+if ($date_get_point === false) {
+    $date_get_point = null;
+} else {
+    $date_get_point = date('Y-m-d H-i-s', $date_get_point);
+}
+
 $sql = "UPDATE `live_get_point` SET 
     `user_id`=?,
     `received_point`=?,
     `point_source`=?,
-    `date_get_point`=?,
+    `date_get_point`=?
     WHERE get_point_id=? ";
 
 $stmt = $pdo->prepare($sql);
@@ -33,7 +39,8 @@ try {
         $_POST['user_id'],
         $_POST['received_point'],
         $_POST['point_source'],
-        $_POST['date_get_point'],
+        $date_get_point,
+        $get_point_id
     ]);
 } catch (PDOException $e) {
     $output['error'] = 'SQL failed : ' . $e->getMessage();

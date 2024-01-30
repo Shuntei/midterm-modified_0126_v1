@@ -40,6 +40,22 @@ if ($totalRows > 0) {
 <?php include __DIR__ . '/parts/packageUp.php' ?>
 <?php include __DIR__ . '/parts/navbar.php' ?>
 
+<style>
+    .photo{
+        width: 50px;
+        height: 50px;
+        overflow: hidden;
+        border: 1px solid black;
+    }
+
+    .table td img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 0;
+    }
+</style>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col">
@@ -108,7 +124,9 @@ if ($totalRows > 0) {
                                 <?= $r['sticker_cost'] ?>
                             </td>
                             <td>
-                                <img class="photo" src="<?= $r['sticker_pic'] ?>">
+                                <div class="photo">
+                                    <img  src="./imgs/<?= $r['sticker_pic'] ?>">
+                                </div>
                             </td>
                             <td>
                                 <a href="live_sticker_inventory-edit.php?sticker_inventory_id=<?= $r['sticker_inventory_id'] ?>">
