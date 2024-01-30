@@ -29,13 +29,27 @@ if ($totalRows > 0) {
         header('Location: ?page=' . $totalPages);
         exit;
     }
-    $sql = sprintf("SELECT * FROM ca_merchandise ORDER BY item_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
-    $stmt = $pdo->query($sql);
+};
+if (isset($_GET['item_name']) && $_GET['item_name'] !== "") {
+    $membername = $_GET['item_name'];
+    $sql = "SELECT * FROM ca_merchandise WHERE item_name LIKE :item_name ORDER BY item_id";
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':item_name', '%' . $membername . '%', PDO::PARAM_STR);
+    $stmt->execute(); // 使用 execute 方法執行已經準備好的語句
     $rows = $stmt->fetchAll();
+} else {
+    $sql = sprintf("SELECT * FROM ca_merchandise ORDER BY item_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
+    $rows = $pdo->query($sql)->fetchAll();
 }
 
-// $stmt = $pdo->query("SELECT * FROM ca_merchandise LIMIT 0, 20");
-// $rows = $stmt->fetchAll();
+
+//$sql = sprintf("SELECT * FROM ca_merchandise ORDER BY item_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
+//$stmt = $pdo->query($sql);
+//$rows = $stmt->fetchAll();
+//老師寫的
+
+//$stmt = $pdo->query("SELECT * FROM ca_merchandise LIMIT 0, 20");
+
 
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
@@ -54,7 +68,7 @@ if (empty($pageName)) {
                 <div class="card-body">
                     <h4 class="card-title">Merchandise</h4>
                     <p class="card-description">
-                        
+
                     </p>
                     <div class="container-fluid">
                         <nav class="navbar navbar-expand-lg bg-light rounded">
@@ -104,7 +118,12 @@ if (empty($pageName)) {
                                                 </li>
                                             </ul>
                                         </nav>
-
+                                        <div class="mx-3 mb-3">
+                                            <form method="get" action="ca_merchandise_list_admin.php">
+                                                <input type="text" class="search_byname" name="item_name" id="search_byname" placeholder="請輸入商品名" aria-describedby="button-addon2" value="<?= isset($_GET['item_name']) ? $_GET['item_name'] : "" ?>">
+                                                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">搜尋</button>
+                                            </form>
+                                        </div>
                                         <!--  pagination end-->
                                     </ul>
                                     <!-- <ul class="navbar-nav mb-2 mb-lg-0">
@@ -191,6 +210,12 @@ if (empty($pageName)) {
             location.href = `ca_merchandise_delete.php?item_id=${item_id}`;
         }
     }
+
+    document.querySelector('form').addEventListener('submit', function (event) {
+    event.preventDefault();
+    let name_value = search_byname.value;
+    location.href = "ca_merchandise_list_admin.php?item_name=" + name_value;
+});
 </script>
 
 <?php include __DIR__ . '/parts/html-foot.php' ?>
