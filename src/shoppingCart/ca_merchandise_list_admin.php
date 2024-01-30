@@ -30,19 +30,35 @@ if ($totalRows > 0) {
         exit;
     }
 };
+
+
+$sort = isset($_GET['sort']) ? $_GET['sort'] : '';
+
+switch ($sort) {
+    case 'item_id_asc':
+        $orderBy = " ORDER BY item_id ASC";
+        break;
+    case 'item_id_desc':
+        $orderBy = " ORDER BY item_id DESC";
+        break;
+    // 其他排序條件可以在這裡添加
+    default:
+        // 如果沒有指定排序條件，使用預設的排序
+        $orderBy = " ORDER BY item_id DESC";
+}
+
 if (isset($_GET['item_name']) && $_GET['item_name'] !== "") {
     $membername = $_GET['item_name'];
-    $sql = "SELECT * FROM ca_merchandise WHERE item_name LIKE :item_name ORDER BY item_id";
+    $sql = "SELECT * FROM ca_merchandise WHERE item_name LIKE :item_name $orderBy";
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(':item_name', '%' . $membername . '%', PDO::PARAM_STR);
     $stmt->execute(); // 使用 execute 方法執行已經準備好的語句
-    $rows = $stmt->fetchAll();
 } else {
-    $sql = sprintf("SELECT * FROM ca_merchandise ORDER BY item_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
-    $rows = $pdo->query($sql)->fetchAll();
+    $sql = sprintf("SELECT * FROM ca_merchandise $orderBy LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
+    $stmt = $pdo->query($sql);
 }
 
-
+$rows = $stmt->fetchAll();
 //$sql = sprintf("SELECT * FROM ca_merchandise ORDER BY item_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
 //$stmt = $pdo->query($sql);
 //$rows = $stmt->fetchAll();
@@ -153,7 +169,10 @@ if (empty($pageName)) {
                         <thead>
                             <tr>
                                 <th><i class="fa-solid fa-trash-can"></i></th>
-                                <th>#</th>
+                                <th># 
+                                    <a href="ca_merchandise_list_admin.php?sort=item_id_desc"><i class="fa fa-arrow-down"></i></a>
+                                    <a href="ca_merchandise_list_admin.php?sort=item_id_asc"><i class="fa fa-arrow-up"></i></a>
+                                </th>
                                 <th>item_name</th>
                                 <th>quantity</th>
                                 <th>category_id</th>
@@ -211,11 +230,11 @@ if (empty($pageName)) {
         }
     }
 
-    document.querySelector('form').addEventListener('submit', function (event) {
-    event.preventDefault();
-    let name_value = search_byname.value;
-    location.href = "ca_merchandise_list_admin.php?item_name=" + name_value;
-});
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        let name_value = search_byname.value;
+        location.href = "ca_merchandise_list_admin.php?item_name=" + name_value;
+    });
 </script>
 
 <?php include __DIR__ . '/parts/html-foot.php' ?>
