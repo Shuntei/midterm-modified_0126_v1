@@ -18,7 +18,7 @@ if (empty($row)) {
     <div class="col-6">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">編輯資料</h5>
+          <h5 class="card-title">編輯貼文</h5>
           <form name="form1" method="post" onsubmit="sendForm(event)">
             <div class="mb-3">
               <label class="form-label">編號</label>
@@ -32,11 +32,8 @@ if (empty($row)) {
             </div>
             <div class="mb-3">
             <label for="content" class="form-label">content</label>
-              <textarea type="text" id="content" name="content"
-              style="border: 1px solid #dee2e6;
-              border-radius: 4px; width: 100%;padding: 14px 22px">
-                <?= $row['content'] ?>"
-              </textarea>
+              <textarea type="text" id="content" name="content"   style="border: 1px solid #dee2e6;  
+              border-radius: 4px; width: 100%;padding: 14px 22px"><?= $row['content'] ?></textarea>
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
@@ -52,10 +49,7 @@ if (empty($row)) {
             <div class="mb-3">
               <label for="location" class="form-label">location</label>
               <textarea type="text" id="location" name="location" 
-              style="border: 1px solid #dee2e6;
-              border-radius: 4px; width: 100%;padding: 14px 22px">
-                <?= $row['location'] ?>
-              </textarea>
+              style="border: 1px solid #dee2e6;border-radius: 4px; width: 100%;padding: 14px 22px"><?= $row['location'] ?></textarea>
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
@@ -87,19 +81,19 @@ if (empty($row)) {
       </div>
       <div class="modal-body">
         <div class="alert alert-success" role="alert">
-          新增成功
+          修改成功
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">繼續編輯</button>
-        <a type="button" class="btn btn-primary" href="list.php">到列表頁</a>
+        <a type="button" class="btn btn-primary" href="posts-list-no-admin.php">到列表頁</a>
       </div>
     </div>
   </div>
 </div>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
-
+document.querySelectorAll("textarea").value="";
   const {
     post_id: post_id_f,
     user_id: user_id_f,

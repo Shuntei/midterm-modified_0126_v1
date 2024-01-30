@@ -13,6 +13,9 @@ if (empty($pageName)) {
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item me-2">
+            <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./posts-add.php">發文</a>
+          </li>
+          <li class="nav-item me-2">
             <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./comments-list-no-admin.php">Comment</a>
           </li>
           <li class="nav-item me-2">
@@ -26,9 +29,6 @@ if (empty($pageName)) {
           </li>
           <li class="nav-item me-2">
             <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./list.php">列表</a>
-          </li>
-          <li class="nav-item me-2">
-            <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./add.php">新增</a>
           </li>
         </ul>
         <ul class="navbar-nav mb-2 mb-lg-0">

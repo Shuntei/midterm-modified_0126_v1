@@ -49,6 +49,7 @@ if ($totalRows > 0) {
 <div class="container-fluid overflow-auto">
     <div class="row">
         <div class="col">
+        <h3 class="my-2 text-center fw-bold">Post</h3>
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item">
@@ -119,7 +120,7 @@ if ($totalRows > 0) {
                                 ?>
                                 <!-- modal -->
                                 <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailCm-<?= $postId ?>" id="showCm-<?= $postId ?>">
+                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailCm-<?= $postId ?>" id="showCm-<?= $postId ?>">
                                     查看留言
                                 </button>
                                 <!-- Modal -->
@@ -212,12 +213,10 @@ if ($totalRows > 0) {
     }
 
     const getReply = (replies) => {
-        // 加入迴圈for id
-
             console.log('e',replies);    
-            // 原本內容
-                let showReply = document.querySelector(`#showReply${replies[0].parent_id}`);
-                showReply.innerHTML = "";
+
+            let showReply = document.querySelector(`#showReply${replies[0].parent_id}`);
+            showReply.innerHTML = "";
             
             // 將獲取的回覆添加到留言下
             replies.map((items) => {
@@ -231,13 +230,7 @@ if ($totalRows > 0) {
                     <hr>
                 `;
             });   
-
-            // 原本內容
-
-        // 加入迴圈for id
-
     }
-
 </script>
 <?php include __DIR__ . '/parts/packageDown.php' ?>
 <?php include __DIR__ . '/parts/html-foot.php' ?>

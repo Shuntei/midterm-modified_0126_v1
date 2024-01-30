@@ -43,6 +43,7 @@ if ($totalRows > 0) {
 
 <div class="container-fluid">
     <div class="row">
+        <h3 class="my-2 text-center fw-bold">Public Boards</h3>
         <div class="col">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
@@ -91,9 +92,10 @@ if ($totalRows > 0) {
                             <tr>
                                 <td style="color: #081031;"><?= $r['board_id'] ?></td>
                                 <td>
-                                    <button class="btn btn-outline-primary border-0" onclick="chooseBoard(<?= $r['board_id'] ?>)">
+                                <!-- <button>test</button> -->
+                                <a href="#postTableBody" onclick="chooseBoard(<?= $r['board_id'] ?>)" class="link-opacity-50-hover text-decoration-none">
                                         <?= $r['board_name'] ?>
-                                    </button>
+                                </a>
                                 </td>
                                 <td style="color: #081031;"><?= $r['description'] ?></td>
                             </tr>
@@ -102,6 +104,7 @@ if ($totalRows > 0) {
                     </tbody>
                 </table>
             </div>
+            <h3 class="text-center fw-bold pt-3">Posts</h3>
             <div id="postContainer" class="col">
                 <table class="table table-bordered table-striped mt-3">
                     <thead>
@@ -153,7 +156,8 @@ if ($totalRows > 0) {
     // }
 
     function chooseBoard(boardId) {
-        event.preventDefault();
+        // event.preventDefault();
+        // 防止移動被取消
 
         fetch(`public-board-api.php?board_id=${boardId}`)
         .then(response => response.json())
