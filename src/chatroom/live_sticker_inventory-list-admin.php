@@ -14,8 +14,11 @@ if ($page < 1) {
 
 $t_sql = "SELECT COUNT(1) FROM live_sticker_inventory";
 
-// $t_stmt = $pdo->query($t_sql);
-// $row = $t_stmt->fetch(PDO::FETCH_NUM);
+// $search_input =$_POST["bar"];
+
+// $s_sql = "SELECT * FROM live_sticker_inventory WHERE sticker_title LIKE '" . $search_input . "%'";
+
+
 $row = $pdo->query($t_sql)->fetch(PDO::FETCH_NUM);
 
 $totalRows = $row[0];
@@ -41,7 +44,7 @@ if ($totalRows > 0) {
 <?php include __DIR__ . '/parts/navbar.php' ?>
 
 <style>
-    .photo{
+    .photo {
         width: 100px;
         height: 100px;
         overflow: hidden;
@@ -54,6 +57,14 @@ if ($totalRows > 0) {
         object-fit: contain;
         border-radius: 0;
     }
+/* 
+    .distance {
+        margin-left: 10px;
+    }
+
+    ul.li distance {
+        line-height: 100%;
+    } */
 </style>
 
 <div class="container-fluid">
@@ -92,6 +103,10 @@ if ($totalRows > 0) {
                             <i class="fa-solid fa-angles-right"></i>
                         </a>
                     </li>
+                    <!-- <form action="" method="POST" class="searchbar distance">
+                        <input type="text" id="bar" name="bar">
+                        <button type="submit" id="submit" name="submit">搜尋</button>
+                    </form> -->
                 </ul>
             </nav>
             <table class="table table-bordered table-striped">
@@ -155,6 +170,11 @@ if ($totalRows > 0) {
             location.href = `live_sticker_inventory-delete.php?sticker_inventory_id=${sticker_inventory_id}`;
         }
     }
+
+    // let searchbar = document.querySelector('.searchbar');
+    // searchbar.addEventListener("submit", event => {
+
+    // })
 </script>
 
 <?php include __DIR__ . '/parts/html-foot.php' ?>
