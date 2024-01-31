@@ -1,7 +1,5 @@
-
-<?php 
-    $title = isset($title) ? $title . '-MFEE47_02' : 'MFEE47_02'
-
+<?php
+$title = isset($title) ? $title . '-Chatroom' : 'Chatroom'
 ?>
 <!DOCTYPE html>
 <html lang="zh">
@@ -26,10 +24,7 @@
   <link rel="stylesheet" type="text/css" href="../assets/js/select.dataTables.min.css">
   <!-- End plugin css for this page -->
   <!-- inject:css -->
-  <script src="../assets/js/sweetalert.min.js"></script>
-
   <link rel="stylesheet" href="../assets/css/vertical-layout-light/style.css">
-  <link rel="stylesheet" href="../assets/css/style.css">
   <!-- endinject -->
   <link rel="shortcut icon" href="../assets/images/favicon.png" />
   <style>

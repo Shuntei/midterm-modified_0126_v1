@@ -1,100 +1,66 @@
-<?php
+<?php 
 require "./parts/db_connect_midterm.php";
 include "./parts/html-head.php";
 include "./parts/packageUp.php";
 
-$pageName = 'edit';
-$title = 'edit';
 
-$userId = isset($_GET['userId']) ? $_GET['userId'] : 0;
-
-$sql = "SELECT * from mb_user where user_id=$userId";
-
-$row = $pdo->query($sql)->fetch();
-
-if (empty($row)) {
-    header("Location: member.php");
-}
+$pageName = 'add';
+$title = 'add';
 
 $skinSql = "SELECT skin_id, skin_name FROM `gm_skin` WHERE 1";
 $skinRow = $pdo->query($skinSql)->fetchAll();
-
 ?>
-
-<style>
-    .swal-footer {
-        text-align: center;
-    }
-
-    .swal-button {
-        border: none;
-    }
-
-    .swal-button--cancel {
-        background-color: #fbfbfb;
-        color: #1E283D;
-        cursor: pointer;
-        border-radius: 5px;
-        border: none;
-        text-shadow: none;
-    }
-
-    .swal-button--cancel:focus {
-        border: none;
-        outline: none;
-        text-shadow: none;
-
-    }
-
-    .swal-button--confirm {
-        background: #1F3BB3;
-        color: white;
-        outline: none;
-        border: none;
-
-    }
-
-    .swal-button:hover {
-        background: #0a58ca;
-        color: white;
-    }
-
-    button {
-        padding-block: 0;
-    }
-</style>
 
 <div class="container d-flex justify-content-center">
     <div class="container col-12 col-md-6 mt-4">
         <div class="col-md-12 col-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-
-                    <h4 class="card-title text-center">Edit User Information</h4>
-
+                    <h4 class="card-title text-center">Add New User</h4>
                     <p class="card-description text-center">
-                        User Id: <?= $row['user_id'] ?>
+                        Please fill the information correctly
                     </p>
                     <form class="forms-sample" name="form1" method="post" onsubmit="sendForm(event)">
                         <input type="text" class="form-control" id="userId" hidden name="userId" value="<?= $row['user_id'] ?>">
                         <div class="form-group row align-items-start">
                             <label for="name" class="col-sm-3 col-form-label">Name</label>
                             <div class="col-sm-9 mt-2">
-                                <input type="text" class="form-control" id="name" name="name" value="<?= htmlentities($row['name']) ?>">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Username">
                                 <p class="text-danger mt-1"></p>
                             </div>
                         </div>
                         <div class="form-group row align-items-start">
                             <label for="email" class="col-sm-3 col-form-label">Email</label>
                             <div class="col-sm-9 mt-2">
-                                <input type="email" class="form-control" id="email" name="email" value="<?= $row['email'] ?>">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
                                 <div class="form-text text-danger"></div>
                             </div>
                         </div>
                         <div class="form-group row align-items-start">
                             <label for="phone" class="col-sm-3 col-form-label">Mobile</label>
                             <div class="col-sm-9 mt-2">
-                                <input type="text" class="form-control" id="phone" name="phone" value="<?= $row['phone'] ?>">
+                                <input type="text" class="form-control" id="phone" name="phone" placeholder="Mobile number">
+                                <div class="form-text text-danger"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-start mb-0">
+                            <label for="password" class="col-sm-3 col-form-label">Password</label>
+                            <div class="col-sm-9 mt-2">
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                                <p class="card-description mt-1">The password needs to include 6-16 characters, at least one number and one special character</div>
+                            </p>
+                        </div>
+                        <div class="form-group row align-items-start mt-0">
+                            <label for="rePassword" class="col-sm-3 col-form-label">Re Password</label>
+                            <div class="col-sm-9 mt-2">
+                                <input type="password" class="form-control" id="rePassword" name="rePassword" placeholder="Password">
+                                <div class="form-text text-danger"></div>
+                            </div>
+                        </div>
+                        <div class="form-group row align-items-start">
+                            <label for="picture" class="col-sm-3 col-form-label">Profile Picture</label>
+                            <div class="col-sm-9 mt-2 ">
+                                <input type="file" class="form-control" id="picture" name="picture">
                                 <div class="form-text text-danger"></div>
                             </div>
                         </div>
@@ -111,7 +77,7 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
                                 <!-- dropdown start -->
                                 <select class="form-select form-control mt-2" id="skinId" name="skinId">
                                     <?php foreach ($skinRow as $skinOption) : ?>
-                                        <option value="<?= $skinOption['skin_id'] ?>" <?= ($row['fk_skin_id'] == $skinOption['skin_id']) ? 'selected' : '' ?>>
+                                        <option value="<?= $skinOption['skin_id'] ?>">
                                             <?= $skinOption['skin_id'] ?> <?= $skinOption['skin_name'] ?>
                                         </option>
                                     <?php endforeach; ?>
@@ -120,8 +86,8 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
                             </div>
                         </div>
                         <div class="d-flex justify-content-end">
-                            <button type="submit" class="btn btn-primary me-2">Edit</button>
-                            <button type="button" class="btn btn-light">Cancel</button>
+                            <button type="submit" class="btn btn-primary me-2">Add</button>
+                            <button type="button" class="btn btn-light">Clear</button>
                         </div>
                     </form>
                 </div>
@@ -136,6 +102,9 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
         name,
         email,
         phone,
+        password,
+        rePassword,
+        picture,
         birthday
     } = document.form1;
 
@@ -153,10 +122,61 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
         return phoneRe.test(phone);
     }
 
+    function validatePass(password) {
+        const passwordRe = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
+        return passwordRe.test(password);
+    }
+
+    function validateRePass(password, rePassword) {
+        return password === rePassword;
+    }
+
+    function updatePassErrorMessage(password) {
+        const passwordError = password.nextElementSibling
+        let errorMessage = 'The password needs to include ';
+
+        if(password.length < 6 || password.length > 16){
+            errorMessage += '6-16 characters, ';
+        }
+
+        if(!/\d/.test(password)){
+            errorMessage += 'at least one number, ';
+        }
+
+        if(!/[!@#$%^&*]/.test(password)){
+            errorMessage += 'at least one special character, '
+        }
+
+        errorMessage = errorMessage.replace(new RegExp(', $'), '');
+        passwordError.innerHTML = errorMessage
+    }
+
     function validateDate(birthday) {
         const dateRe = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/;
         return dateRe.test(birthday);
     }
+
+    function validatePassword(){
+        const passwordError = password.nextElementSibling;
+
+        if(!validatePass(password)){
+            updatePassErrorMessage(password);
+        } else {
+            passwordError.innerHTML = '';
+        }
+    }
+
+    function validateRePassword(){
+        const rePasswordError = rePassword.nextElementSibling;
+        if(!validateRePass(password.value, rePassword.value)){
+            rePasswordError.innerHTML = 'Passwords do not match'
+        } else {
+            rePasswordError.innerHTML = ''
+        }
+    } 
+
+    password.addEventListener('input', validatePassword)
+    rePassword.addEventListener('input', validateRePassword)
 
     const sendForm = e => {
         e.preventDefault();
@@ -197,8 +217,8 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
 
         if (isPass) {
             swal({
-                    title: "Are you sure?",
-                    text: "Once edited, you will not be able to revert the changes!",
+                    title: "Proceed?",
+                    text: "New user will be added",
                     icon: "warning",
                     buttons: true,
                     dangerMode: true,
@@ -207,7 +227,7 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
                     if (willEdit) {
                         // Proceed with form submission
                         const fd = new FormData(document.form1)
-                        fetch('edit-api.php', {
+                        fetch('add-api.php', {
                                 method: 'post',
                                 body: fd
                             }).then(r => r.json())
@@ -216,7 +236,7 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
                                     result
                                 })
                                 if (result.success) {
-                                    swal("It has been edited successfully", {
+                                    swal("New user has been added", {
                                         icon: "success",
                                     });
                                 }
@@ -230,3 +250,4 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
 
 <?php include "./parts/packageDown.php";
 include "./parts/html-foot.php" ?>
+
