@@ -3,7 +3,7 @@ $pageName = 'add';
 $title = '新增';
 ?>
 <?php include __DIR__ . '/parts-get-point/html-head.php' ?>
-<?php include __DIR__ . '/parts-get-point/packageUp.php' ?>
+<?php include ('./../package/packageUp.php') ?>
 <?php include __DIR__ . '/parts-get-point/navbar.php' ?>
 <style>
   form .mb-3 .form-text {
@@ -67,7 +67,7 @@ $title = '新增';
     </div>
   </div>
 </div>
-<?php include __DIR__ . '/parts-get-point/packageDown.php' ?>
+<?php include ('./../package/packageDown.php') ?>
 <?php include __DIR__ . '/parts-get-point/scripts.php' ?>
 <script>
   const {
