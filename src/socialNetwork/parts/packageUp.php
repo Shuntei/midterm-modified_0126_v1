@@ -1,4 +1,4 @@
-<div class="container-scroller fixed-top">
+<div class="container-scroller">
   <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-top flex-row fixed-top">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
       <div class="me-3">
@@ -7,7 +7,7 @@
         </button>
       </div>
       <div>
-        <a class="navbar-brand brand-logo" href="../index_.php">
+        <a class="navbar-brand brand-logo" href="./index_.php">
           <img src="../assets/images/ruined.png" alt="logo" />
         </a>
 
@@ -16,7 +16,7 @@
     <div class="navbar-menu-wrapper d-flex align-items-top">
       <ul class="navbar-nav">
         <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-          <h1 class="welcome-text">Why are we still here? Just to suffer? <span class="text-black fw-bold"></span></h1>
+          <h1 class="welcome-text">Good Morning, <span class="text-black fw-bold"></span></h1>
           <h3 class="welcome-sub-text"></h3>
         </li>
       </ul>
@@ -371,9 +371,7 @@
           </a>
           <div class="collapse" id="form-elements">
             <ul class="nav flex-column sub-menu">
-
-              <li class="nav-item"><a class="nav-link" href="../member.php">User</a></li>
-
+              <li class="nav-item"><a class="nav-link" href="../pages/forms/basic_elements.html">User</a></li>
             </ul>
             <ul class="nav flex-column sub-menu">
               <li class="nav-item"><a class="nav-link" href="../pages/forms/basic_elements.html">UserPermission</a></li>
@@ -414,7 +412,7 @@
           </a>
           <div class="collapse" id="shoppingCart">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="./ca_merchandise_list_admin.php">Merchandise</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../pages/shoppingCart/mdi.html">Merchandise</a></li>
               <li class="nav-item"> <a class="nav-link" href="../pages/shoppingCart/mdi.html">Carts</a></li>
             </ul>
           </div>
@@ -448,5 +446,5 @@
       </ul>
     </nav>
     <!-- partial -->
-    <div class="main-panel overflow-auto" style="height: 0;">
+    <div class="main-panel overflow-auto" style="height: 0px;">
       <!-- 這裡引入 -->
