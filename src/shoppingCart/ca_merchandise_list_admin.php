@@ -16,7 +16,7 @@ $t_sql = "SELECT COUNT(1) FROM ca_merchandise";
 $itemNameCondition = '';
 
 if (isset($_GET['item_name']) && $_GET['item_name'] !== "") {
-    $membername = $_GET['item_name'];
+    $itemName = $_GET['item_name'];
     $itemNameCondition = " WHERE item_name LIKE :item_name";
 }
 
@@ -25,7 +25,7 @@ $t_sql .= $itemNameCondition;
 $stmt = $pdo->prepare($t_sql);
 
 if ($itemNameCondition) {
-    $stmt->bindValue(':item_name', '%' . $membername . '%', PDO::PARAM_STR);
+    $stmt->bindValue(':item_name', '%' . $itemName . '%', PDO::PARAM_STR);
 }
 
 $stmt->execute();
@@ -40,7 +40,7 @@ if ($totalRows > 0) {
     $totalPages = ceil($totalRows / $perPage);
 
     if ($page > $totalPages) {
-        header('Location: ?page=' . $totalPages . '&item_name=' . urlencode($membername));
+        header('Location: ?page=' . $totalPages . '&item_name=' . urlencode($itemName));
         exit;
     }
 }
@@ -62,7 +62,7 @@ $sql = sprintf("SELECT * FROM ca_merchandise %s %s LIMIT %s, %s", $itemNameCondi
 $stmt = $pdo->prepare($sql);
 
 if ($itemNameCondition) {
-    $stmt->bindValue(':item_name', '%' . $membername . '%', PDO::PARAM_STR);
+    $stmt->bindValue(':item_name', '%' . $itemName . '%', PDO::PARAM_STR);
 }
 
 $stmt->execute();
@@ -105,11 +105,11 @@ if (empty($pageName)) {
                                 </button>
                                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                        <li class="nav-item">
+                                        <!-- <li class="nav-item">
                                             <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./ca_merchandise_list_admin.php">列表</a>
-                                        </li>
+                                        </li> -->
                                         <li class="nav-item">
-                                            <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./ca_merchandise_add.php">新增</a>
+                                            <a class="nav-link" href="./ca_merchandise_add.php">新增</a>
                                         </li>
                                         <!--  page navigation start-->
                                         <nav aria-label="Pagination example">

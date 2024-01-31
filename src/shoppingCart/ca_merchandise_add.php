@@ -11,8 +11,8 @@ $title = '新增';
   }
 </style>
 
-<div class="container-fluid mx-auto my-auto">
-  <div class="row">
+<div class="container-fluid mx-auto my-auto ">
+  <div class="row justify-content-center">
     <div class="col-6">
       <div class="card">
         <div class="card-body">
@@ -49,9 +49,9 @@ $title = '新增';
             <div class="mb-3 col-6">
               <label for="description" class="form-label">description</label>
               <br>
-              <textarea type="text" id="description" name="description"
+              <textarea type="text" id="description" rows= 5 name="description"
               style="border: 1px solid #dee2e6;
-              border-radius: 4px; width: 100%;padding: 14px 22px"></textarea>
+              border-radius: 4px; width: 100%;padding: 14px 22px; "></textarea>
               <div class="form-text"></div>
             </div>
             </div>
