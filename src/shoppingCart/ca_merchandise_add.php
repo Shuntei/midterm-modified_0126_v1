@@ -11,44 +11,53 @@ $title = '新增';
   }
 </style>
 
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid mx-auto my-auto ">
+  <div class="row justify-content-center">
     <div class="col-6">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">新增資料</h5>
           <form name="form1" method="post" onsubmit="sendForm(event)">
-            <div class="mb-3">
-              <label for="item_name" class="form-label">item_name</label>
-              <input type="text" class="form-control" id="item_name" name="item_name">
-              <div class="form-text"></div>
+          <div class="row">
+            <div class="col-6">
+              <div class="mb-3">
+                <label for="item_name" class="form-label">item_name</label>
+                <input type="text" class="form-control" id="item_name" name="item_name">
+                <div class="form-text"></div>
+              </div>
+              <div class="mb-3">
+                <label for="quantity" class="form-label">quantity</label>
+                <input type="text" class="form-control" id="quantity" name="quantity">
+                <div class="form-text"></div>
+              </div>
+              <div class="mb-3">
+                <label for="category_id" class="form-label">category_id</label>
+                <input type="text" class="form-control" id="category_id" name="category_id">
+                <div class="form-text"></div>
+              </div>
+              <div class="mb-3">
+                <label for="unit_price" class="form-label">unit_price</label>
+                <input type="text" class="form-control" id="unit_price" name="unit_price">
+                <div class="form-text"></div>
+              </div>
+              <div class="mb-3">
+                <label for="product_img" class="form-label">product_img</label>
+                <input type="text" class="form-control" id="product_img" name="product_img">
+                <div class="form-text"></div>
+              </div>
             </div>
-            <div class="mb-3">
-              <label for="quantity" class="form-label">quantity</label>
-              <input type="text" class="form-control" id="quantity" name="quantity">
-              <div class="form-text"></div>
-            </div>
-            <div class="mb-3">
-              <label for="category_id" class="form-label">category_id</label>
-              <input type="text" class="form-control" id="category_id" name="category_id">
-              <div class="form-text"></div>
-            </div>
-            <div class="mb-3">
-              <label for="unit_price" class="form-label">unit_price</label>
-              <input type="text" class="form-control" id="unit_price" name="unit_price">
-              <div class="form-text"></div>
-            </div>
-            <div class="mb-3">
-              <label for="product_img" class="form-label">product_img</label>
-              <input type="text" class="form-control" id="product_img" name="product_img">
-              <div class="form-text"></div>
-            </div>
-            <div class="mb-3">
+            <div class="mb-3 col-6">
               <label for="description" class="form-label">description</label>
-              <textarea type="text" class="form-control" id="description" name="description" cols="80"></textarea>
+              <br>
+              <textarea type="text" id="description" rows= 5 name="description"
+              style="border: 1px solid #dee2e6;
+              border-radius: 4px; width: 100%;padding: 14px 22px; "></textarea>
               <div class="form-text"></div>
             </div>
-            <button type="submit" class="btn btn-primary">新增</button>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="submit" class="btn btn-primary ">新增</button>
+</div>
           </form>
         </div>
       </div>
@@ -78,7 +87,7 @@ $title = '新增';
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">繼續新增</button>
-        <a type="button" class="btn btn-primary" href="list.php">到列表頁</a>
+        <a type="button" class="btn btn-primary" href="ca_merchandise_list_admin.php">到列表頁</a>
       </div>
     </div>
   </div>
