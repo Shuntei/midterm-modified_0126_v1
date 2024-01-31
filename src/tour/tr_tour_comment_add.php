@@ -11,25 +11,6 @@ $title = '新增';
   }
 </style>
 
-<!-- navbar start -->
-<div class="container-fluid">
-    <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container-fluid">
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./tr_tour_comment_list_admin.php">列表</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./tr_tour_comment_add.php">新增</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-</div>
-<!-- navbar end -->
-
 <div class="container-fluid">
   <div class="row">
     <div class="col-6">
@@ -38,23 +19,33 @@ $title = '新增';
           <h5 class="card-title">新增資料</h5>
           <form name="form1" method="post" onsubmit="sendForm(event)">
             <div class="mb-3">
-              <label for="user_id" class="form-label">會員編號</label>
-              <input type="text" class="form-control" id="user_id" name="user_id">
+              <label for="item_name" class="form-label">item_name</label>
+              <input type="text" class="form-control" id="item_name" name="item_name">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="tour_id" class="form-label">揪團編號</label>
-              <input type="text" class="form-control" id="tour_id" name="tour_id">
+              <label for="quantity" class="form-label">quantity</label>
+              <input type="text" class="form-control" id="quantity" name="quantity">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="comment_content" class="form-label">留言內容</label>
-              <textarea type="text" class="form-control" id="comment_content" name="comment_content" cols="40" rows="4"></textarea>
+              <label for="category_id" class="form-label">category_id</label>
+              <input type="text" class="form-control" id="category_id" name="category_id">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="comment_parent_id" class="form-label">回覆編號</label>
-              <input type="text" class="form-control" id="comment_parent_id" name="comment_parent_id">
+              <label for="unit_price" class="form-label">unit_price</label>
+              <input type="text" class="form-control" id="unit_price" name="unit_price">
+              <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+              <label for="product_img" class="form-label">product_img</label>
+              <input type="text" class="form-control" id="product_img" name="product_img">
+              <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">description</label>
+              <textarea type="text" class="form-control" id="description" name="description" cols="80"></textarea>
               <div class="form-text"></div>
             </div>
             <button type="submit" class="btn btn-primary">新增</button>
@@ -63,12 +54,14 @@ $title = '新增';
       </div>
     </div>
   </div>
-</div>
 
-<!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button> -->
+  <!-- Button trigger modal -->
+
+  <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+  </button> -->
+
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -84,8 +77,8 @@ $title = '新增';
         </div>
       </div>
       <div class="modal-footer">
-        <a type="button" class="btn btn-secondary" data-bs-dismiss="modal" href="tr_tour_comment_add.php">繼續新增</a>
-        <a type="button" class="btn btn-primary" href="tr_tour_comment_list_admin.php">到列表頁</a>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">繼續新增</button>
+        <a type="button" class="btn btn-primary" href="list.php">到列表頁</a>
       </div>
     </div>
   </div>
@@ -162,7 +155,7 @@ $title = '新增';
     e.preventDefault();
     const fd = new FormData(document.form1);
 
-    fetch('tr_tour_comment_add_api.php', {
+    fetch('ca_merchandise_add_api.php', {
         method: 'POST',
         body: fd,
       }).then(r => r.json())
