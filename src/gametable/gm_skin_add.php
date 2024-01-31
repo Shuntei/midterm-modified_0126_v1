@@ -10,15 +10,15 @@ $title = '新增';
     color: red;
   }
 </style>
-     
-  <div class="container-fluid content-wrapper">
-    <div class="row">
-      <div class="col-md-6 grid-margin">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">新增</h4>
-            <p class="card-description">Basic form layout +++++++++++++++++++</p>
-            <form name="form1" method="post" onsubmit="sendForm(event)">
+
+<div class="container-fluid content-wrapper">
+  <div class="row">
+    <div class="col-md-6 grid-margin">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">新增</h4>
+          <p class="card-description">Basic form layout</p>
+          <form name="form1" method="post" onsubmit="sendForm(event)">
             <div class="mb-3">
               <label for="skin_id" class="form-label">Skin ID</label>
               <input type="text" class="form-control" id="skin_id" name="skin_id" placeholder="Int">
@@ -31,7 +31,8 @@ $title = '新增';
             </div>
             <div class="mb-3">
               <label for="skin_model_id" class="form-label">Skin Model ID</label>
-              <input type="text" class="form-control" id="skin_model_id" name="skin_model_id" placeholder="Example.gltz">
+              <input type="text" class="form-control" id="skin_model_id" name="skin_model_id"
+                placeholder="Example.gltz">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
@@ -49,13 +50,14 @@ $title = '新增';
               <input type="datetime-local" class="form-control" id="skin_last_update" name="skin_last_update"></input>
               <div class="form-text"></div>
             </div>
-            <button type="submit" class="btn btn-primary text-white me-0">新增</button>
-            </form>
-          </div>
+            <button type="submit" class="btn btn-primary text-white me-0" data-bs-toggle="modal"
+              data-bs-target="#exampleModal">新增</button>
+          </form>
         </div>
       </div>
     </div>
   </div>
+</div>
 
 
 <!-- Modal -->
@@ -88,7 +90,7 @@ $title = '新增';
     skin_model_id: skin_model_id_f,
     role: role_f,
     upload_file: upload_file_f,
-    skin_last_update: skin_last_update_f,   
+    skin_last_update: skin_last_update_f,
   } = document.form1;
 
   // function validateEmail(email) {
@@ -119,7 +121,7 @@ $title = '新增';
     // TODO: 資料送出之前, 要做檢查 (有沒有填寫, 格式對不對)
     let isPass = true;
 
-    if(skin_id_f.value.length < 4) {
+    if (skin_id_f.value.length < 4) {
       isPass = false;
       skin_id_f.style.border = '1px solid red';
       skin_id_f.nextElementSibling.innerHTML = "請填寫正確ID";
@@ -137,27 +139,26 @@ $title = '新增';
     //   mobile_f.nextElementSibling.innerHTML = "請填寫正確的手機號碼";
     // }
 
-    if(isPass) {
+    if (isPass) {
       const fd = new FormData(document.form1);
 
       fetch('gm_skin_add_api.php', {
         method: 'POST',
         body: fd,
       }).then(r => r.json())
-      .then(result => {
-        console.log({result});
-        if(result.success) {
-          myModal.show();
-        }
-      }).catch(
-        e =>console.log(e)
-      );
+        .then(result => {
+          console.log({ result });
+          if (result.success) {
+            myModal.show();
+          }
+        }).catch(
+          e => console.log(e)
+        );
     }
   }
 
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
 
-    
+
 </script>
 <?php include __DIR__ . '/parts/html-foot.php' ?>
-
