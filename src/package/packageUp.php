@@ -39,7 +39,7 @@
           <div class="collapse" id="form-elements">
             <ul class="nav flex-column sub-menu">
 
-              <li class="nav-item"><a class="nav-link" href="member/member.php">User</a></li>
+              <li class="nav-item"><a class="nav-link" href="/midterm/src/member/member.php">User</a></li>
 
             </ul>
             <ul class="nav flex-column sub-menu">
@@ -81,8 +81,8 @@
           </a>
           <div class="collapse" id="shoppingCart">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="./ca_merchandise_list_admin.php">Merchandise</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../pages/shoppingCart/mdi.html">Carts</a></li>
+              <li class="nav-item"> <a class="nav-link" href="/midterm/src/shoppingCart/ca_merchandise_list_admin.php">Merchandise</a></li>
+              <li class="nav-item"> <a class="nav-link" href="/midterm/src/pages/shoppingCart/mdi.html">Carts</a></li>
             </ul>
           </div>
         </li>
