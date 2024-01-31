@@ -1,6 +1,6 @@
 <?php
 
-require "./parts/db_connect_midterm.php";
+require "./../parts/db_connect_midterm.php";
 header('Content-Type: application/json');
 
 $output = [
