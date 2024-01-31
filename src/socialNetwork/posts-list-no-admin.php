@@ -38,8 +38,16 @@ $newOrder = ($order === 'asc') ? 'desc' : 'asc';
 // 生成帶有新排序順序的 URL(第二種寫法,a href要帶入$toggleUrl)
 // $toggleUrl = $_SERVER['PHP_SELF'] . "?order=$newOrder";
 
-$toggle = isset($_GET['toggleImg']) ? $_GET['toggleImg'] :'';
-$imgChange = ($toggle === "<i class='fa-solid fa-down-long'></i>") ? "<i class='fa-solid fa-up-long'></i>": "<i class='fa-solid fa-down-long'></i>";
+$toggle = isset($_GET['toggleImg']) ? $_GET['toggleImg'] : '';
+$imgChange = ($toggle === "<i class='fa-solid fa-down-long'></i>") ? "<i class='fa-solid fa-up-long'></i>" : "<i class='fa-solid fa-down-long'></i>";
+
+
+$inputSearch = isset($_POST['search']) ? $_POST['search'] : '';
+
+// $searchSql = sprintf('SELECT * FROM sn_posts WHERE content LIKE "%%%s%%";', $inputSearch);
+// $searchStmt = $pdo->query($searchSql);
+// $searchRstRow = $searchStmt->fetchAll(PDO::FETCH_ASSOC);
+// echo json_encode($searchRst);
 
 if ($totalRows > 0) {
     $totalPages = ceil($totalRows / $perPage);
@@ -48,8 +56,9 @@ if ($totalRows > 0) {
         header('Location: ?page=' . $totalPages);
         exit;
     }
-    $sql = sprintf("SELECT * FROM sn_posts ORDER BY post_id $newOrder LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
-    $stmt = $pdo->query($sql);
+    $sql = sprintf("SELECT * FROM sn_posts WHERE content LIKE '%%%s%%' ORDER BY post_id $newOrder LIMIT %s, %s", $inputSearch, ($page - 1) * $perPage, $perPage);
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute();
     $rows = $stmt->fetchAll();
 }
 
@@ -94,12 +103,12 @@ if ($totalRows > 0) {
                 </ul>
                 <ul>
                     <li>
-                        <nav class="navbar pt-0">
+                        <nav class="navbar pt-0 bg-white">
                             <div class="container-fluid">
-                            <form class="d-flex">
-                                <input class="form-control search-custom me-2" type="search" placeholder="Search" aria-label="Search">
-                                <button class="btn btn-outline-success btn-sm border-none" type="submit">Search</button>
-                            </form>
+                                <form class="d-flex" method="POST" action="posts-list-no-admin.php?">
+                                    <input class="form-control search-custom me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                                    <button class="btn btn-outline-success btn-sm border-none" type="submit">Search</button>
+                                </form>
                             </div>
                         </nav>
                     </li>
@@ -112,7 +121,7 @@ if ($totalRows > 0) {
                         <th><i class="fa-solid fa-pen-to-square"></i></th>
                         <th>post_id　
                             <a href="?order=<?= $newOrder; ?>&toggleImg=<?= $imgChange; ?>" class="text-decoration-none">
-                                <?= $imgChange?>
+                                <?= $imgChange ?>
                             </a>
                         </th>
                         <th>user_id</th>
@@ -255,7 +264,6 @@ if ($totalRows > 0) {
                 `;
         });
     }
-
 </script>
 <?php include __DIR__ . '/../package/packageDown.php' ?>
 <?php include __DIR__ . '/parts/html-foot.php' ?>

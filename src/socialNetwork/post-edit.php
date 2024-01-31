@@ -11,7 +11,7 @@ if (empty($row)) {
 }
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include __DIR__ . '/parts/packageUp.php' ?>
+<?php include __DIR__ . '/../package/packageUp.php' ?>
 <?php include __DIR__ . '/parts/navbar.php' ?>
 <div class="container-fluid">
   <div class="row">
@@ -169,5 +169,5 @@ document.querySelectorAll("textarea").value="";
 
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
 </script>
-<?php include __DIR__ . '/parts/packageDown.php' ?>
+<?php include __DIR__ . '/../package/packageDown.php' ?>
 <?php include __DIR__ . '/parts/html-foot.php' ?>
