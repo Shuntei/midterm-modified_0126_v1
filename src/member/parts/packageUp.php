@@ -371,7 +371,9 @@
           </a>
           <div class="collapse" id="form-elements">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"><a class="nav-link" href="./member.php">User</a></li>
+
+              <li class="nav-item"><a class="nav-link" href="../member.php">User</a></li>
+
             </ul>
             <ul class="nav flex-column sub-menu">
               <li class="nav-item"><a class="nav-link" href="../pages/forms/basic_elements.html">UserPermission</a></li>

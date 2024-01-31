@@ -1,9 +1,20 @@
 <?php require __DIR__ . '/parts/db_connect_midterm.php';
-$pageName = 'add';
-$title = '新增';
+$pageName = 'edit';
+$title = '編輯';
+
+$item_id = isset($_GET['item_id']) ? $_GET['item_id'] : 0;
+$sql = "SELECT * FROM ca_merchandise WHERE item_id=$item_id";
+$row = $pdo->query($sql)->fetch();
+if (empty($row)) {
+  header("Location: ca_merchandise_list_admin.php");
+  exit; #結束php程式
+}
 ?>
+
+
 <?php include __DIR__ . '/parts/html-head.php' ?>
 <?php include __DIR__ . '/parts/packageUp.php' ?>
+
 
 <style>
   form .mb-3 .form-text {
@@ -11,53 +22,49 @@ $title = '新增';
   }
 </style>
 
-<div class="container-fluid mx-auto my-auto ">
-  <div class="row justify-content-center">
+<div class="container-fluid">
+  <div class="row">
     <div class="col-6">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">新增資料</h5>
+          <h5 class="card-title">編輯資料</h5>
           <form name="form1" method="post" onsubmit="sendForm(event)">
-          <div class="row">
-            <div class="col-6">
-              <div class="mb-3">
-                <label for="item_name" class="form-label">item_name</label>
-                <input type="text" class="form-control" id="item_name" name="item_name">
-                <div class="form-text"></div>
-              </div>
-              <div class="mb-3">
-                <label for="quantity" class="form-label">quantity</label>
-                <input type="text" class="form-control" id="quantity" name="quantity">
-                <div class="form-text"></div>
-              </div>
-              <div class="mb-3">
-                <label for="category_id" class="form-label">category_id</label>
-                <input type="text" class="form-control" id="category_id" name="category_id">
-                <div class="form-text"></div>
-              </div>
-              <div class="mb-3">
-                <label for="unit_price" class="form-label">unit_price</label>
-                <input type="text" class="form-control" id="unit_price" name="unit_price">
-                <div class="form-text"></div>
-              </div>
-              <div class="mb-3">
-                <label for="product_img" class="form-label">product_img</label>
-                <input type="text" class="form-control" id="product_img" name="product_img">
-                <div class="form-text"></div>
-              </div>
+          <div class="mb-3">
+              <label class="form-label">編號</label>
+              <input type="text" class="form-control" disabled value="<?= $row['item_id'] ?>">
             </div>
-            <div class="mb-3 col-6">
-              <label for="description" class="form-label">description</label>
-              <br>
-              <textarea type="text" id="description" rows= 5 name="description"
-              style="border: 1px solid #dee2e6;
-              border-radius: 4px; width: 100%;padding: 14px 22px; "></textarea>
+            <input type="hidden" name="item_id" value="<?= $row['item_id'] ?>">
+            <div class="mb-3">
+              <label for="item_name" class="form-label">item_name</label>
+              <input type="text" class="form-control" id="item_name" name="item_name" value="<?= htmlentities($row['item_name']) ?>">
               <div class="form-text"></div>
             </div>
+            <div class="mb-3">
+              <label for="quantity" class="form-label">quantity</label>
+              <input type="text" class="form-control" id="quantity" name="quantity" value="<?= $row['quantity'] ?>">
+              <div class="form-text"></div>
             </div>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="submit" class="btn btn-primary ">新增</button>
-</div>
+            <div class="mb-3">
+              <label for="category_id" class="form-label">category_id</label>
+              <input type="text" class="form-control" id="category_id" name="category_id" value="<?= $row['category_id'] ?>">
+              <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+              <label for="unit_price" class="form-label">unit_price</label>
+              <input type="text" class="form-control" id="unit_price" name="unit_price" value="<?= $row['unit_price'] ?>">
+              <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+              <label for="product_img" class="form-label">product_img</label>
+              <input type="text" class="form-control" id="product_img" name="product_img" value="<?= $row['product_img'] ?>">
+              <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">description</label>
+              <textarea type="text" class="form-control" id="description" name="description" cols="50" ><?= $row['description'] ?></textarea>
+              <div class="form-text"></div>
+            </div>
+            <button type="submit" class="btn btn-primary">修改</button>
           </form>
         </div>
       </div>
@@ -77,16 +84,16 @@ $title = '新增';
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">新增結果</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">修改結果</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="alert alert-success" role="alert">
-          新增成功
+          修改成功
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">繼續新增</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">繼續修改</button>
         <a type="button" class="btn btn-primary" href="ca_merchandise_list_admin.php">到列表頁</a>
       </div>
     </div>
@@ -164,7 +171,7 @@ $title = '新增';
     e.preventDefault();
     const fd = new FormData(document.form1);
 
-    fetch('ca_merchandise_add_api.php', {
+    fetch('ca_merchandise_edit_api.php', {
         method: 'POST',
         body: fd,
       }).then(r => r.json())

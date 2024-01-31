@@ -1,7 +1,9 @@
 <?php
 
 require "./parts/db_connect_midterm.php";
+
 header('Content-Type: application/json');
+
 
 $output = [
     "success"=> false,
@@ -52,6 +54,9 @@ SET `name`=?,
  }
 
  $output['success'] = $stmt->rowCount();
+
+
+ header('Content-Type: application/json');
 
  echo json_encode($output, JSON_UNESCAPED_UNICODE);
 

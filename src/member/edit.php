@@ -21,12 +21,57 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
 
 ?>
 
+<style>
+    .swal-footer {
+        text-align: center;
+    }
+
+    .swal-button {
+        border: none;
+    }
+
+    .swal-button--cancel {
+        background-color: #fbfbfb;
+        color: #1E283D;
+        cursor: pointer;
+        border-radius: 5px;
+        border: none;
+        text-shadow: none;
+    }
+
+    .swal-button--cancel:focus {
+        border: none;
+        outline: none;
+        text-shadow: none;
+
+    }
+
+    .swal-button--confirm {
+        background: #1F3BB3;
+        color: white;
+        outline: none;
+        border: none;
+
+    }
+
+    .swal-button:hover {
+        background: #0a58ca;
+        color: white;
+    }
+
+    button {
+        padding-block: 0;
+    }
+</style>
+
 <div class="container d-flex justify-content-center">
     <div class="container col-12 col-md-6 mt-4">
         <div class="col-md-12 col-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title text-center editFontsize">Edit User Information</h4>
+
+                    <h4 class="card-title text-center">Edit User Information</h4>
+
                     <p class="card-description text-center">
                         User Id: <?= $row['user_id'] ?>
                     </p>
