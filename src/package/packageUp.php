@@ -55,8 +55,8 @@
           </a>
           <div class="collapse" id="charts">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="../pages/charts/chartjs.html">Comments</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../pages/charts/chartjs.html">Friends</a></li>
+              <li class="nav-item"> <a class="nav-link" href="./public-board.php">看板分類</a></li>
+              <li class="nav-item"> <a class="nav-link" href="./posts-list-no-admin.php">帖子</a></li>
             </ul>
           </div>
         </li>
