@@ -11,29 +11,19 @@ $output = [
     "errors" => [],
 ];
 
-$userId = isset($_POST['userId']) ? $_POST['userId'] : 0;
-
-if(empty($userId)){
-    echo json_encode($output, JSON_UNESCAPED_UNICODE);
-    exit;
-}
-
 $birthday = empty($_POST['birthday']) ? null : $_POST['birthday'];
 $birthday = strtotime($birthday);
 
-if($birthday === false){
+if ($birthday===false) {
     $birthday = null;
 } else {
     $birthday = date('Y-m-d', $birthday);
 }
 
-$sql = "UPDATE `mb_user` 
-SET `name`=?,
-`email`=?,
-`phone`=?,
-`birthday`=?,
-`fk_skin_id`=?
- WHERE `user_id`=?";
+$passwordHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
+$profilePic = empty($_POST['picture']) ? null : $_POST['picture'];
+
+$sql = "INSERT INTO `mb_user`(`name`, `email`, `phone`, `password_hash`, `profile_pic_url`, `birthday`, `created_at`, `fk_skin_id`) VALUES (?, ?, ?, ?, ?, ?, NOW(), ?)";
 
  $stmt = $pdo->prepare($sql);
 
@@ -43,9 +33,10 @@ SET `name`=?,
         $_POST["name"],
         $_POST["email"],
         $_POST["phone"],
+        $passwordHash,
+        $profilePic,
         $birthday,
-        $_POST["skinId"],
-        $userId
+        $_POST["skinId"]
      ]);
  } catch(PDOException $e){
     $output['error'] = 'SQL error' . $e->getMessage();
