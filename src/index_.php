@@ -471,8 +471,8 @@ $title = isset($title) ? $title . '-MFEE47_02' : 'MFEE47_02'
             </a>
             <div class="collapse" id="tables">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="./chatroom/live_get_point-list-admin.php">點數消耗紀錄</a></li>
-                <li class="nav-item"> <a class="nav-link" href="./chatroom/live_sticker_inventory-list-admin.php">貼圖管理</a></li>
+                <li class="nav-item"> <a class="nav-link" href="./chatroom/live_sticker_inventory-list-admin.php">點數消耗紀錄</a></li>
+                <li class="nav-item"> <a class="nav-link" href="./chatroom/live_get_point-list-admin.php">貼圖管理</a></li>
               </ul>
             </div>
           </li>
