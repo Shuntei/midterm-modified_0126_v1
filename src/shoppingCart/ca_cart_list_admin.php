@@ -106,15 +106,15 @@ if (empty($pageName)) {
                                 </button>
                                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                        <li class="nav-item">
+                                        <!-- <li class="nav-item">
                                             <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./ca_cart_list_admin.php">列表</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./ca_cart_add.php">新增</a>
+                                        </li> -->
+                                        <li class="nav-item me-4">
+                                            <button type="button" class="btn btn-outline-secondary"><a class="nav-link" href="./ca_cart_add.php">新增</a></button>
                                         </li>
                                         <!--  page navigation start-->
                                         <nav aria-label="Pagination example">
-                                            <ul class="pagination">
+                                            <ul class="pagination mx-3">
                                                 <li class="page-item">
                                                     <a class="page-link" href="?page=1">
                                                         <i class="fa-solid fa-angles-left"></i>
@@ -182,12 +182,12 @@ if (empty($pageName)) {
                                 <th><i class="fa-solid fa-trash-can"></i></th>
                                 <th>cart_id</th>
                                 <th>user_id
-                                <a href="ca_cart_list_admin.php?sort=item_id_desc"><i class="fa fa-arrow-down"></i></a>
+                                    <a href="ca_cart_list_admin.php?sort=item_id_desc"><i class="fa fa-arrow-down"></i></a>
                                     <a href="ca_cart_list_admin.php?sort=item_id_asc"><i class="fa fa-arrow-up"></i></a>
                                 </th>
                                 <th>item_id</th>
                                 <th>quantity</th>
-             
+
 
                                 <th><i class="fa-solid fa-pen-to-square"></i></th>
                             </tr>
@@ -205,7 +205,7 @@ if (empty($pageName)) {
                                     <td><?= $r['user_id'] ?></td>
                                     <td><?= $r['item_id'] ?></td>
                                     <td><?= $r['quantity'] ?></td>
-                                
+
                                     <!-- <td><?= htmlentities($r['address']) ?></td> -->
                                     <!-- <td><?= strip_tags($r['address']) ?></td> -->
                                     <td>

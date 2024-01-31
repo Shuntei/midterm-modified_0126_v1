@@ -98,7 +98,7 @@ if (empty($pageName)) {
                     </p>
                     <div class="container-fluid">
                         <nav class="navbar navbar-expand-lg bg-light rounded">
-                            <div class="container-fluid">
+                            <div class="container-fluid ">
 
                                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                                     <span class="navbar-toggler-icon"></span>
@@ -108,12 +108,12 @@ if (empty($pageName)) {
                                         <!-- <li class="nav-item">
                                             <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./ca_merchandise_list_admin.php">列表</a>
                                         </li> -->
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="./ca_merchandise_add.php">新增</a>
+                                        <li class="nav-item me-4">
+                                            <button type="button" class="btn btn-outline-secondary"><a class="nav-link" href="./ca_merchandise_add.php">新增</a></button>
                                         </li>
                                         <!--  page navigation start-->
                                         <nav aria-label="Pagination example">
-                                            <ul class="pagination">
+                                            <ul class="pagination mx-3">
                                                 <li class="page-item">
                                                     <a class="page-link" href="?page=1">
                                                         <i class="fa-solid fa-angles-left"></i>
@@ -179,7 +179,7 @@ if (empty($pageName)) {
                         <thead>
                             <tr>
                                 <th><i class="fa-solid fa-trash-can"></i></th>
-                                <th># 
+                                <th>#
                                     <a href="ca_merchandise_list_admin.php?sort=item_id_desc"><i class="fa fa-arrow-down"></i></a>
                                     <a href="ca_merchandise_list_admin.php?sort=item_id_asc"><i class="fa fa-arrow-up"></i></a>
                                 </th>
