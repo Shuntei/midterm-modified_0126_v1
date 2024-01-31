@@ -96,9 +96,9 @@ if ($totalRows > 0) {
                         <th><i class="fa-solid fa-trash-can"></i></th>
                         <th><i class="fa-solid fa-pen-to-square"></i></th>
                         <th>post_id　
-                            <a href="?order=<?= $newOrder; ?>" id="toggleImg" class="text-decoration-none">
-                            <i class="fa-solid fa-up-long" style="display: none"></i>
-                            <i class="fa-solid fa-down-long" style="display: inline-block"></i>
+                            <a href="?order=<?= $newOrder; ?>&iconOrder=<?=  ?>" id="toggleImg" class="text-decoration-none">
+                                <i class="fa-solid fa-up-long" style="display: none"></i>
+                                <i class="fa-solid fa-down-long" style="display: inline-block"></i>
                             </a>
                         </th>
                         <th>user_id</th>
