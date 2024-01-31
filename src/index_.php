@@ -67,7 +67,7 @@
     </style>
 </head>
 <body>
-<div class="container-scroller fixed-top">
+<div class="container-scroller ">
   <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-top flex-row fixed-top">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
       <div class="me-3">
