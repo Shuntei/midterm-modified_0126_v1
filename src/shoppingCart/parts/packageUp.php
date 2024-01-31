@@ -1,4 +1,4 @@
-<div class="container-scroller fixed-top">
+<div class="container-scroller ">
   <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-top flex-row fixed-top">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
       <div class="me-3">
@@ -412,8 +412,8 @@
           </a>
           <div class="collapse" id="shoppingCart">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="./ca_merchandise_list_admin.php">Merchandise</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../pages/shoppingCart/mdi.html">Carts</a></li>
+              <li class="nav-item"> <a class="nav-link" href="./ca_merchandise_list_admin.php">商品列表</a></li>
+              <li class="nav-item"> <a class="nav-link" href="./ca_cart_list_admin.php">購物車</a></li>
             </ul>
           </div>
         </li>
@@ -446,5 +446,5 @@
       </ul>
     </nav>
     <!-- partial -->
-    <div class="main-panel overflow-auto" style="height: 0;">
+    <div class="main-panel overflow-auto" style="height: 0px;">
       <!-- 這裡引入 -->
