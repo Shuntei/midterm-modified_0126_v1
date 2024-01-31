@@ -37,7 +37,7 @@ if ($totalRows > 0) {
 
 ?>
 <?php include __DIR__ . '/parts-get-point/html-head.php' ?>
-<?php include __DIR__ . '/parts-get-point/packageUp.php' ?>
+<?php include ('./../package/packageUp.php') ?>
 <?php include __DIR__ . '/parts-get-point/navbar.php' ?>
 
 <div class="container-fluid">
@@ -131,7 +131,7 @@ if ($totalRows > 0) {
                 print_r($stmt->fetch());
                 ?></prev> -->
 </div>
-<?php include __DIR__ . '/parts-get-point/packageDown.php' ?>
+<?php include ('./../package/packageDown.php') ?>
 <?php include __DIR__ . '/parts-get-point/scripts.php' ?>
 
 <script>
