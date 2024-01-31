@@ -3,7 +3,7 @@
     $title = '新增';
 ?>
 <?php  include __DIR__ . '/parts/html-head.php' ?>
-<?php include __DIR__ . '/parts/packageUp.php' ?>
+<?php include __DIR__ . '/../package/packageUp.php' ?>
 <?php  include __DIR__ . '/parts/navbar.php' ?>
 <style>
     form .mb-3 .form-text {
@@ -163,5 +163,5 @@ const goBack = () => {
   }
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
 </script>
-<?php include __DIR__ . '/parts/packageDown.php'?>
+<?php include __DIR__ . '/../package/packageDown.php'?>
 <?php include __DIR__ . '/parts/html-foot.php' ?>
