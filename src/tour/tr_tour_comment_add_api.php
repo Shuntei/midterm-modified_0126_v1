@@ -10,25 +10,28 @@
     // TODO: 資料輸入之前, 要做檢查
     # filter_var('bob@example.com', FILTER_VALIDATE_EMAIL);
 
-    $birthday = empty($_POST['birthday']) ? null : $_POST['birthday'];
-    $birthday = strtotime($birthday); #轉換為timestamp
-    if($birthday===false) {
-        $birthday = null;
-    }else {
-        $birthday = date('Y-m-d', $birthday);
-    }
+    // $birthday = empty($_POST['birthday']) ? null : $_POST['birthday'];
+    // $birthday = strtotime($birthday); #轉換為timestamp
+    // if($birthday===false) {
+    //     $birthday = null;
+    // }else {
+    //     $birthday = date('Y-m-d', $birthday);
+    // }
 
-    $sql = "INSERT INTO `ca_merchandise`(`item_name`, `quantity`, `category_id`, `unit_price`, `product_img`, `description`) VALUES (?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO `tr_tour_comment`(
+        `user_id`, 
+        `tour_id`, 
+        `comment_content`, 
+        `comment_parent_id`) 
+        VALUES (?, ?, ?, ?)";
 
     $stmt = $pdo->prepare($sql);
     try{
         $stmt->execute([
-        $_POST['item_name'],
-        $_POST['quantity'],
-        $_POST['category_id'],
-        $_POST['unit_price'],
-        $_POST['product_img'],
-        $_POST['description'],
+        $_POST['user_id'],
+        $_POST['tour_id'],
+        $_POST['comment_content'],
+        $_POST['comment_parent_id'],
         ]);
     }catch(PDOException $e) {
         $output['error'] = 'SQL failed : ' . $e->getMessage();

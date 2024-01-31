@@ -12,7 +12,7 @@ if ($page < 1) {
     exit;
 }
 
-$t_sql = "SELECT COUNT(1) FROM ca_merchandise";
+$t_sql = "SELECT COUNT(1) FROM tr_tour";
 
 // $t_stmt = $pdo->query($t_sql);
 // $row = $t_stmt->fetch(PDO::FETCH_NUM);
@@ -29,12 +29,12 @@ if ($totalRows > 0) {
         header('Location: ?page=' . $totalPages);
         exit;
     }
-    $sql = sprintf("SELECT * FROM ca_merchandise ORDER BY item_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
+    $sql = sprintf("SELECT * FROM tr_tour ORDER BY tour_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
     $stmt = $pdo->query($sql);
     $rows = $stmt->fetchAll();
 }
 
-// $stmt = $pdo->query("SELECT * FROM ca_merchandise LIMIT 0, 20");
+// $stmt = $pdo->query("SELECT * FROM tr_tour LIMIT 0, 20");
 // $rows = $stmt->fetchAll();
 
 ?>
@@ -55,16 +55,16 @@ if (empty($pageName)) {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./ca_merchandise_list_admin.php">列表</a>
+                        <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./tr_tour_list_admin.php">列表</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./ca_merchandise_add.php">新增</a>
+                        <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./tr_tour_add.php">新增</a>
                     </li>
                     <!--  page navigation start-->
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
                             <li class="page-item">
-                                <a class="page-link" href="#">
+                                <a class="page-link" href="?page=1">
                                     <i class="fa-solid fa-angles-left"></i>
                                 </a>
                             </li>
@@ -87,7 +87,7 @@ if (empty($pageName)) {
                                 </a>
                             </li>
                             <li class="page-item">
-                                <a class="page-link" href="#">
+                                <a class="page-link" href="?page=<?php echo $totalPages; ?>">
                                     <i class="fa-solid fa-angles-right"></i>
                                 </a>
                             </li>
@@ -122,20 +122,26 @@ if (empty($pageName)) {
 <div class="container-fluid">
     <div class="row">
         <div class="col">
-            <!-- <?= "$totalRows, $totalPages" ?> -->
-
-            <table class="table table-bordered table-striped">
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <!-- <?= "$totalRows, $totalPages" ?> -->
+            <table class="table table-bordered table-hover">
                 <thead>
                     <tr>
                         <th><i class="fa-solid fa-trash-can"></i></th>
                         <th>#</th>
-                        <th>item_name</th>
-                        <th>quantity</th>
-                        <th>category_id</th>
-                        <th>description</th>
-                        <th>unit_price</th>
-                        <th>product_img </th>
-
+                        <th>會員編號</th>
+                        <th>廢墟編號</th>
+                        <th>活動日期</th>
+                        <th>最大人數</th>
+                        <th>活動時長</th>
+                        <th>難易度</th>
+                        <th>影片連結</th>
+                        <th>標題</th>
+                        <th>簡介</th>
+                        <th>內文</th>
+                        <th>建立時間</th>
                         <th><i class="fa-solid fa-pen-to-square"></i></th>
                     </tr>
                 </thead>
@@ -144,21 +150,24 @@ if (empty($pageName)) {
                     <?php foreach ($rows as $r) : ?>
                         <tr>
                             <td>
-                                <a href="javascript: delete_one(<?= $r['item_id'] ?>)">
+                                <a href="javascript: delete_one(<?= $r['tour_id'] ?>)">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </a>
                             </td>
-                            <td><?= $r['item_id'] ?></td>
-                            <td><?= $r['item_name'] ?></td>
-                            <td><?= $r['quantity'] ?></td>
-                            <td><?= $r['category_id'] ?></td>
+                            <td><?= $r['tour_id'] ?></td>
+                            <td><?= $r['user_id'] ?></td>
+                            <td><?= $r['ruin_id'] ?></td>
+                            <td><?= $r['event_date'] ?></td>
+                            <td><?= $r['max_groupsize'] ?></td>
+                            <td><?= $r['event_period'] ?></td>
+                            <td><?= $r['level_id'] ?></td>
+                            <td><?= $r['video_url'] ?></td>
+                            <td><?= $r['title'] ?></td>
                             <td><?= $r['description'] ?></td>
-                            <td><?= $r['unit_price'] ?></td>
-                            <td><?= $r['product_img'] ?></td>
-                            <!-- <td><?= htmlentities($r['address']) ?></td> -->
-                            <!-- <td><?= strip_tags($r['address']) ?></td> -->
+                            <td><?= $r['content'] ?></td>
+                            <td><?= $r['created_at'] ?></td>
                             <td>
-                                <a href="edit.php?item_id=<?= $r['item_id'] ?>">
+                                <a href="tr_tour_edit.php?tour_id=<?= $r['tour_id'] ?>">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </a>
                             </td>
@@ -167,6 +176,9 @@ if (empty($pageName)) {
                     <?php endforeach ?>
                 </tbody>
             </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <!-- <prev><?php
@@ -174,12 +186,13 @@ if (empty($pageName)) {
                 print_r($stmt->fetch());
                 ?></prev> -->
 </div>
+
 <?php include __DIR__ . '/parts/packageDown.php' ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
-    function delete_one(item_id) {
-        if (confirm(`是否要刪除編號為${item_id}的資料?`)) {
-            location.href = `ca_merchandise_delete.php?item_id=${item_id}`;
+    function delete_one(tour_id) {
+        if (confirm(`是否要刪除編號為${tour_id}的資料?`)) {
+            location.href = `tr_tour_delete.php?tour_id=${tour_id}`;
         }
     }
 </script>

@@ -11,6 +11,25 @@ $title = '新增';
   }
 </style>
 
+<!-- navbar start -->
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg bg-light">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./tr_tour_list_admin.php">列表</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./tr_tour_add.php">新增</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<!-- navbar end -->
+
 <div class="container-fluid">
   <div class="row">
     <div class="col-6">
@@ -19,33 +38,57 @@ $title = '新增';
           <h5 class="card-title">新增資料</h5>
           <form name="form1" method="post" onsubmit="sendForm(event)">
             <div class="mb-3">
-              <label for="item_name" class="form-label">item_name</label>
-              <input type="text" class="form-control" id="item_name" name="item_name">
+              <label for="user_id" class="form-label">會員編號</label>
+              <input type="text" class="form-control" id="user_id" name="user_id">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="quantity" class="form-label">quantity</label>
-              <input type="text" class="form-control" id="quantity" name="quantity">
+              <label for="ruin_id" class="form-label">廢墟編號</label>
+              <input type="text" class="form-control" id="ruin_id" name="ruin_id">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="category_id" class="form-label">category_id</label>
-              <input type="text" class="form-control" id="category_id" name="category_id">
+              <label for="event_date" class="form-label">活動日期</label>
+              <input type="date" class="form-control" id="event_date" name="event_date">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="unit_price" class="form-label">unit_price</label>
-              <input type="text" class="form-control" id="unit_price" name="unit_price">
+              <label for="max_groupsize" class="form-label">人數</label>
+              <input type="text" class="form-control" id="max_groupsize" name="max_groupsize">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="product_img" class="form-label">product_img</label>
-              <input type="text" class="form-control" id="product_img" name="product_img">
+              <label for="event_period" class="form-label">時長</label>
+              <input type="text" class="form-control" id="event_period" name="event_period">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="description" class="form-label">description</label>
-              <textarea type="text" class="form-control" id="description" name="description" cols="80"></textarea>
+                <label for="level_id" class="form-label">難度</label>
+                <select class="form-control" id="level_id" name="level_id">
+                  <option value="1">容易</option>
+                  <option value="2">中等</option>
+                  <option value="3">困難</option>
+                </select>
+                <div class="form-text"></div>
+              </div>
+            <div class="mb-3">
+              <label for="video_url" class="form-label">影片</label>
+              <input type="text" class="form-control" id="video_url" name="video_url"></input>
+              <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+              <label for="title" class="form-label">標題</label>
+              <input type="text" class="form-control" id="title" name="title"></input>
+              <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+              <label for="description" class="form-label">簡介</label>
+              <textarea type="text" class="form-control" id="description" name="description" cols="40" rows="4"></textarea>
+              <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+              <label for="content" class="form-label">內文</label><br>
+              <textarea type="text" id="content" name="content" cols="40" rows="10"></textarea>
               <div class="form-text"></div>
             </div>
             <button type="submit" class="btn btn-primary">新增</button>
@@ -77,8 +120,8 @@ $title = '新增';
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">繼續新增</button>
-        <a type="button" class="btn btn-primary" href="list.php">到列表頁</a>
+        <a type="button" class="btn btn-secondary" data-bs-dismiss="modal" href="tr_tour_add.php">繼續新增</a>
+        <a type="button" class="btn btn-primary" href="tr_tour_list_admin.php">到列表頁</a>
       </div>
     </div>
   </div>
@@ -155,7 +198,7 @@ $title = '新增';
     e.preventDefault();
     const fd = new FormData(document.form1);
 
-    fetch('ca_merchandise_add_api.php', {
+    fetch('tr_tour_add_api.php', {
         method: 'POST',
         body: fd,
       }).then(r => r.json())

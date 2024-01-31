@@ -1,73 +1,4 @@
-<?php     $db_host = 'localhost';
-    $db_name = 'midterm_db';
-    $db_user = 'root';
-    $db_pass = '';
-    
-    $dsn = "mysql:host={$db_host};dbname={$db_name};charset=utf8mb4";
-    // $pdo = new PDO($dsn, $db_user, $db_pass, $pdo_options);
-    
-    $pdo_options = [
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
-    ];
-    // $stmt = $pdo->query("SELECT * FROM address_book LIMIT 2");
-    
-    try{
-        $pdo = new PDO($dsn, $db_user, $db_pass, $pdo_options);
-    }catch(PDOException $e) {
-        echo $e->getMessage();
-    }
-
-    # 啟動 session 的功能
-    if(!isset($_SESSION)) {
-        session_start();
-    }
-  $pageName = 'home';
-  $title = '首頁';
-?>
-
-<?php 
-    $title = isset($title) ? $title . '-MFEE47_02' : 'MFEE47_02'
-?>
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $title ?></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
-
-      <!-- plugins:css -->
-    <link rel="stylesheet" href="assets/vendors/feather/feather.css">
-    <link rel="stylesheet" href="assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="assets/vendors/ti-icons/css/themify-icons.css">
-    <link rel="stylesheet" href="assets/vendors/typicons/typicons.css">
-    <link rel="stylesheet" href="assets/vendors/simple-line-icons/css/simple-line-icons.css">
-    <link rel="stylesheet" href="assets/vendors/css/vendor.bundle.base.css">
-    <!-- endinject -->
-    <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
-    <link rel="stylesheet" type="text/css" href="assets/js/select.dataTables.min.css">
-    <!-- End plugin css for this page -->
-    <!-- inject:css -->
-    <link rel="stylesheet" href="assets/css/vertical-layout-light/style.css">
-    <!-- endinject -->
-    <link rel="shortcut icon" href="assets/images/favicon.png" />
-    <style>
-    .navbar-nav .nav-link.active {
-        background-color: rgb(13, 110, 253);
-        border-radius: 10px;
-        font-weight: 800;
-        color: white;
-    }
-    form .mb-3 .form-text {
-      color: red;
-    }
-    </style>
-</head>
-<body>
-<div class="container-scroller fixed-top">
+<div class="container-scroller ">
   <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-top flex-row fixed-top">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
       <div class="me-3">
@@ -76,8 +7,8 @@
         </button>
       </div>
       <div>
-        <a class="navbar-brand brand-logo" href="./index_.php">
-          <img src="./assets/images/ruined.png" alt="logo" />
+        <a class="navbar-brand brand-logo" href="../index_.php">
+          <img src="../assets/images/ruined.png" alt="logo" />
         </a>
 
       </div>
@@ -481,7 +412,7 @@
           </a>
           <div class="collapse" id="shoppingCart">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="./shoppingCart/ca_merchandise_list_admin.php">Merchandise</a></li>
+              <li class="nav-item"> <a class="nav-link" href="./ca_merchandise_list_admin.php">Merchandise</a></li>
               <li class="nav-item"> <a class="nav-link" href="../pages/shoppingCart/mdi.html">Carts</a></li>
             </ul>
           </div>
@@ -507,56 +438,13 @@
           </a>
           <div class="collapse" id="tour">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="./tour/tr_tour_list_admin.php">Tour</a></li>
-              <li class="nav-item"> <a class="nav-link" href="./tour/tr_tour_comment_list_admin.php">TourComment</a></li>
+              <li class="nav-item"> <a class="nav-link" href="./tr_tour_list_admin.php">Tour</a></li>
+              <li class="nav-item"> <a class="nav-link" href="./tr_tour_comment_list_admin.php">TourComment</a></li>
             </ul>
           </div>
         </li>
       </ul>
     </nav>
     <!-- partial -->
-    <div class="main-panel overflow-auto" style="height: 100vh;">
+    <div class="main-panel overflow-auto" style="height: 0px;">
       <!-- 這裡引入 -->
-      <?php
-if (empty($pageName)) {
-  $pageName = '';
-}
-?>
-
-<div class="container">
-  <h1>歡迎工商置入</h1>
-</div>
-
-        <!-- partial -->
-        </div>
-      <!-- main-panel ends -->
-    </div>
-    <!-- page-body-wrapper ends -->
-  </div>
-  <!-- container-scroller -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-  <!-- plugins:js -->
-  <script src="assets/vendors/js/vendor.bundle.base.js"></script>
-  <script src="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-  <!-- endinject -->
-  <!-- Plugin js for this page -->
-  <script src="assets/vendors/chart.js/Chart.min.js"></script>
-  <script src="assets/vendors/progressbar.js/progressbar.min.js"></script>
-  <!-- End plugin js for this page -->
-  <!-- inject:js -->
-  <script src="assets/js/off-canvas.js"></script>
-  <script src="assets/js/hoverable-collapse.js"></script>
-  <script src="assets/js/template.js"></script>
-  <script src="assets/js/settings.js"></script>
-  <script src="assets/js/todolist.js"></script>
-  <!-- endinject -->
-  <!-- Custom js for this page-->
-  <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
-  <script src="assets/js/dashboard.js"></script>
-  <script src="assets/js/proBanner.js"></script>
-  <!-- <script src="../../assets/js/Chart.roundedBarCharts.js"></script> -->
-  <!-- End custom js for this page-->
-  </body>
-</html>
