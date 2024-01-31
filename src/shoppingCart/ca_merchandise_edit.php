@@ -13,7 +13,7 @@ if (empty($row)) {
 
 
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include __DIR__ . '/parts/packageUp.php' ?>
+<?php include __DIR__ . '/../parts/packageUp.php' ?>
 
 
 <style>
@@ -99,7 +99,7 @@ if (empty($row)) {
     </div>
   </div>
 </div>
-<?php include __DIR__ . '/parts/packageDown.php' ?>
+<?php include __DIR__ . '/../parts/packageDown.php' ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
   // const {

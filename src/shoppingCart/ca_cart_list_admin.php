@@ -80,7 +80,7 @@ $rows = $stmt->fetchAll();
 
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include __DIR__ . '/parts/packageUp.php' ?>
+<?php include __DIR__ . '/../parts/packageUp.php' ?>
 <?php
 if (empty($pageName)) {
     $pageName = '';
@@ -228,7 +228,7 @@ if (empty($pageName)) {
                 print_r($stmt->fetch());
                 ?></prev> -->
 </div>
-<?php include __DIR__ . '/parts/packageDown.php' ?>
+<?php include __DIR__ . '/../parts/packageDown.php' ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
     function delete_one(item_id) {

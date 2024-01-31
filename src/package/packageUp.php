@@ -81,8 +81,8 @@
           </a>
           <div class="collapse" id="shoppingCart">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="/midterm/src/shoppingCart/ca_merchandise_list_admin.php">Merchandise</a></li>
-              <li class="nav-item"> <a class="nav-link" href="/midterm/src/pages/shoppingCart/mdi.html">Carts</a></li>
+              <li class="nav-item"> <a class="nav-link" href="/midterm/src/shoppingCart/ca_merchandise_list_admin.php">商品列表</a></li>
+              <li class="nav-item"> <a class="nav-link" href="/midterm/src/shoppingCart/ca_cart_list_admin.php">購物車</a></li>
             </ul>
           </div>
         </li>
