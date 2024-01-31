@@ -14,7 +14,7 @@ if(empty($row)){
 }
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include __DIR__ . '/parts/packageUp.php' ?>
+<?php include './../package/packageUp.php' ?>
 
 <style>
     form .mb-3 .form-text {
@@ -101,7 +101,7 @@ if(empty($row)){
     </div>
 </div>
 
-<?php include __DIR__ . '/parts/packageDown.php' ?>
+<?php include './../package/packageDown.php' ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
     // const {

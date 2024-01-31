@@ -39,7 +39,7 @@ if ($totalRows > 0) {
 
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include __DIR__ . '/parts/packageUp.php' ?>
+<?php include './../package/packageUp.php' ?>
 <?php
 if (empty($pageName)) {
     $pageName = '';
@@ -92,7 +92,7 @@ if (empty($pageName)) {
                         </ul>
                     </nav>
 
-<!--  page navigation end-->
+                    <!--  page navigation end-->
                 </ul>
                 <!-- <ul class="navbar-nav mb-2 mb-lg-0">
           <?php if (isset($_SESSION['admin'])) : ?>
@@ -123,57 +123,56 @@ if (empty($pageName)) {
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <!-- <?= "$totalRows, $totalPages" ?> -->
-            <table class="table table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th><i class="fa-solid fa-trash-can"></i></th>
-                        <th>#</th>
-                        <th>會員編號</th>
-                        <th>廢墟編號</th>
-                        <th>活動日期</th>
-                        <th>最大人數</th>
-                        <th>活動時長</th>
-                        <th>難易度</th>
-                        <th>影片連結</th>
-                        <th>標題</th>
-                        <th>簡介</th>
-                        <th>內文</th>
-                        <th>建立時間</th>
-                        <th><i class="fa-solid fa-pen-to-square"></i></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- while($r = $stmt->fetch()):  -->
-                    <?php foreach ($rows as $r) : ?>
-                        <tr>
-                            <td>
-                                <a href="javascript: delete_one(<?= $r['tour_id'] ?>)">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </a>
-                            </td>
-                            <td><?= $r['tour_id'] ?></td>
-                            <td><?= $r['user_id'] ?></td>
-                            <td><?= $r['ruin_id'] ?></td>
-                            <td><?= $r['event_date'] ?></td>
-                            <td><?= $r['max_groupsize'] ?></td>
-                            <td><?= $r['event_period'] ?></td>
-                            <td><?= $r['level_id'] ?></td>
-                            <td><?= $r['video_url'] ?></td>
-                            <td><?= $r['title'] ?></td>
-                            <td><?= $r['description'] ?></td>
-                            <td><?= $r['content'] ?></td>
-                            <td><?= $r['created_at'] ?></td>
-                            <td>
-                                <a href="tr_tour_edit.php?tour_id=<?= $r['tour_id'] ?>">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        <!-- endwhile  -->
-                    <?php endforeach ?>
-                </tbody>
-            </table>
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th><i class="fa-solid fa-trash-can"></i></th>
+                                    <th>#</th>
+                                    <th>會員編號</th>
+                                    <th>廢墟編號</th>
+                                    <th>活動日期</th>
+                                    <th>最大人數</th>
+                                    <th>活動時長</th>
+                                    <th>難易度</th>
+                                    <th>影片連結</th>
+                                    <th>標題</th>
+                                    <th>簡介</th>
+                                    <th>內文</th>
+                                    <th>建立時間</th>
+                                    <th><i class="fa-solid fa-pen-to-square"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- while($r = $stmt->fetch()):  -->
+                                <?php foreach ($rows as $r) : ?>
+                                    <tr>
+                                        <td>
+                                            <a href="javascript: delete_one(<?= $r['tour_id'] ?>)">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </a>
+                                        </td>
+                                        <td><?= $r['tour_id'] ?></td>
+                                        <td><?= $r['user_id'] ?></td>
+                                        <td><?= $r['ruin_id'] ?></td>
+                                        <td><?= $r['event_date'] ?></td>
+                                        <td><?= $r['max_groupsize'] ?></td>
+                                        <td><?= $r['event_period'] ?></td>
+                                        <td><?= $r['level_id'] ?></td>
+                                        <td><?= $r['video_url'] ?></td>
+                                        <td><?= $r['title'] ?></td>
+                                        <td><?= $r['description'] ?></td>
+                                        <td><?= $r['content'] ?></td>
+                                        <td><?= $r['created_at'] ?></td>
+                                        <td>
+                                            <a href="tr_tour_edit.php?tour_id=<?= $r['tour_id'] ?>">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <!-- endwhile  -->
+                                <?php endforeach ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -185,7 +184,7 @@ if (empty($pageName)) {
                 ?></prev> -->
 </div>
 
-<?php include __DIR__ . '/parts/packageDown.php' ?>
+<?php include './../package/packageDown.php' ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
     function delete_one(tour_id) {

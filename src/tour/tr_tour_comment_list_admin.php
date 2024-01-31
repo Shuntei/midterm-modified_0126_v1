@@ -32,43 +32,9 @@ if ($totalRows > 0) {
     $rows = $stmt->fetchAll();
 }
 
-// $stmt = $pdo->query("SELECT * FROM tr_tour_comment LIMIT 0, 20");
-// $rows = $stmt->fetchAll();
-
-// $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
-
-// switch ($sort) {
-//     case 'item_id_asc':
-//         $orderBy = " ORDER BY item_id ASC";
-//         break;
-//     case 'item_id_desc':
-//         $orderBy = " ORDER BY item_id DESC";
-//         break;
-//     default:
-//         $orderBy = " ORDER BY item_id DESC";
-// }
-
-// $sql = sprintf("SELECT * FROM ca_merchandise %s %s LIMIT %s, %s", $itemNameCondition, $orderBy, ($page - 1) * $perPage, $perPage);
-// $stmt = $pdo->prepare($sql);
-
-// if ($itemNameCondition) {
-//     $stmt->bindValue(':item_name', '%' . $itemName . '%', PDO::PARAM_STR);
-// }
-
-// $stmt->execute();
-// $rows = $stmt->fetchAll();
-
-
-//$sql = sprintf("SELECT * FROM ca_merchandise ORDER BY item_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
-//$stmt = $pdo->query($sql);
-//$rows = $stmt->fetchAll();
-//老師寫的
-
-//$stmt = $pdo->query("SELECT * FROM ca_merchandise LIMIT 0, 20");
-
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include __DIR__ . '/parts/packageUp.php' ?>
+<?php include './../package/packageUp.php' ?>
 <?php
 if (empty($pageName)) {
     $pageName = '';
@@ -132,43 +98,42 @@ if (empty($pageName)) {
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <!-- <?= "$totalRows, $totalPages" ?> -->
                         <table class="table table-bordered table-hover">
                             <thead>
-                            <tr>
-                                <th><i class="fa-solid fa-trash-can"></i></th>
-                                <th>#</th>
-                                <th>會員編號</th>
-                                <th>揪團編號</th>
-                                <th>留言內容</th>
-                                <th>回覆編號</th>
-                                <th>建立時間</th>
-                                <th><i class="fa-solid fa-pen-to-square"></i></th>
-                            </tr>
+                                <tr>
+                                    <th><i class="fa-solid fa-trash-can"></i></th>
+                                    <th>#</th>
+                                    <th>會員編號</th>
+                                    <th>揪團編號</th>
+                                    <th>留言內容</th>
+                                    <th>回覆編號</th>
+                                    <th>建立時間</th>
+                                    <th><i class="fa-solid fa-pen-to-square"></i></th>
+                                </tr>
                             </thead>
                             <tbody>
-                            <!-- while($r = $stmt->fetch()):  -->
-                            <?php foreach ($rows as $r) : ?>
-                            <tr>
-                                <td>
-                                <a href="javascript: delete_one(<?= $r['tour_comment_id'] ?>)">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </a>
-                                </td>
-                                <td><?= $r['tour_comment_id'] ?></td>
-                                <td><?= $r['user_id'] ?></td>
-                                <td><?= $r['tour_id'] ?></td>
-                                <td><?= $r['comment_content'] ?></td>
-                                <td><?= $r['comment_parent_id'] ?></td>
-                                <td><?= $r['comment_time'] ?></td>
-                                <td>
-                                <a href="tr_tour_comment_edit.php?tour_comment_id=<?= $r['tour_comment_id'] ?>">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                                </td>
-                            </tr>
-                            <!-- endwhile  -->
-                            <?php endforeach ?>
+                                <!-- while($r = $stmt->fetch()):  -->
+                                <?php foreach ($rows as $r) : ?>
+                                    <tr>
+                                        <td>
+                                            <a href="javascript: delete_one(<?= $r['tour_comment_id'] ?>)">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                            </a>
+                                        </td>
+                                        <td><?= $r['tour_comment_id'] ?></td>
+                                        <td><?= $r['user_id'] ?></td>
+                                        <td><?= $r['tour_id'] ?></td>
+                                        <td><?= $r['comment_content'] ?></td>
+                                        <td><?= $r['comment_parent_id'] ?></td>
+                                        <td><?= $r['comment_time'] ?></td>
+                                        <td>
+                                            <a href="tr_tour_comment_edit.php?tour_comment_id=<?= $r['tour_comment_id'] ?>">
+                                                <i class="fa-solid fa-pen-to-square"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <!-- endwhile  -->
+                                <?php endforeach ?>
                             </tbody>
                         </table>
                     </div>
@@ -182,7 +147,7 @@ if (empty($pageName)) {
                 ?></prev> -->
 </div>
 
-<?php include __DIR__ . '/parts/packageDown.php' ?>
+<?php include './../package/packageDown.php' ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
     function delete_one(tour_comment_id) {
