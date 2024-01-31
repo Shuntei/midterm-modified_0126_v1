@@ -44,7 +44,7 @@ $row_reply = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 <!-- 抓取結束 -->
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include __DIR__ . '/parts/packageUp.php' ?>
+<?php include __DIR__ . '/../package/packageUp.php' ?>
 <?php include __DIR__ . '/parts/navbar.php' ?>
 
 <div class="container-fluid">
@@ -144,5 +144,5 @@ $row_reply = $stmt->fetchAll(PDO::FETCH_ASSOC);
         });
     <?php endforeach ?>
 </script>
-<?php include __DIR__ . '/parts/packageDown.php' ?>
+<?php include __DIR__ . '/../package/packageDown.php' ?>
 <?php include __DIR__ . '/parts/html-foot.php' ?>

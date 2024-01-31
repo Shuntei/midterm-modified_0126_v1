@@ -37,7 +37,7 @@ if ($totalRows > 0) {
 
 
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include __DIR__ . '/parts/packageUp.php' ?>
+<?php include __DIR__ . '/../package/packageUp.php' ?>
 <?php include __DIR__ . '/parts/navbar.php' ?>
 
 
@@ -191,5 +191,5 @@ if ($totalRows > 0) {
         });
     }
 </script>
-<?php include __DIR__ . '/parts/packageDown.php' ?>
+<?php include __DIR__ . '/../package/packageDown.php' ?>
 <?php include __DIR__ . '/parts/html-foot.php' ?>
