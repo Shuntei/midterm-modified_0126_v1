@@ -48,7 +48,6 @@ if (empty($pageName)) {
 <div class="container-fluid">
     <nav class="navbar navbar-expand-lg bg-light">
         <div class="container-fluid">
-
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -80,7 +79,6 @@ if (empty($pageName)) {
                                     </li>
                             <?php endif;
                             endfor; ?>
-
                             <li class="page-item">
                                 <a class="page-link" href="?page=<?= $page + 1 ?>">
                                     <i class="fa-solid fa-angle-right"></i>
