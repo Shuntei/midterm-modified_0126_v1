@@ -7,7 +7,7 @@
         </button>
       </div>
       <div>
-        <a class="navbar-brand brand-logo" href="/src/index_.php">
+        <a class="navbar-brand brand-logo" href="../index.php">
           <img src="../assets/images/ruined.png" alt="logo" />
         </a>
       </div>
