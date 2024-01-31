@@ -2,8 +2,9 @@
 $pageName = 'add';
 $title = '新增';
 ?>
+<?php include __DIR__ . '/parts/html-head.php' ?>
 <?php include __DIR__ . '/../package/packageUp.php' ?>
-<?php include __DIR__ . '/parts/packageUp.php' ?>
+
 
 <style>
     form .mb-3 .form-text {
