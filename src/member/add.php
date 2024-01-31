@@ -1,7 +1,7 @@
 <?php 
 require "./parts/db_connect_midterm.php";
 include "./parts/html-head.php";
-include "./parts/packageUp.php";
+include "./../package/packageUp.php";
 
 
 $pageName = 'add';
@@ -248,6 +248,6 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
 </script>
 
 
-<?php include "./parts/packageDown.php";
+<?php include "./../package/packageDown.php";
 include "./parts/html-foot.php" ?>
 
