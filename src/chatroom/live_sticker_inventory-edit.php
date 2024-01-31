@@ -54,14 +54,14 @@ if (empty($row)) {
             </div>
             <div class="mb-3">
               <label for="text" class="form-label">圖片</label>
-              <input type="file" name="upload_file" id="upload_file">
+              <input type="text" class="form-control" id="sticker_pic" name="sticker_pic" value="<?= $row['sticker_pic'] ?>">
+              <div class="form-text"></div>
+              <!-- <input type="file" name="upload_file" id="upload_file"> -->
               <div class="photo">
                 <img src="./imgs/<?= $row['sticker_pic'] ?>" alt="picture">
               </div>
-              <!-- <input type="text" class="form-control" id="sticker_pic" name="sticker_pic" value="<?= $row['sticker_pic'] ?>">
-              <div class="form-text"></div> -->
             </div>
-            <button type="submit" name="submit" class="btn btn-primary">修改</button>
+            <button type="submit" class="btn btn-primary">修改</button>
           </form>
         </div>
       </div>
