@@ -57,14 +57,14 @@ if ($totalRows > 0) {
         object-fit: contain;
         border-radius: 0;
     }
-/* 
+
     .distance {
         margin-left: 10px;
     }
 
     ul.li distance {
         line-height: 100%;
-    } */
+    }
 </style>
 
 <div class="container-fluid">
@@ -103,10 +103,10 @@ if ($totalRows > 0) {
                             <i class="fa-solid fa-angles-right"></i>
                         </a>
                     </li>
-                    <!-- <form action="" method="POST" class="searchbar distance">
+                    <form action="" method="POST" class="searchbar distance">
                         <input type="text" id="bar" name="bar">
                         <button type="submit" id="submit" name="submit">搜尋</button>
-                    </form> -->
+                    </form>
                 </ul>
             </nav>
             <table class="table table-bordered table-striped">
@@ -171,10 +171,10 @@ if ($totalRows > 0) {
         }
     }
 
-    // let searchbar = document.querySelector('.searchbar');
-    // searchbar.addEventListener("submit", event => {
+    let searchbar = document.querySelector('.searchbar');
+    searchbar.addEventListener("submit", event => {
 
-    // })
+    })
 </script>
 
 <?php include __DIR__ . '/parts/html-foot.php' ?>
