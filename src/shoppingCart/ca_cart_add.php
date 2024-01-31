@@ -84,6 +84,7 @@ $title = '新增';
     </div>
 </div>
 <?php include __DIR__ . '/../parts/packageDown.php' ?>
+<?php include __DIR__ . '/../parts/packageDown.php' ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
     // const {

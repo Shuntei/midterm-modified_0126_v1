@@ -80,7 +80,7 @@ $rows = $stmt->fetchAll();
 
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include __DIR__ . '/../parts/packageUp.php' ?>
+<?php include __DIR__ . '/../package/packageUp.php' ?>
 <?php
 if (empty($pageName)) {
     $pageName = '';
