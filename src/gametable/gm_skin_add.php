@@ -17,7 +17,7 @@ $title = '新增';
         <div class="card">
           <div class="card-body">
             <h4 class="card-title">新增</h4>
-            <p class="card-description">Basic form layout</p>
+            <p class="card-description">Basic form layout +++++++++++++++++++</p>
             <form name="form1" method="post" onsubmit="sendForm(event)">
             <div class="mb-3">
               <label for="skin_id" class="form-label">Skin ID</label>
