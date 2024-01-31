@@ -1,4 +1,4 @@
-<div class="container-scroller ">
+<div class="container-scroller">
   <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-top flex-row fixed-top">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
       <div class="me-3">
@@ -16,7 +16,7 @@
     <div class="navbar-menu-wrapper d-flex align-items-top">
       <ul class="navbar-nav">
         <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-          <h1 class="welcome-text">Why are we still here? Just to suffer? <span class="text-black fw-bold"></span></h1>
+          <h1 class="welcome-text">Good Morning, <span class="text-black fw-bold"></span></h1>
           <h3 class="welcome-sub-text"></h3>
         </li>
       </ul>
@@ -371,7 +371,7 @@
           </a>
           <div class="collapse" id="form-elements">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"><a class="nav-link" href="./../member/member.php">User</a></li>
+              <li class="nav-item"><a class="nav-link" href="../pages/forms/basic_elements.html">User</a></li>
             </ul>
             <ul class="nav flex-column sub-menu">
               <li class="nav-item"><a class="nav-link" href="../pages/forms/basic_elements.html">UserPermission</a></li>
@@ -386,8 +386,8 @@
           </a>
           <div class="collapse" id="charts">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="../pages/charts/chartjs.html">Comments</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../pages/charts/chartjs.html">Friends</a></li>
+              <li class="nav-item"> <a class="nav-link" href="./public-board.php">看板分類</a></li>
+              <li class="nav-item"> <a class="nav-link" href="./posts-list-no-admin.php">帖子</a></li>
             </ul>
           </div>
         </li>
@@ -412,8 +412,8 @@
           </a>
           <div class="collapse" id="shoppingCart">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="./ca_merchandise_list_admin.php">商品列表</a></li>
-              <li class="nav-item"> <a class="nav-link" href="./ca_cart_list_admin.php">購物車</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../pages/shoppingCart/mdi.html">Merchandise</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../pages/shoppingCart/mdi.html">Carts</a></li>
             </ul>
           </div>
         </li>
