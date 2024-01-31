@@ -38,6 +38,9 @@ $newOrder = ($order === 'asc') ? 'desc' : 'asc';
 // 生成帶有新排序順序的 URL(第二種寫法,a href要帶入$toggleUrl)
 // $toggleUrl = $_SERVER['PHP_SELF'] . "?order=$newOrder";
 
+$toggle = isset($_GET['toggleImg']) ? $_GET['toggleImg'] :'';
+$imgChange = ($toggle === "<i class='fa-solid fa-down-long'></i>") ? "<i class='fa-solid fa-up-long'></i>": "<i class='fa-solid fa-down-long'></i>";
+
 if ($totalRows > 0) {
     $totalPages = ceil($totalRows / $perPage);
 
@@ -57,7 +60,7 @@ if ($totalRows > 0) {
 <div class="container-fluid overflow-auto">
     <div class="row">
         <div class="col">
-        <h3 class="my-2 text-center fw-bold">Post</h3>
+            <h3 class="my-2 text-center fw-bold">Post</h3>
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item">
@@ -96,9 +99,12 @@ if ($totalRows > 0) {
                         <th><i class="fa-solid fa-trash-can"></i></th>
                         <th><i class="fa-solid fa-pen-to-square"></i></th>
                         <th>post_id　
-                            <a href="?order=<?= $newOrder; ?>&iconOrder=<?=  ?>" id="toggleImg" class="text-decoration-none">
-                                <i class="fa-solid fa-up-long" style="display: none"></i>
-                                <i class="fa-solid fa-down-long" style="display: inline-block"></i>
+<<<<<<< HEAD
+
+=======
+                            <a href="?order=<?= $newOrder; ?>&toggleImg=<?= $imgChange; ?>" class="text-decoration-none">
+                                <?= $imgChange?>
+>>>>>>> c8613dbcf0f40a8f1f519afdfce042d135bb5a41
                             </a>
                         </th>
                         <th>user_id</th>
@@ -126,7 +132,7 @@ if ($totalRows > 0) {
                             </td>
                             <td><?= $r['post_id'] ?></td>
                             <td><?= $r['user_id'] ?></td>
-                            <td>
+                            <td class="d-flex justify-content-between align-items-center">
                                 <?= $r['content'] ?>
                                 <?php
                                 $postId = $r['post_id'];
@@ -149,11 +155,9 @@ if ($totalRows > 0) {
                                                     <?php if ($r['post_id'] === $r_cm['post_id']) : ?>
                                                         <?= $r_cm['content'] . $r_cm['post_id'] . "<br>"; ?>
                                                         <!-- 用api寫 -->
-                                                        <button onclick="checkReply(<?=$r_cm['comment_id']?>)" 
-                                                        style="margin-top: 5px" class="border-1">查看回覆</button>
-                                                        <?="comment id:" . $r_cm['comment_id'] ?>
-                                                        <div id='showReply<?=$r_cm['comment_id']?>' 
-                                                        style="margin-top: 5px"></div>
+                                                        <button onclick="checkReply(<?= $r_cm['comment_id'] ?>)" style="margin-top: 5px" class="border-1">查看回覆</button>
+                                                        <?= "comment id:" . $r_cm['comment_id'] ?>
+                                                        <div id='showReply<?= $r_cm['comment_id'] ?>' style="margin-top: 5px;white-space: normal;"></div>
                                                         <!-- api結束 -->
                                                     <?php endif; ?>
                                                 <?php endforeach ?>
@@ -165,7 +169,6 @@ if ($totalRows > 0) {
                                         </div>
                                     </div>
                                 </div>
-
                                 <!-- model -->
                             </td>
                             <td><?= $r['image_url'] ?></td>
@@ -217,23 +220,23 @@ if ($totalRows > 0) {
         event.preventDefault();
 
         fetch(`posts-list-no-admin-api.php?comment_id=${commentId}`)
-        .then(response => response.json())
-        .then((replies) => {
-            getReply(replies);
-        }).catch((e) => {
-            console.log('Error fetching parent_id:', e);
-        });
+            .then(response => response.json())
+            .then((replies) => {
+                getReply(replies);
+            }).catch((e) => {
+                console.log('Error fetching parent_id:', e);
+            });
     }
 
     const getReply = (replies) => {
-            console.log('e',replies);    
+        console.log('e', replies);
 
-            let showReply = document.querySelector(`#showReply${replies[0].parent_id}`);
-            showReply.innerHTML = "";
-            
-            // 將獲取的回覆添加到留言下
-            replies.map((items) => {
-                showReply.innerHTML += `
+        let showReply = document.querySelector(`#showReply${replies[0].parent_id}`);
+        showReply.innerHTML = "";
+
+        // 將獲取的回覆添加到留言下
+        replies.map((items) => {
+            showReply.innerHTML += `
                     <div>cr_id: ${items.cr_id}</div>
                     <div>user_id: ${items.user_id}</div>
                     <div>post_id: ${items.post_id}</div>
@@ -242,16 +245,9 @@ if ($totalRows > 0) {
                     <div>comment_timestamp: ${items.comment_timestamp}</div>
                     <hr>
                 `;
-            });   
+        });
     }
 
-    let toggleImg = document.querySelector('#toggleImg');
-    let upImg = document.querySelector('.fa-up-long');
-    let downImg = document.querySelector('.fa-down-long');
-    toggleImg.addEventListener('click', () => {
-        upImg.style.display = "none" ? "inline-block" : "none";
-        downImg.style.display = "inline-block" ? "none" : "inline-block";
-    });
 </script>
 <?php include __DIR__ . '/parts/packageDown.php' ?>
 <?php include __DIR__ . '/parts/html-foot.php' ?>

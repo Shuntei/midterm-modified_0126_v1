@@ -8,7 +8,7 @@
       </div>
       <div>
         <a class="navbar-brand brand-logo" href="./index_.php">
-          <img src="./assets/images/ruined.png" alt="logo" />
+          <img src="../assets/images/ruined.png" alt="logo" />
         </a>
 
       </div>
