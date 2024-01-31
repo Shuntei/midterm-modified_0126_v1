@@ -1,4 +1,4 @@
-<div class="container-scroller ">
+<div class="container-scroller fixed-top">
   <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-top flex-row fixed-top">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
       <div class="me-3">
@@ -371,7 +371,7 @@
           </a>
           <div class="collapse" id="form-elements">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"><a class="nav-link" href="../pages/forms/basic_elements.html">User</a></li>
+              <li class="nav-item"><a class="nav-link" href="./member.php">User</a></li>
             </ul>
             <ul class="nav flex-column sub-menu">
               <li class="nav-item"><a class="nav-link" href="../pages/forms/basic_elements.html">UserPermission</a></li>
@@ -446,5 +446,5 @@
       </ul>
     </nav>
     <!-- partial -->
-    <div class="main-panel overflow-auto" style="height: 0px;">
+    <div class="main-panel overflow-auto" style="height: 0;">
       <!-- 這裡引入 -->
