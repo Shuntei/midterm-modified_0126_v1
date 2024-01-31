@@ -67,7 +67,7 @@
     </style>
 </head>
 <body>
-<div class="container-scroller fixed-top">
+<div class="container-scroller ">
   <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-top flex-row fixed-top">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
       <div class="me-3">
@@ -440,7 +440,7 @@
           </a>
           <div class="collapse" id="form-elements">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"><a class="nav-link" href="../pages/forms/basic_elements.html">User</a></li>
+              <li class="nav-item"><a class="nav-link" href="./member/member.php">User</a></li>
             </ul>
             <ul class="nav flex-column sub-menu">
               <li class="nav-item"><a class="nav-link" href="../pages/forms/basic_elements.html">UserPermission</a></li>
@@ -468,8 +468,8 @@
           </a>
           <div class="collapse" id="tables">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="../pages/tables/basic-table.html">GiftPoint</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../pages/tables/basic-table.html">GiftShop</a></li>
+              <li class="nav-item"> <a class="nav-link" href="/src/live_get_point-list-admin.php">點數消耗紀錄</a></li>
+              <li class="nav-item"> <a class="nav-link" href="/src/live_sticker_inventory-list-admin.php">貼圖管理</a></li>
             </ul>
           </div>
         </li>
@@ -482,7 +482,7 @@
           <div class="collapse" id="shoppingCart">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item"> <a class="nav-link" href="./shoppingCart/ca_merchandise_list_admin.php">Merchandise</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../pages/shoppingCart/mdi.html">Carts</a></li>
+              <li class="nav-item"> <a class="nav-link" href="./shoppingCart/ca_cart_list_admin.php">Carts</a></li>
             </ul>
           </div>
         </li>
