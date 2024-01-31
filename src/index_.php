@@ -430,41 +430,137 @@ $title = isset($title) ? $title . '-MFEE47_02' : 'MFEE47_02'
     </div> -->
       <!-- 以上settings panel可刪除 -->
 
-            <div class="container">
-              <h1>歡迎工商置入</h1>
+      <!-- partial -->
+      <!-- partial:partials/_sidebar.html -->
+      <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+          <li class="nav-item nav-category">Forms and Datas</li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
+              <i class="menu-icon mdi mdi-card-text-outline"></i>
+              <span class="menu-title">Member</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="form-elements">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"><a class="nav-link" href="./member/member.php">User</a></li>
+              </ul>
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"><a class="nav-link" href="../pages/forms/basic_elements.html">UserPermission</a></li>
+              </ul>
             </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
+              <i class="menu-icon mdi mdi-chart-line"></i>
+              <span class="menu-title">SNS</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="charts">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="./socialNetwork/public-board.php">看板分類</a></li>
+                <li class="nav-item"> <a class="nav-link" href="./socialNetwork/posts-list-no-admin.php">帖子</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
+              <i class="menu-icon mdi mdi-message-text"></i>
+              <span class="menu-title">ChatRoom</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="tables">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="./chatroom/live_sticker_inventory-list-admin.php">點數消耗紀錄</a></li>
+                <li class="nav-item"> <a class="nav-link" href="./chatroom/live_get_point-list-admin.php">貼圖管理</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#shoppingCart" aria-expanded="false" aria-controls="shoppingCart">
+              <i class="menu-icon mdi mdi-cart-outline"></i>
+              <span class="menu-title">ShoppingCart</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="shoppingCart">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="./shoppingCart/ca_merchandise_list_admin.php">商品列表</a></li>
+                <li class="nav-item"> <a class="nav-link" href="./shoppingCart/ca_cart_list_admin.php">購物車</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#game" aria-expanded="false" aria-controls="game">
+              <i class="menu-icon mdi mdi-cake-variant"></i>
+              <span class="menu-title">Game</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="game">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="../pages/game/mdi.html">Coupon</a></li>
+                <li class="nav-item"> <a class="nav-link" href="../pages/game/mdi.html">GetCoupon</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#tour" aria-expanded="false" aria-controls="tour">
+              <i class="menu-icon mdi mdi-layers-outline"></i>
+              <span class="menu-title">Tour</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="tour">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="./tour/tr_tour_list_admin.php">Tour</a></li>
+                <li class="nav-item"> <a class="nav-link" href="./tour/tr_tour_comment_list_admin.php">TourComment</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </nav>
+      <!-- partial -->
+      <div class="main-panel overflow-auto" style="height: 100vh;">
+        <!-- 這裡引入 -->
+        <?php
+        if (empty($pageName)) {
+          $pageName = '';
+        }
+        ?>
 
-            <!-- partial -->
-          </div>
-          <!-- main-panel ends -->
+        <div class="container">
+          <h1>歡迎工商置入</h1>
         </div>
-        <!-- page-body-wrapper ends -->
-    </div>
-    <!-- container-scroller -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
-    <!-- plugins:js -->
-    <script src="assets/vendors/js/vendor.bundle.base.js"></script>
-    <script src="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
-    <!-- endinject -->
-    <!-- Plugin js for this page -->
-    <script src="assets/vendors/chart.js/Chart.min.js"></script>
-    <script src="assets/vendors/progressbar.js/progressbar.min.js"></script>
-    <!-- End plugin js for this page -->
-    <!-- inject:js -->
-    <script src="assets/js/off-canvas.js"></script>
-    <script src="assets/js/hoverable-collapse.js"></script>
-    <script src="assets/js/template.js"></script>
-    <script src="assets/js/settings.js"></script>
-    <script src="assets/js/todolist.js"></script>
-    <!-- endinject -->
-    <!-- Custom js for this page-->
-    <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
-    <script src="assets/js/dashboard.js"></script>
-    <script src="assets/js/proBanner.js"></script>
-    <!-- <script src="../../assets/js/Chart.roundedBarCharts.js"></script> -->
-    <!-- End custom js for this page-->
+        <!-- partial -->
+      </div>
+      <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+  </div>
+  <!-- container-scroller -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+  <!-- plugins:js -->
+  <script src="assets/vendors/js/vendor.bundle.base.js"></script>
+  <script src="assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+  <!-- endinject -->
+  <!-- Plugin js for this page -->
+  <script src="assets/vendors/chart.js/Chart.min.js"></script>
+  <script src="assets/vendors/progressbar.js/progressbar.min.js"></script>
+  <!-- End plugin js for this page -->
+  <!-- inject:js -->
+  <script src="assets/js/off-canvas.js"></script>
+  <script src="assets/js/hoverable-collapse.js"></script>
+  <script src="assets/js/template.js"></script>
+  <script src="assets/js/settings.js"></script>
+  <script src="assets/js/todolist.js"></script>
+  <!-- endinject -->
+  <!-- Custom js for this page-->
+  <script src="assets/js/jquery.cookie.js" type="text/javascript"></script>
+  <script src="assets/js/dashboard.js"></script>
+  <script src="assets/js/proBanner.js"></script>
+  <!-- <script src="../../assets/js/Chart.roundedBarCharts.js"></script> -->
+  <!-- End custom js for this page-->
 </body>
 
 </html>
