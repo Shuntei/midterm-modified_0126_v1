@@ -507,8 +507,8 @@
           </a>
           <div class="collapse" id="tour">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="../pages/tour/mdi.html">Tour</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../pages/tour/mdi.html">TourComment</a></li>
+              <li class="nav-item"> <a class="nav-link" href="./tour/tr_tour_list_admin.php">Tour</a></li>
+              <li class="nav-item"> <a class="nav-link" href="./tour/tr_tour_comment_list_admin.php">TourComment</a></li>
             </ul>
           </div>
         </li>

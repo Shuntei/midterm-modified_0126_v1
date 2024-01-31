@@ -18,16 +18,21 @@
         $birthday = date('Y-m-d', $birthday);
     }
 
-    $sql = "INSERT INTO `ca_cart`( `quantity`, `user_id`, `unit_price`, `item_id`) VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO `tr_tour`(`user_id`, `ruin_id`, `event_date`, `max_groupsize`, `event_period`, `level_id`, `video_url`, `title`, `description`, `content`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     $stmt = $pdo->prepare($sql);
     try{
         $stmt->execute([
-
-        $_POST['quantity'],
         $_POST['user_id'],
-        $_POST['unit_price'],
-        $_POST['item_id'],
+        $_POST['ruin_id'],
+        $_POST['event_date'],
+        $_POST['max_groupsize'],
+        $_POST['event_period'],
+        $_POST['level_id'],
+        $_POST['video_url'],
+        $_POST['title'],
+        $_POST['description'],
+        $_POST['content'],
         ]);
     }catch(PDOException $e) {
         $output['error'] = 'SQL failed : ' . $e->getMessage();

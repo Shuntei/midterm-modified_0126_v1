@@ -13,7 +13,7 @@ if (empty($pageName)) {
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./ca_merchandise_list_admin.php">列表</a>
+            <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./tr_tour_list_admin.php">列表</a>
           </li>
           <li class="nav-item">
             <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./ca_merchandise_add.php">新增</a>
