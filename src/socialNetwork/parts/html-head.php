@@ -28,6 +28,9 @@
     <!-- endinject -->
     <link rel="shortcut icon" href="../assets/images/favicon.png" />
     <style>
+      * {
+        list-style: none;
+      }
     .navbar-nav .nav-link.active {
         background-color: rgb(13, 110, 253);
         border-radius: 10px;
@@ -36,6 +39,9 @@
     }
     form .mb-3 .form-text {
       color: red;
+    }
+    .search-custom:focus {
+      border: 1px solid #34B1AA;
     }
     </style>
 </head>

@@ -61,7 +61,7 @@ if ($totalRows > 0) {
     <div class="row">
         <div class="col">
             <h3 class="my-2 text-center fw-bold">Post</h3>
-            <nav aria-label="Page navigation example">
+            <nav aria-label="Page navigation example" class="d-flex justify-content-between">
                 <ul class="pagination">
                     <li class="page-item">
                         <a class="page-link" href="?page=<?= 1 ?>">
@@ -92,6 +92,18 @@ if ($totalRows > 0) {
                         </a>
                     </li>
                 </ul>
+                <ul>
+                    <li>
+                        <nav class="navbar pt-0">
+                            <div class="container-fluid">
+                            <form class="d-flex">
+                                <input class="form-control search-custom me-2" type="search" placeholder="Search" aria-label="Search">
+                                <button class="btn btn-outline-success btn-sm border-none" type="submit">Search</button>
+                            </form>
+                            </div>
+                        </nav>
+                    </li>
+                </ul>
             </nav>
             <table class="table table-bordered table-striped">
                 <thead>
@@ -99,12 +111,8 @@ if ($totalRows > 0) {
                         <th><i class="fa-solid fa-trash-can"></i></th>
                         <th><i class="fa-solid fa-pen-to-square"></i></th>
                         <th>post_id　
-<<<<<<< HEAD
-
-=======
                             <a href="?order=<?= $newOrder; ?>&toggleImg=<?= $imgChange; ?>" class="text-decoration-none">
                                 <?= $imgChange?>
->>>>>>> c8613dbcf0f40a8f1f519afdfce042d135bb5a41
                             </a>
                         </th>
                         <th>user_id</th>
