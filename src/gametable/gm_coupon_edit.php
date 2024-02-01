@@ -1,4 +1,4 @@
-<?php require __DIR__ . '/parts/db_connect_midterm.php';
+<?php require __DIR__ . '/parts/db_connect.php';
 $pageName = 'edit';
 $title = '編輯';
 
@@ -13,7 +13,7 @@ if (empty($row)) {
 
 
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include __DIR__ . '/parts/packageUp.php' ?>
+<?php include './../package/packageUp.php' ?>
 
 
 <style>
@@ -50,7 +50,8 @@ if (empty($row)) {
               <div class="form-text"></div>
             </div>
             <div>
-              <button type="submit" class="btn btn-primary text-white me-0">修改</button>
+              <button type="submit" class="btn btn-primary text-white me-0" data-bs-toggle="modal"
+              data-bs-target="#exampleModal">修改</button>
             </div>
           </div>
         </form>
@@ -87,7 +88,7 @@ if (empty($row)) {
     </div>
   </div>
 </div>
-<?php include __DIR__ . '/parts/packageDown.php' ?>
+<?php include './../package/packageDown.php' ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
 const {
@@ -96,6 +97,10 @@ const {
     denomination: denomination_f,
     coupon_name: coupon_name_f,
   } = document.form1;
+
+  function validateID(coupon_id) {
+        return coupon_id.length = 4;
+    }
 
   // function validateEmail(email) {
   //   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -107,59 +112,21 @@ const {
   //   return re.test(mobile);
   // }
 
-  // const sendForm = e => {
-  //   e.preventDefault();
-  //   coupon_id_f.style.border = '1px solid #CCC';
-  //   coupon_id_f.nextElementSibling.innerHTML = "";
-  //   coupon_model_id_f.style.border = '1px solid #CCC';
-  //   coupon_model_id_f.nextElementSibling.innerHTML = "";
-  //   denomination_f.style.border = '1px solid #CCC';
-  //   denomination_f.nextElementSibling.innerHTML = "";
-  //   coupon_name_f.style.border = '1px solid #CCC';
-  //   coupon_name_f.nextElementSibling.innerHTML = "";
+  const sendForm = e => {
+    e.preventDefault();
+    coupon_id_f.style.border = '1px solid #CCC';
+    coupon_id_f.nextElementSibling.innerHTML = "";
+    coupon_model_id_f.style.border = '1px solid #CCC';
+    coupon_model_id_f.nextElementSibling.innerHTML = "";
+    denomination_f.style.border = '1px solid #CCC';
+    denomination_f.nextElementSibling.innerHTML = "";
+    coupon_name_f.style.border = '1px solid #CCC';
+    coupon_name_f.nextElementSibling.innerHTML = "";
 
-  //   // TODO: 資料送出之前, 要做檢查 (有沒有填寫, 格式對不對)
-  //   let isPass = true;
+    // TODO: 資料送出之前, 要做檢查 (有沒有填寫, 格式對不對)
+    let isPass = true;
 
-  //   if (coupon_id_f.value.length < 4) {
-  //     // alert("請填寫正確的姓名");
-  //     isPass = false;
-  //     coupon_id_f.style.border = '1px solid red';
-  //     coupon_id_f.nextElementSibling.innerHTML = "請填寫合法ID";
-  //   }
-  //   if (coupon_model_id_f.value.length < 0) {
-  //     // alert("請填寫正確的姓名");
-  //     isPass = false;
-  //     coupon_model_id_f.style.border = '1px solid red';
-  //     coupon_model_id_f.nextElementSibling.innerHTML = "請填寫正確格式ID";
-  //   }
-  //   if (denomination_f.value.length < 1) {
-  //     // alert("請填寫正確的姓名");
-  //     isPass = false;
-  //     denomination_f.style.border = '1px solid red';
-  //     denomination_f.nextElementSibling.innerHTML = "太小氣了吧";
-  //   }
-  //   if (coupon_name_f.value.length < 0) {
-  //     // alert("請填寫正確的姓名");
-  //     isPass = false;
-  //     coupon_name_f.style.border = '1px solid red';
-  //     coupon_name_f.nextElementSibling.innerHTML = "請填寫正確格式名稱";
-  //   }
-
-    // if (email_f.value === '' || !validateEmail(email_f.value)) {
-    //   isPass = false;
-    //   email_f.style.border = '1px solid red';
-    //   email_f.nextElementSibling.innerHTML = "請填寫正確的 Email";
-    // }
-
-    // if (mobile_f.value === '' || !validateMobile(mobile_f.value)) {
-    //   isPass = false;
-    //   mobile_f.style.border = '1px solid red';
-    //   mobile_f.nextElementSibling.innerHTML = "請填寫正確的手機號碼";
-    // }
-
-    // if (isPass) {
-      //"沒有外觀"的表單
+    if (isPass) {
       const fd = new FormData(document.form1);
 
       fetch('gm_coupon_edit_api.php', {
@@ -176,8 +143,8 @@ const {
         }).catch(
           e => console.log(e)
         );
-    // }
-  // }
+    }
+  }
 
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
 
