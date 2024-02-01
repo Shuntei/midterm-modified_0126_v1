@@ -39,7 +39,7 @@ if ($totalRows > 0) {
 
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include __DIR__ . '/parts/packageUp.php' ?>
+<?php include './../package/packageUp.php' ?>
 <?php
 if (empty($pageName)) {
     $pageName = '';
@@ -65,7 +65,7 @@ if (empty($pageName)) {
                       <a class="nav-link" id="contact-tab" href="gm_user_achieved_list_admin.php" role="tab" aria-selected="false">User Achieved</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" id="more-tab" href="./../pages/tables/mission-table.php" role="tab" aria-selected="false">Mission</a>
+                      <a class="nav-link" id="more-tab" href="gm_mission_list_admin.php" role="tab" aria-selected="false">Mission</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link border-0" id="more-tab" href="gm_skin_list_admin.php" role="tab" aria-selected="false">Skin</a>
@@ -82,7 +82,7 @@ if (empty($pageName)) {
                 <!-- change page btn end -->
                 
                 <!-- get coupon table start -->
-                <div class="col-12 grid-margin stretch-card" id="user_get_coupon">
+                <div class="col-10 grid-margin stretch-card" id="user_get_coupon">
                   <div class="card">
                     <div class="card-body">
                       <h4 class="card-title">User Get Coupon Table</h4>
@@ -173,7 +173,7 @@ if (empty($pageName)) {
       <!-- main-panel ends -->
 
 
-<?php include __DIR__ . '/parts/packageDown.php' ?>
+<?php include './../package/packageDown.php' ?> 
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
     function delete_one(user_get_coupon_id) {

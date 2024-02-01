@@ -497,8 +497,7 @@ $title = isset($title) ? $title . '-MFEE47_02' : 'MFEE47_02'
             </a>
             <div class="collapse" id="game">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="../pages/game/mdi.html">Coupon</a></li>
-                <li class="nav-item"> <a class="nav-link" href="../pages/game/mdi.html">GetCoupon</a></li>
+                <li class="nav-item"> <a class="nav-link" href="/midterm/src/gametable/gm_coupon_list_admin.php">Coupon</a></li>
               </ul>
             </div>
           </li>
