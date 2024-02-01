@@ -14,11 +14,11 @@ if (empty($row)) {
 <?php include __DIR__ . '/../package/packageUp.php' ?>
 <?php include __DIR__ . '/parts/navbar.php' ?>
 <div class="container-fluid">
-  <div class="row">
+  <div class="row d-flex justify-content-center">
     <div class="col-6">
       <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">編輯貼文</h5>
+        <div class="card-body bg-secondary rounded">
+          <h5 class="card-title">編輯帖子</h5>
           <form name="form1" method="post" onsubmit="sendForm(event)">
             <div class="mb-3">
               <label class="form-label">編號</label>
@@ -57,11 +57,11 @@ if (empty($row)) {
               <input type="text" class="form-control" id="tagged_users" name="tagged_users" value="<?= $row['tagged_users'] ?>">
               <div class="form-text"></div>
             </div>
-            <div class="mb-3">
+            <!-- <div class="mb-3">
               <label for="posts_timestamp" class="form-label">posts_timestamp</label>
               <input type="date" class="form-control" id="posts_timestamp" name="posts_timestamp" value="<?= $row['posts_timestamp'] ?>">
               <div class="form-text"></div>
-            </div>
+            </div> -->
             <button type="submit" class="btn btn-primary">修改</button>
           </form>
         </div>
@@ -102,7 +102,6 @@ document.querySelectorAll("textarea").value="";
     video_url: video_url_f,
     location: location_f,
     tagged_users: tagged_users_f,
-    posts_timestamp: posts_timestamp_f,
   } = document.form1;
 
   // function validateEmail(email) {

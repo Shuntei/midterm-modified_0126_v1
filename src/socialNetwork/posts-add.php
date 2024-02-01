@@ -11,11 +11,11 @@
     }
 </style>
 
-<div class="container">
-<div class="row">
+<div class="container-fluid">
+<div class="row d-flex justify-content-center">
     <div class="col-6">
       <div class="card">
-        <div class="card-body">
+        <div class="card-body bg-secondary rounded">
           <h5 class="card-title">發文</h5>
             <form name="form1" method="post" onsubmit="sendForm(event)">
               <div class="mb-3">
@@ -47,11 +47,11 @@
                 <input type="text" class="form-control" id="tagged_users" name="tagged_users" value="">
                 <div class="form-text"></div>
               </div>
-              <div class="mb-3">
+              <!-- <div class="mb-3">
                 <label for="posts_timestamp" class="form-label">posts_timestamp</label>
                 <input type="date" class="form-control" id="posts_timestamp" name="posts_timestamp" value="posts_timestamp">
                 <div class="form-text"></div>
-              </div>
+              </div> -->
                 <button type="submit" class="btn btn-primary" onclick="goBack()" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 發佈
               </button>
@@ -98,9 +98,7 @@ const goBack = () => {
     video_url: video_url_f,
     location: location_f,
     tagged_users: tagged_users_f,
-    posts_timestamp: posts_timestamp_f,
   } = document.form1;
-
 
   // function validateEmail(email) {
   //   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -111,7 +109,6 @@ const goBack = () => {
   //   var re = /^09\d{2}-?\d{3}-?\d{3}$/;
   //   return re.test(mobile);
   // }
-
   const sendForm = e => {
     e.preventDefault();
     // name_f.style.border = '1px solid #CCC';
@@ -146,7 +143,7 @@ const goBack = () => {
     if(isPass) {
       //"沒有外觀"的表單
       const fd = new FormData(document.form1);
-
+      console.log(fd);
       fetch('posts-add-api.php', {
         method: 'POST',
         body: fd,

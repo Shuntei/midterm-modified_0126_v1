@@ -13,23 +13,23 @@ if (empty($pageName)) {
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item me-2">
-            <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./posts-add.php">發文</a>
+            <a class="nav-link <?= $pageName == 'noadd' ? 'active' : '' ?>" href="./posts-add.php">發文</a>
           </li>
           <li class="nav-item me-2">
-            <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./comments-list-no-admin.php">Comment</a>
+            <a class="nav-link <?= $pageName == 'nolist' ? 'active' : '' ?>" href="./comments-list-no-admin.php">Comment</a>
           </li>
           <li class="nav-item me-2">
             <a class="nav-link <?= $pageName == 'nolist' ? 'active' : '' ?>" href="./comments-reply-list-no-admin.php">Comment_reply</a>
           </li>
           <li class="nav-item me-2">
-            <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./posts-list-no-admin.php">Post</a>
+            <a class="nav-link <?= $pageName == 'nolist' ? 'active' : '' ?>" href="./posts-list-no-admin.php">Post</a>
           </li>
           <li class="nav-item me-2">
-            <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./public-board.php">Public Board</a>
+            <a class="nav-link <?= $pageName == 'nolist' ? 'active' : '' ?>" href="./public-board.php">Public Board</a>
           </li>
-          <li class="nav-item me-2">
-            <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./list.php">列表</a>
-          </li>
+          <!-- <li class="nav-item me-2">
+            <a class="nav-link <?= $pageName == 'nolist' ? 'active' : '' ?>" href="./list.php">列表</a>
+          </li> -->
         </ul>
         <ul class="navbar-nav mb-2 mb-lg-0">
           <?php if (isset($_SESSION['admin'])) : ?>

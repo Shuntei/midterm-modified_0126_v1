@@ -44,11 +44,6 @@ $imgChange = ($toggle === "<i class='fa-solid fa-down-long'></i>") ? "<i class='
 
 $inputSearch = isset($_POST['search']) ? $_POST['search'] : '';
 
-// $searchSql = sprintf('SELECT * FROM sn_posts WHERE content LIKE "%%%s%%";', $inputSearch);
-// $searchStmt = $pdo->query($searchSql);
-// $searchRstRow = $searchStmt->fetchAll(PDO::FETCH_ASSOC);
-// echo json_encode($searchRst);
-
 if ($totalRows > 0) {
     $totalPages = ceil($totalRows / $perPage);
 
@@ -56,7 +51,7 @@ if ($totalRows > 0) {
         header('Location: ?page=' . $totalPages);
         exit;
     }
-    $sql = sprintf("SELECT * FROM sn_posts WHERE content LIKE '%%%s%%' ORDER BY post_id $newOrder LIMIT %s, %s", $inputSearch, ($page - 1) * $perPage, $perPage);
+    $sql = sprintf("SELECT * FROM sn_posts WHERE content LIKE '%%%s%%' ORDER BY posts_timestamp $newOrder LIMIT %s, %s", $inputSearch, ($page - 1) * $perPage, $perPage);
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
     $rows = $stmt->fetchAll();
@@ -119,18 +114,18 @@ if ($totalRows > 0) {
                     <tr>
                         <th><i class="fa-solid fa-trash-can"></i></th>
                         <th><i class="fa-solid fa-pen-to-square"></i></th>
-                        <th>post_id　
-                            <a href="?order=<?= $newOrder; ?>&toggleImg=<?= $imgChange; ?>" class="text-decoration-none">
-                                <?= $imgChange ?>
-                            </a>
-                        </th>
+                        <th>post_id</th>
                         <th>user_id</th>
                         <th>content</th>
                         <th>image_url</th>
                         <th>video_url</th>
                         <th>location</th>
                         <th>tagged_users</th>
-                        <th>posts_timestamp</th>
+                        <th>posts_timestamp                           
+                            <a href="?order=<?= $newOrder; ?>&toggleImg=<?= $imgChange; ?>" class="text-decoration-none">
+                                <?= $imgChange ?>
+                            </a>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -178,6 +173,10 @@ if ($totalRows > 0) {
                                                         <!-- api結束 -->
                                                     <?php endif; ?>
                                                 <?php endforeach ?>
+                                                <form id="cmForm<?= $r['post_id'] ?>" name="formCm<?= $r['post_id'] ?>" method="post" onsubmit="sendCmForm(<?= $r['post_id'] ?>)" class="d-flex flex-column">
+                                                    <textarea type="text" id="content" name="content" placeholder="留言..." style="border: 1px solid #dee2e6;border-radius: 4px;width: 100%;padding: 14px 22px"></textarea>
+                                                    <button type="submit" class="btn btn-primary btn-sm mt-2 me-2 py-1 align-self-end" style="width: 10%"><i class="fa-regular fa-circle-right"></i></button>
+                                                </form>
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -247,8 +246,7 @@ if ($totalRows > 0) {
 
     const getReply = (replies) => {
         console.log('e', replies);
-
-        let showReply = document.querySelector(`#showReply${replies[0].parent_id}`);
+        showReply = document.querySelector(`#showReply${replies[0].parent_id}`);
         showReply.innerHTML = "";
 
         // 將獲取的回覆添加到留言下
@@ -264,6 +262,43 @@ if ($totalRows > 0) {
                 `;
         });
     }
+
+//   const {
+//     cr_id: cr_id_f,
+//     user_id: user_id_f,
+//     post_id: post_id_f,
+//     content: content_f,
+//     parent_id: parent_id_f,
+//     // comment_timestamp: location_f,
+//   } = document.formRp;
+
+  const sendCmForm = (postId) => {
+    event.preventDefault();
+
+    let isPass = true;
+
+    if(isPass) {
+      //"沒有外觀"的表單
+        const fd = new FormData(document.forms[`formCm${postId}`]);
+        console.log('確認:', fd);
+        console.log(postId);
+        
+        fetch(`comments-add-api.php?`, {
+            method: 'POST',
+            body: fd,
+        }).then(r => r.json())
+        .then(result => {
+            console.log({result});
+            if(result.success) {
+                alert('留言成功~');
+            }
+        }).catch(
+            e => console.log('Fetching comment failed:', e)
+            );
+        }
+    }
+    
+        
 </script>
 <?php include __DIR__ . '/../package/packageDown.php' ?>
 <?php include __DIR__ . '/parts/html-foot.php' ?>
