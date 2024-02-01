@@ -174,8 +174,9 @@ if ($totalRows > 0) {
                                                     <?php endif; ?>
                                                 <?php endforeach ?>
                                                 <form id="cmForm<?= $r['post_id'] ?>" name="formCm<?= $r['post_id'] ?>" method="post" onsubmit="sendCmForm(<?= $r['post_id'] ?>)" class="d-flex flex-column">
+                                                    <input type="hidden" name="post_id" value="<?= $r['post_id'] ?>">
                                                     <textarea type="text" id="content" name="content" placeholder="留言..." style="border: 1px solid #dee2e6;border-radius: 4px;width: 100%;padding: 14px 22px"></textarea>
-                                                    <button type="submit" class="btn btn-primary btn-sm mt-2 me-2 py-1 align-self-end" style="width: 10%"><i class="fa-regular fa-circle-right"></i></button>
+                                                    <button type="submit" name="tester" class="btn btn-primary btn-sm mt-2 me-2 py-1 align-self-end" style="width: 10%"><i class="fa-regular fa-circle-right"></i></button>
                                                 </form>
                                             </div>
                                             <div class="modal-footer">
@@ -280,13 +281,11 @@ if ($totalRows > 0) {
         if (isPass) {
             //"沒有外觀"的表單
             console.log(postId);
-            const form = document.forms[`formCm${postId}`];
-            //const fd = new FormData(document.forms[`formCm${postId}`]);
-            const formData = new FormData(form);
-            console.log('確認:', formData);
-            fetch(`comments-add-api.php?formCm${postId}=${postId}`, {
+            const fd = new FormData(document.forms[`formCm${postId}`]);
+            console.log('確認:', fd);
+            fetch(`comments-add-api.php?`, {
                     method: 'POST',
-                    body: formData,
+                    body: fd,
                 }).then(r => r.json())
                 .then(result => {
                     console.log({
