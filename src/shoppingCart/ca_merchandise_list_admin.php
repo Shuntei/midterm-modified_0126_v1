@@ -213,7 +213,7 @@ if (empty($pageName)) {
                             <?php foreach ($rows as $r) : ?>
                                 <tr>
                                     <td>
-                                        <a href="javascript: delete_one(<?= $r['item_id'] ?>)">
+                                        <a href="javascript: delete_merchandise(<?= $r['item_id'] ?>)">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </a>
                                     </td>
@@ -346,10 +346,7 @@ if (empty($pageName)) {
                         <thead>
                             <tr>
                                 <th><i class="fa-solid fa-trash-can"></i></th>
-                                <th data-sortable="true">#
-                                    <!-- <a href="ca_merchandise_list_admin.php?sort=item_id_desc"><i class="fa fa-arrow-down"></i></a>
-                                    <a href="ca_merchandise_list_admin.php?sort=item_id_asc"><i class="fa fa-arrow-up"></i></a> -->
-                                </th>
+                                
                                 <th data-sortable="true">類別id</th>
                                 <th data-sortable="true">類別名稱</th>
                                 <th><i class="fa-solid fa-pen-to-square"></i></th>
@@ -360,7 +357,7 @@ if (empty($pageName)) {
                             <?php foreach ($rows2 as $r2) : ?>
                                 <tr>
                                     <td>
-                                        <a href="javascript: delete_one(<?= $r['category_id'] ?>)">
+                                        <a href="javascript: delete_category(<?= $r2['category_id'] ?>)">
                                             <i class="fa-solid fa-trash-can"></i>
                                         </a>
                                     </td>
@@ -397,15 +394,15 @@ if (empty($pageName)) {
 </html>
 
 <script>
-    function delete_one(item_id) {
+    function delete_merchandise(item_id) {
         if (confirm(`是否要刪除編號為${item_id}的資料?`)) {
             location.href = `ca_merchandise_delete.php?item_id=${item_id}`;
         }
     }
 
-    function delete_one(category_id) {
+    function delete_category(category_id) {
         if (confirm(`是否要刪除編號為${category_id}的資料?`)) {
-            location.href = `ca_category_delete.php?item_id=${category_id}`;
+            location.href = `ca_category_delete.php?category_id=${category_id}`;
         }
     }
 </script>

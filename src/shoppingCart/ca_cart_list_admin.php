@@ -4,7 +4,7 @@ require __DIR__ . '/parts/db_connect_midterm.php';
 $pageName = 'list';
 $title = '列表';
 
-$perPage = 20;
+$perPage = 10;
 
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 if ($page < 1) {
@@ -49,14 +49,14 @@ $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
 
 
 switch ($sort) {
-    case 'item_id_asc':
-        $orderBy = " ORDER BY item_id ASC";
+    case 'cart_id_asc':
+        $orderBy = " ORDER BY cart_id ASC";
         break;
-    case 'item_id_desc':
-        $orderBy = " ORDER BY item_id DESC";
+    case 'cart_id_desc':
+        $orderBy = " ORDER BY cart_id DESC";
         break;
     default:
-        $orderBy = " ORDER BY item_id DESC";
+        $orderBy = " ORDER BY cart_id DESC";
 }
 
 $sql = sprintf("SELECT * FROM ca_cart %s %s LIMIT %s, %s", $itemNameCondition, $orderBy, ($page - 1) * $perPage, $perPage);
@@ -70,7 +70,7 @@ $stmt->execute();
 $rows = $stmt->fetchAll();
 
 
-//$sql = sprintf("SELECT * FROM ca_cart ORDER BY item_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
+//$sql = sprintf("SELECT * FROM ca_cart ORDER BY cart_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
 //$stmt = $pdo->query($sql);
 //$rows = $stmt->fetchAll();
 //老師寫的
@@ -180,15 +180,12 @@ if (empty($pageName)) {
                         <thead>
                             <tr>
                                 <th><i class="fa-solid fa-trash-can"></i></th>
-                                <th>cart_id</th>
-                                <th>user_id
-                                    <a href="ca_cart_list_admin.php?sort=item_id_desc"><i class="fa fa-arrow-down"></i></a>
-                                    <a href="ca_cart_list_admin.php?sort=item_id_asc"><i class="fa fa-arrow-up"></i></a>
-                                </th>
-                                <th>item_id</th>
-                                <th>quantity</th>
-
-
+                                <th>cart_id<a href="ca_cart_list_admin.php?sort=cart_id_desc"><i class="fa fa-arrow-down"></i></a>
+                                    <a href="ca_cart_list_admin.php?sort=cart_id_asc"><i class="fa fa-arrow-up"></i></a></th>
+                                <th>使用者id</th>
+                                <th>物品id</th>
+                                <th>數量</th>
+                                <th>金額</th>
                                 <th><i class="fa-solid fa-pen-to-square"></i></th>
                             </tr>
                         </thead>
@@ -205,11 +202,11 @@ if (empty($pageName)) {
                                     <td><?= $r['user_id'] ?></td>
                                     <td><?= $r['item_id'] ?></td>
                                     <td><?= $r['quantity'] ?></td>
-
+                                    <td><?= $r['unit_price'] ?></td>
                                     <!-- <td><?= htmlentities($r['address']) ?></td> -->
                                     <!-- <td><?= strip_tags($r['address']) ?></td> -->
                                     <td>
-                                        <a href="ca_cart_edit.php?item_id=<?= $r['item_id'] ?>">
+                                        <a href="ca_cart_edit.php?cart_id=<?= $r['cart_id'] ?>">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
                                     </td>
@@ -231,9 +228,9 @@ if (empty($pageName)) {
 <?php include __DIR__ . '/../package/packageDown.php' ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
-    function delete_one(item_id) {
-        if (confirm(`是否要刪除編號為${item_id}的資料?`)) {
-            location.href = `ca_cart_delete.php?item_id=${item_id}`;
+    function delete_one(cart_id) {
+        if (confirm(`是否要刪除編號為${cart_id}的資料?`)) {
+            location.href = `ca_cart_delete.php?cart_id=${cart_id}`;
         }
     }
 
