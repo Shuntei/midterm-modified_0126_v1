@@ -1,4 +1,4 @@
-<div class="container-scroller fixed-top">
+<div class="container-scroller">
   <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-top flex-row fixed-top">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
       <div class="me-3">
@@ -94,8 +94,7 @@
           </a>
           <div class="collapse" id="game">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="../pages/game/mdi.html">Coupon</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../pages/game/mdi.html">GetCoupon</a></li>
+              <li class="nav-item"> <a class="nav-link" href="/midterm/src/gametable/gm_coupon_list_admin.php">Coupon</a></li>
             </ul>
           </div>
         </li>

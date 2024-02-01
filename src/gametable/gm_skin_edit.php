@@ -60,7 +60,8 @@ if (empty($row)) {
               <input type="datetime-local" class="form-control" id="last_update" name="last_update"><?= $row['skin_last_update'] ?></input>
               <div class="form-text"></div>
             </div>
-            <button type="submit" class="btn btn-primary text-white me-0">修改</button>
+            <button type="submit" class="btn btn-primary text-white me-0" data-bs-toggle="modal"
+              data-bs-target="#exampleModal">修改</button>
           </form>
         </div>
       </div>

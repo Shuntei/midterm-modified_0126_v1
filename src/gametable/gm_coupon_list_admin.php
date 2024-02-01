@@ -39,7 +39,7 @@ $rows = $stmt->fetchAll();
 
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include __DIR__ . '/parts/packageUp.php' ?>
+<?php include './../package/packageUp.php' ?>
 <?php
 if (empty($pageName)) {
     $pageName = '';
@@ -61,10 +61,10 @@ if (empty($pageName)) {
                       <a class="nav-link" id="home-tab" href="gm_user_getcoupon_list_admin.php" role="tab" aria-selected="overview">User Get Coupon</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" id="contact-tab" href="gm_user_achieved_list_admin.php" role="tab" aria-selected="false">User Achieved</a>
+                      <a class="nav-link" id="contact-tab" href="gm_user_achieved_list_admin.php" role="tab" aria-selected="overview">User Achieved</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" id="more-tab" data-bs-toggle="tab" href="./../pages/tables/mission-table.php" role="tab" aria-selected="false">Mission</a>
+                      <a class="nav-link" id="more-tab" href="gm_mission_list_admin.php" role="tab" aria-selected="overview">Mission</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link border-0" id="more-tab" href="gm_skin_list_admin.php" role="tab" aria-selected="overview">Skin</a>
@@ -80,7 +80,7 @@ if (empty($pageName)) {
                   </div>
                   </div>
                   <!-- change page btn end -->
-                  <div class="col-12 grid-margin stretch-card">
+                  <div class="col-10 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Coupon Table</h4>
@@ -92,12 +92,10 @@ if (empty($pageName)) {
                       <thead>
                         <tr>
                           <th><i class="fa-solid fa-trash-can"></i></th>
-                          <!-- <th>#</th> -->
                           <th>Coupon ID</th>
                           <th>Coupon model ID</th>
                           <th>Denomition</th>
                           <th>Coupon Name</th>
-                          <!-- <th>地址</th> -->
                           <th><i class="fa-solid fa-pen-to-square"></i></th>
                         </tr>
                       </thead>
@@ -114,8 +112,6 @@ if (empty($pageName)) {
                                 <td><?= $r['coupon_model_id'] ?></td>
                                 <td><?= $r['denomination'] ?></td>
                                 <td><?= $r['coupon_name'] ?></td>
-                                <!-- <td><?= htmlentities($r['address']) ?></td> -->
-                                <!-- <td><?= strip_tags($r['address']) ?></td> -->
                                 <td>
                                     <a href="gm_coupon_edit.php?coupon_id=<?= $r['coupon_id'] ?>">
                                         <i class="fa-solid fa-pen-to-square"></i>
@@ -169,8 +165,7 @@ if (empty($pageName)) {
         <!-- partial -->
 
 
-          
-<?php include __DIR__ . '/parts/packageDown.php' ?>
+<?php include './../package/packageDown.php' ?>          
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
     function delete_one(coupon_id) {

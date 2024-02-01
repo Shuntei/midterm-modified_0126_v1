@@ -12,7 +12,7 @@ if ($page < 1) {
   exit;
 }
 
-$t_sql = "SELECT COUNT(1) FROM gm_skin";
+$t_sql = "SELECT COUNT(1) FROM gm_mission";
 
 // $t_stmt = $pdo->query($t_sql);
 // $row = $t_stmt->fetch(PDO::FETCH_NUM);
@@ -29,12 +29,12 @@ if ($totalRows > 0) {
     header('Location: ?page=' . $totalPages);
     exit;
   }
-  $sql = sprintf("SELECT * FROM gm_skin ORDER BY skin_id ASC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
+  $sql = sprintf("SELECT * FROM gm_mission ORDER BY mission_id ASC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
   $stmt = $pdo->query($sql);
   $rows = $stmt->fetchAll();
 }
 
-$stmt = $pdo->query("SELECT * FROM gm_skin LIMIT 0, 20");
+$stmt = $pdo->query("SELECT * FROM gm_mission LIMIT 0, 20");
 $rows = $stmt->fetchAll();
 
 ?>
@@ -68,19 +68,17 @@ if (empty($pageName)) {
                 aria-selected="overview">User Achieved</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" id="more-tab" href="gm_mission_list_admin.php" role="tab"
-                aria-selected="overview">Mission</a>
+              <a class="nav-link active" id="more-tab" href="#" aria-current="page" role="tab" aria-selected="true">Mission</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link border-0 active" id="more-tab" aria-current="page" href="#" role="tab"
-                aria-selected="true">Skin</a>
+              <a class="nav-link border-0" id="more-tab" href="gm_skin_list_admin.php" role="tab"
+                aria-selected="overview">Skin</a>
             </li>
           </ul>
           <div>
             <div class="btn-wrapper">
               <a href="#" class="btn btn-otline-dark align-items-center"><i class="icon-share"></i> Share</a>
-
-              <a href="gm_skin_add.php" class="btn btn-primary text-white me-0"><i class="mdi mdi-plus fw-bold"></i>
+              <a href="gm_mission_add.php" class="btn btn-primary text-white me-0"><i class="mdi mdi-plus fw-bold"></i>
                 Add</a>
             </div>
           </div>
@@ -88,10 +86,10 @@ if (empty($pageName)) {
         <!-- change page btn end -->
 
         <!-- get coupon table start -->
-        <div class="col-12 grid-margin stretch-card" id="user_achieved_id">
+        <div class="col-10 grid-margin stretch-card" id="user_achieved_id">
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">Skin Table</h4>
+              <h4 class="card-title">Mission Table</h4>
               <p class="card-description">
                 Add class <code>.table-hover</code>
               </p>
@@ -100,14 +98,9 @@ if (empty($pageName)) {
                   <thead>
                     <tr>
                       <th><i class="fa-solid fa-trash-can"></i></th>
-                      <!-- <th>#</th> -->
-                      <th>Skin ID</th>
-                      <th>Skin Name</th>
-                      <th>Skin Model ID</th>
-                      <th>Role</th>
-                      <th>Upload File</th>
-                      <th>Last Update</th>
-                      <!-- <th>地址</th> -->
+                      <th>Mission ID</th>
+                      <th>Mission Name</th>
+                      <th>Mission Description</th>
                       <th><i class="fa-solid fa-pen-to-square"></i></th>
                     </tr>
                   </thead>
@@ -116,30 +109,21 @@ if (empty($pageName)) {
                     <?php foreach ($rows as $r): ?>
                       <tr>
                         <td>
-                          <a href="javascript: delete_one(<?= $r['skin_id'] ?>)">
+                          <a href="javascript: delete_one(<?= $r['mission_id'] ?>)">
                             <i class="fa-solid fa-trash-can"></i>
                           </a>
                         </td>
                         <td>
-                          <?= $r['skin_id'] ?>
+                          <?= $r['mission_id'] ?>
                         </td>
                         <td>
-                          <?= $r['skin_name'] ?>
+                          <?= $r['mission_name'] ?>
                         </td>
                         <td>
-                          <?= $r['skin_model_id'] ?>
+                          <?= $r['mission_description'] ?>
                         </td>
                         <td>
-                          <?= $r['role'] ?>
-                        </td>
-                        <td>
-                          <?= $r['file'] ?>
-                        </td>
-                        <td>
-                          <?= $r['skin_last_update'] ?>
-                        </td>
-                        <td>
-                          <a href="edit.php?gm_skin_id=<?= $r['skin_id'] ?>">
+                          <a href="edit.php?gm_mission_id=<?= $r['mission_id'] ?>">
                             <i class="mdi mdi-lead-pencil"></i>
                           </a>
                         </td>
@@ -197,9 +181,9 @@ if (empty($pageName)) {
         <?php include './../package/packageDown.php' ?>
         <?php include __DIR__ . '/parts/scripts.php' ?>
         <script>
-          function delete_one(skin_id) {
-            if (confirm(`是否要刪除編號為${skin_id}的資料?`)) {
-              location.href = `gm_skin_delete.php?skin_id=${skin_id}`;
+          function delete_one(mission_id) {
+            if (confirm(`是否要刪除編號為${mission_id}的資料?`)) {
+              location.href = `gm_mission_delete.php?skin_id=${mission_id}`;
             }
           }
 
