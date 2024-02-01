@@ -10,14 +10,7 @@
     // TODO: 資料輸入之前, 要做檢查
     # filter_var('bob@example.com', FILTER_VALIDATE_EMAIL);
 
-    // $birthday = empty($_POST['birthday']) ? null : $_POST['birthday'];
-    // $birthday = strtotime($birthday); #轉換為timestamp
-    // if($birthday===false) {
-    //     $birthday = null;
-    // }else {
-    //     $birthday = date('Y-m-d', $birthday);
-    // }
-    $postId = isset($_POST["post_id"]) ? intval($_POST["post_id"]) : 0;
+    $postId = isset($_POST["formCm$var"]) ? intval($_POST["formCm$var"]) : 0;
     if(empty($postId)) {
         $output['error'] = '沒有資料編號';
         $output['code'] = 401;

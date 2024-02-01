@@ -121,7 +121,7 @@ if ($totalRows > 0) {
                         <th>video_url</th>
                         <th>location</th>
                         <th>tagged_users</th>
-                        <th>posts_timestamp                           
+                        <th>posts_timestamp
                             <a href="?order=<?= $newOrder; ?>&toggleImg=<?= $imgChange; ?>" class="text-decoration-none">
                                 <?= $imgChange ?>
                             </a>
@@ -263,42 +263,43 @@ if ($totalRows > 0) {
         });
     }
 
-//   const {
-//     cr_id: cr_id_f,
-//     user_id: user_id_f,
-//     post_id: post_id_f,
-//     content: content_f,
-//     parent_id: parent_id_f,
-//     // comment_timestamp: location_f,
-//   } = document.formRp;
+    //   const {
+    //     cr_id: cr_id_f,
+    //     user_id: user_id_f,
+    //     post_id: post_id_f,
+    //     content: content_f,
+    //     parent_id: parent_id_f,
+    //     // comment_timestamp: location_f,
+    //   } = document.formRp;
 
-  const sendCmForm = (postId) => {
-    event.preventDefault();
+    const sendCmForm = (postId) => {
+        event.preventDefault();
 
-    let isPass = true;
+        let isPass = true;
 
-    if(isPass) {
-      //"沒有外觀"的表單
-        const fd = new FormData(document.forms[`formCm${postId}`]);
-        console.log('確認:', fd);
-        console.log(postId);
-        
-        fetch(`comments-add-api.php?`, {
-            method: 'POST',
-            body: fd,
-        }).then(r => r.json())
-        .then(result => {
-            console.log({result});
-            if(result.success) {
-                alert('留言成功~');
-            }
-        }).catch(
-            e => console.log('Fetching comment failed:', e)
-            );
+        if (isPass) {
+            //"沒有外觀"的表單
+            console.log(postId);
+            const form = document.forms[`formCm${postId}`];
+            //const fd = new FormData(document.forms[`formCm${postId}`]);
+            const formData = new FormData(form);
+            console.log('確認:', formData);
+            fetch(`comments-add-api.php?formCm${postId}=${postId}`, {
+                    method: 'POST',
+                    body: formData,
+                }).then(r => r.json())
+                .then(result => {
+                    console.log({
+                        result
+                    });
+                    if (result.success) {
+                        alert('留言成功~');
+                    }
+                }).catch(
+                    e => console.log('Fetching comment failed:', e)
+                );
         }
     }
-    
-        
 </script>
 <?php include __DIR__ . '/../package/packageDown.php' ?>
 <?php include __DIR__ . '/parts/html-foot.php' ?>
