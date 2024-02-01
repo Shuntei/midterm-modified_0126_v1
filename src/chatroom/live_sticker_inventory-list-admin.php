@@ -14,10 +14,6 @@ if ($page < 1) {
 
 $t_sql = "SELECT COUNT(1) FROM live_sticker_inventory";
 
-// $search_input =$_POST["bar"];
-
-// $s_sql = "SELECT * FROM live_sticker_inventory WHERE sticker_title LIKE '" . $search_input . "%'";
-
 $row = $pdo->query($t_sql)->fetch(PDO::FETCH_NUM);
 
 $totalRows = $row[0];
@@ -49,6 +45,13 @@ if (isset($_GET['sort'])) {
     $sortDisplay = 'ASC';
 }
 
+$search = isset($_GET['searchbar']) ? $_GET['searchbar'] : "";
+$searching_sql = "WHERE sticker_title LIKE'%" . $search . "%'";
+
+if (empty($search)) {
+    $searching_sql = "";
+}
+
 if ($totalRows > 0) {
     $totalPages = ceil($totalRows / $perPage);
 
@@ -57,7 +60,7 @@ if ($totalRows > 0) {
         exit;
     }
 
-    $sql = sprintf("SELECT * FROM live_sticker_inventory ORDER BY $sortColumn $sortDisplay LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
+    $sql = sprintf("SELECT * FROM live_sticker_inventory %s ORDER BY %s %s LIMIT %s, %s", $searching_sql, $sortColumn, $sortDisplay, ($page - 1) * $perPage, $perPage);
     $stmt = $pdo->query($sql);
     $rows = $stmt->fetchAll();
 }
@@ -117,7 +120,7 @@ if ($totalRows > 0) {
                             <i class="fa-solid fa-angle-right"></i>
                         </a>
                     </li>
-                    <form action="">
+                    <form method="GET">
                         <input type="text" id="searchbar" name="searchbar" class="searchbar distance">
                         <button type="submit" id="submit" name="submit" class="submit">搜尋</button>
                     </form>
@@ -204,7 +207,7 @@ if ($totalRows > 0) {
     function changeUrl() {
         let sort = document.getElementById('sort')
         let value = sort.value
-            window.location.href = "live_sticker_inventory-list-admin.php?sort=" + value
+        window.location.href = "live_sticker_inventory-list-admin.php?sort=" + value
     }
 </script>
 
