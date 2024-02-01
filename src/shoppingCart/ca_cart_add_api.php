@@ -10,13 +10,13 @@
     // TODO: 資料輸入之前, 要做檢查
     # filter_var('bob@example.com', FILTER_VALIDATE_EMAIL);
 
-    $birthday = empty($_POST['birthday']) ? null : $_POST['birthday'];
-    $birthday = strtotime($birthday); #轉換為timestamp
-    if($birthday===false) {
-        $birthday = null;
-    }else {
-        $birthday = date('Y-m-d', $birthday);
-    }
+    // $birthday = empty($_POST['birthday']) ? null : $_POST['birthday'];
+    // $birthday = strtotime($birthday); #轉換為timestamp
+    // if($birthday===false) {
+    //     $birthday = null;
+    // }else {
+    //     $birthday = date('Y-m-d', $birthday);
+    // }
 
     $sql = "INSERT INTO `ca_cart`( `quantity`, `user_id`, `unit_price`, `item_id`) VALUES (?, ?, ?, ?)";
 

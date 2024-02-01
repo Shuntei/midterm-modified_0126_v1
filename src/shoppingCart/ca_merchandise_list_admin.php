@@ -364,7 +364,7 @@ if (empty($pageName)) {
                                     <td><?= $r2['category_id'] ?></td>
                                     <td><?= $r2['category_name'] ?></td>
                                     <td>
-                                        <a href="ca_category_edit.php?item_id=<?= $r2['category_id'] ?>">
+                                        <a href="ca_category_edit.php?category_id=<?= $r2['category_id'] ?>">
                                             <i class="fa-solid fa-pen-to-square"></i>
                                         </a>
                                     </td>

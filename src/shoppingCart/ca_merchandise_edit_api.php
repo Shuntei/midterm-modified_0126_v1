@@ -20,13 +20,13 @@
         exit;
     }
 
-    $birthday = empty($_POST['birthday']) ? null : $_POST['birthday'];
-    $birthday = strtotime($birthday); #轉換為timestamp
-    if($birthday===false) {
-        $birthday = null;
-    }else {
-        $birthday = date('Y-m-d', $birthday);
-    }
+    // $birthday = empty($_POST['birthday']) ? null : $_POST['birthday'];
+    // $birthday = strtotime($birthday); #轉換為timestamp
+    // if($birthday===false) {
+    //     $birthday = null;
+    // }else {
+    //     $birthday = date('Y-m-d', $birthday);
+    // }
 
 
     $sql = "UPDATE `ca_merchandise` SET 

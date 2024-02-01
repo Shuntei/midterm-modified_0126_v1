@@ -12,8 +12,8 @@
     // TODO: 資料輸入之前, 要做檢查
     # filter_var('bob@example.com', FILTER_VALIDATE_EMAIL);    
     
-    $cart_id = isset($_POST['cart_id']) ? intval($_POST['cart_id']) : 0;
-    if(empty($cart_id)) {
+    $category_id = isset($_POST['category_id']) ? intval($_POST['category_id']) : 0;
+    if(empty($category_id)) {
         $output['error'] = '沒有資料編號';
         $output['code'] = 401;
         echo json_encode($output, JSON_UNESCAPED_UNICODE);
@@ -29,21 +29,17 @@
     // }
 
 
-    $sql = "UPDATE `ca_cart` SET 
-    `item_id`=?,
-    `quantity`=?,
-    `user_id`=?,
-    `unit_price`=?
-    WHERE cart_id=? ";
+    $sql = "UPDATE `ca_category` SET 
+    `category_name`=?,
+    `category_sort`=?
+    WHERE category_id=? ";
 
     $stmt = $pdo->prepare($sql);
     try{
         $stmt->execute([
-            $_POST['item_id'],
-            $_POST['quantity'],
-            $_POST['user_id'],
-            $_POST['unit_price'],
-            $cart_id,
+            $_POST['category_name'],
+            $_POST['sort'],
+            $category_id,
         ]);
     }catch(PDOException $e) {
         $output['error'] = 'SQL failed : ' . $e->getMessage();
