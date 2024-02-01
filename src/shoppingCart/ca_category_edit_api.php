@@ -1,5 +1,7 @@
 <?php
     require __DIR__ . '/parts/db_connect_midterm.php';
+    header('Content-Type: application/json');
+
     $output = [
         "success" => false,
         "error" => "",
@@ -8,7 +10,15 @@
         "errors" => [],
     ];
     // TODO: 資料輸入之前, 要做檢查
-    # filter_var('bob@example.com', FILTER_VALIDATE_EMAIL);
+    # filter_var('bob@example.com', FILTER_VALIDATE_EMAIL);    
+    
+    $category_id = isset($_POST['category_id']) ? intval($_POST['category_id']) : 0;
+    if(empty($category_id)) {
+        $output['error'] = '沒有資料編號';
+        $output['code'] = 401;
+        echo json_encode($output, JSON_UNESCAPED_UNICODE);
+        exit;
+    }
 
     // $birthday = empty($_POST['birthday']) ? null : $_POST['birthday'];
     // $birthday = strtotime($birthday); #轉換為timestamp
@@ -18,31 +28,25 @@
     //     $birthday = date('Y-m-d', $birthday);
     // }
 
-    $sql = "INSERT INTO `ca_merchandise`(`item_name`, `quantity`, `category_id`, `unit_price`, `product_img`, `description`) VALUES (?, ?, ?, ?, ?, ?)";
+
+    $sql = "UPDATE `ca_category` SET 
+    `category_name`=?,
+    `category_sort`=?
+    WHERE category_id=? ";
 
     $stmt = $pdo->prepare($sql);
     try{
         $stmt->execute([
-        $_POST['item_name'],
-        $_POST['quantity'],
-        $_POST['category_id'],
-        $_POST['unit_price'],
-        $_POST['product_img'],
-        $_POST['description'],
+            $_POST['category_name'],
+            $_POST['sort'],
+            $category_id,
         ]);
     }catch(PDOException $e) {
         $output['error'] = 'SQL failed : ' . $e->getMessage();
     }
 
 
-    $stmt->rowCount(); # 新增幾筆
+    // $stmt->rowCount(); # 新增幾筆
     $output['success'] = boolval($stmt->rowCount());
-    $output['lastInsertId'] = $pdo-> lastInsertId();  // 取得最新建立資料的 PK
 
-    header('Content-Type: application/json');
-    echo json_encode($output);
-    // if(!empty($_POST)) {
-    //     echo json_encode($_POST, JSON_UNESCAPED_UNICODE);
-    // }else {
-    //     echo json_encode([]);
-    // }
+    echo json_encode($output, JSON_UNESCAPED_UNICODE);

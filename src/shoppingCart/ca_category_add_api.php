@@ -18,17 +18,13 @@
     //     $birthday = date('Y-m-d', $birthday);
     // }
 
-    $sql = "INSERT INTO `ca_merchandise`(`item_name`, `quantity`, `category_id`, `unit_price`, `product_img`, `description`) VALUES (?, ?, ?, ?, ?, ?)";
+    $sql = "INSERT INTO `ca_category`(`category_name`, `category_sort`) VALUES (?, ?)";
 
     $stmt = $pdo->prepare($sql);
     try{
         $stmt->execute([
-        $_POST['item_name'],
-        $_POST['quantity'],
-        $_POST['category_id'],
-        $_POST['unit_price'],
-        $_POST['product_img'],
-        $_POST['description'],
+        $_POST['category_name'],
+        $_POST['sort'],
         ]);
     }catch(PDOException $e) {
         $output['error'] = 'SQL failed : ' . $e->getMessage();

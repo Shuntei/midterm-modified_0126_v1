@@ -1,4 +1,6 @@
+
 <div class="container-scroller">
+
   <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-top flex-row fixed-top">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
       <div class="me-3">
@@ -114,5 +116,5 @@
       </ul>
     </nav>
     <!-- partial -->
-    <div class="main-panel overflow-auto" style="height: 0;">
+    <div class="main-panel overflow-auto" style="height: 0px;">
       <!-- 這裡引入 -->
