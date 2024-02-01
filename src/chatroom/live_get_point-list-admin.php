@@ -22,6 +22,37 @@ $totalRows = $row[0];
 $totalPages = 0;
 $rows = [];
 
+
+if (isset($_GET['sort'])) {
+    $selectedSort = $_GET["sort"];
+    switch ($selectedSort) {
+        case 'id_ascend':
+            $sortColumn = "user_id";
+            $sortDisplay = "ASC";
+            break;
+        case 'time_descend':
+            $sortColumn = "date_get_point";
+            $sortDisplay = 'DESC';
+            break;
+        case 'point_descend':
+            $sortColumn = "received_point";
+            $sortDisplay = 'DESC';
+            break;
+        case 'point_ascend':
+            $sortColumn = "received_point";
+            $sortDisplay = 'ASC';
+            break;
+        default:
+            $sortColumn = "get_point_id";
+            $sortDisplay = 'ASC';
+            break;
+    }
+} else {
+    $sortColumn = "get_point_id";
+    $sortDisplay = 'ASC';
+}
+
+
 if ($totalRows > 0) {
     $totalPages = ceil($totalRows / $perPage);
 
@@ -30,14 +61,14 @@ if ($totalRows > 0) {
         exit;
     }
     $sql = sprintf("SELECT * FROM live_get_point ORDER BY 
-    get_point_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
+    $sortColumn $sortDisplay LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
     $stmt = $pdo->query($sql);
     $rows = $stmt->fetchAll();
 }
 
 ?>
 <?php include __DIR__ . '/parts-get-point/html-head.php' ?>
-<?php include ('./../package/packageUp.php') ?>
+<?php include('./../package/packageUp.php') ?>
 <?php include __DIR__ . '/parts-get-point/navbar.php' ?>
 
 <div class="container-fluid">
@@ -46,11 +77,6 @@ if ($totalRows > 0) {
             <!-- <?= "$totalRows, $totalPages" ?> -->
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="fa-solid fa-angles-left"></i>
-                        </a>
-                    </li>
                     <li class="page-item">
                         <a class="page-link" href="?page=<?= $page - 1 ?>">
                             <i class="fa-solid fa-angle-left" href="?page"></i>
@@ -71,11 +97,15 @@ if ($totalRows > 0) {
                             <i class="fa-solid fa-angle-right"></i>
                         </a>
                     </li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-                            <i class="fa-solid fa-angles-right"></i>
-                        </a>
-                    </li>
+                    <form method="GET">
+                        <select name="sort" id="sort" onchange="changeUrl()">
+                            <option value="" selected disabled>選取排序</option>
+                            <option value="id_ascend">用戶ID小到大</option>
+                            <option value="time_descend">最新入庫</option>
+                            <option value="point_descend">點數大到小</option>
+                            <option value="point_ascend">點數小到小</option>
+                        </select>
+                    </form>
                 </ul>
             </nav>
             <table class="table table-bordered table-striped">
@@ -131,7 +161,7 @@ if ($totalRows > 0) {
                 print_r($stmt->fetch());
                 ?></prev> -->
 </div>
-<?php include ('./../package/packageDown.php') ?>
+<?php include('./../package/packageDown.php') ?>
 <?php include __DIR__ . '/parts-get-point/scripts.php' ?>
 
 <script>
@@ -140,6 +170,12 @@ if ($totalRows > 0) {
         if (confirm(`是否要刪除編號為${get_point_id}的資料?`)) {
             location.href = `live_get_point-delete.php?get_point_id=${get_point_id}`;
         }
+    }
+
+    function changeUrl() {
+        let sort = document.getElementById('sort')
+        let value = sort.value
+        window.location.href = "live_get_point-list-admin.php?sort=" + value
     }
 </script>
 
