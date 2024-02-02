@@ -17,8 +17,9 @@
     // }else {
     //     $birthday = date('Y-m-d', $birthday);
     // }
+    
     $postId = isset($_POST["post_id"]) ? intval($_POST["post_id"]) : 0;
-    if(empty($postId)) {
+    if(empty($getPostId)) {
         $output['error'] = '沒有資料編號';
         $output['code'] = 401;
         echo json_encode($output, JSON_UNESCAPED_UNICODE);
