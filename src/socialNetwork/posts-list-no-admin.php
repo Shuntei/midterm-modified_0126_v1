@@ -104,7 +104,7 @@ if ($totalRows > 0) {
                             <div class="container-fluid">
                                 <form class="d-flex" method="POST" action="posts-list-no-admin.php?">
                                     <input class="form-control search-custom me-2" type="search" name="search" placeholder="Search" aria-label="Search">
-                                    <button class="btn btn-outline-primary btn-sm py-0 border-white" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                    <button class="btn btn-outline-primary btn-sm py-0 border-white" type="submit"><i class="fa-solid fa-magnifying-glass fs-5"></i></button>
                                 </form>
                             </div>
                         </nav>
@@ -170,7 +170,7 @@ if ($totalRows > 0) {
                                                     <?php if ($r['post_id'] === $r_cm['post_id']) : ?>
                                                         <?= $r_cm['content'] . $r_cm['post_id'] . "<br>"; ?>
                                                         <!-- 用api寫 -->
-                                                        <button onclick="checkReply(<?= $r_cm['comment_id'] ?>)" style="margin-top: 5px" class="border-1">查看回覆</button>
+                                                        <button onclick="checkReply(<?= $r_cm['comment_id'] ?>)" style="margin-top: 5px" class="border-1 rounded">查看回覆</button>
                                                         <?= "comment id:" . $r_cm['comment_id'] ?>
                                                         <div id='showReply<?= $r_cm['comment_id'] ?>' style="margin-top: 5px;white-space: normal;"></div>
                                                         <!-- api結束 -->

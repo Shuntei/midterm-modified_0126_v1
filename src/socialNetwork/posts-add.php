@@ -18,8 +18,7 @@
         <div class="card-body bg-secondary rounded">
           <div class="d-flex">
             <h5 class="card-title">發文</h5>
-            <button type="button" class="btn-close" aria-label="Close" onclick="goBack()"></button>
-            <!--a href="javascript: delete_one(<?= $r['post_id'] ?>)" -->
+            <a href="./posts-list-no-admin.php" class="ms-2"><i class="fa-solid fa-xmark fs-5"></i></a>
           </div>
             <form name="form1" method="post" onsubmit="sendForm(event)">
               <div class="mb-3">
@@ -30,9 +29,22 @@
                 <div class="form-text"></div>
               </div>
               <div class="mb-3">
-                <label for="image_url" class="form-label">上傳圖片</label>
-                <input type="text" class="form-control" id="image_url" name="image_url" value="">
-                <div class="form-text"></div>
+                <!-- <label for="image_url" class="form-label">上傳圖片</label> -->
+                <!-- <input type="text" class="form-control" id="image_url" name="image_url" value=""> -->
+                <!-- <div class="form-text"></div> -->
+                <!-- <form name="form1" hidden> -->
+                  <input
+                    type="file"
+                    id="image_url"
+                    name="image_url[]"
+                    multiple
+                    accept="image/*"
+                    onchange="uploadFile()"
+                  />
+                  <!-- <div style="cursor: pointer" onclick="image_url.click()">選擇多個檔案</div> -->
+                  <div style="cursor: pointer;background-color: #f0f0f0;border:1px solid #000;width:110px;border-radius:3px;padding:1px 6px" class="text-center mt-1" onclick="image_url.click()">選擇多個檔案</div>
+                <!-- </form> -->
+                <div class="card-container w-100"></div>
               </div>
               <div class="mb-3">
                 <label for="video_url" class="form-label">video_url</label>
@@ -66,7 +78,6 @@
   </div>
 
   <!-- Button trigger modal -->
-  
 
 
 </div>
@@ -162,6 +173,36 @@ const goBack = () => {
       );
     }
   }
+
+const container = document.querySelector(".card-container");
+
+function uploadFile() {
+  const fd = new FormData(document.form1);
+
+  fetch("upload-photos.php", {
+    method: "POST",
+    body: fd, // enctype="multipart/form-data"
+  })
+    .then((r) => r.json())
+    .then((data) => {
+      console.log({ data });
+      if (data.success && data.files.length) {
+        let str = "";
+        for (let i of data.files) {
+          str += `
+          <div class="my-card">
+            <img
+              src="./upload-photos/${i}"
+              alt=""
+            />
+          </div>
+          `;
+        }
+        container.innerHTML = str;
+      }
+    });
+}
+
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
 </script>
 <?php include __DIR__ . '/../package/packageDown.php'?>
