@@ -19,11 +19,12 @@
     //     $last_update = date($last_update);
     // }
 
-    $sql = "INSERT INTO `gm_mission`(`mission_id`, `mission_name`, `mission_description`) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO `gm_mission`(`#`, `mission_name`, `mission_description`) VALUES (?,?, ?, ?)";
 
     $stmt = $pdo->prepare($sql);
     try{
         $stmt->execute([
+        $_POST['#'],
         $_POST['mission_id'],
         $_POST['mission_name'],
         $_POST['mission_description'],

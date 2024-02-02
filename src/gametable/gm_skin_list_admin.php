@@ -52,7 +52,6 @@ if (empty($pageName)) {
   <div class="row">
     <div class="col-sm-12">
       <div class="home-tab">
-        <!-- page change btn start -->
         <div class="d-sm-flex align-items-center justify-content-between border-bottom mb-5">
           <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
@@ -85,7 +84,6 @@ if (empty($pageName)) {
             </div>
           </div>
         </div>
-        <!-- change page btn end -->
 
         <!-- get coupon table start -->
         <div class="col-12 grid-margin stretch-card" id="user_achieved_id">
@@ -100,14 +98,12 @@ if (empty($pageName)) {
                   <thead>
                     <tr>
                       <th><i class="fa-solid fa-trash-can"></i></th>
-                      <!-- <th>#</th> -->
                       <th>Skin ID</th>
                       <th>Skin Name</th>
                       <th>Skin Model ID</th>
                       <th>Role</th>
                       <th>Upload File</th>
                       <th>Last Update</th>
-                      <!-- <th>地址</th> -->
                       <th><i class="fa-solid fa-pen-to-square"></i></th>
                     </tr>
                   </thead>
@@ -134,12 +130,36 @@ if (empty($pageName)) {
                         </td>
                         <td>
                           <?= $r['file'] ?>
+                          <!-- Button trigger modal -->
+                          <button type="button" class="btn btn-inverse-primary btn-rounded btn-icon"
+                            data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i
+                              class="mdi mdi-eye"></i>View</button>
+
+                          <!-- Modal -->
+                          <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <canvas class="illo" width="300" height="300"></canvas>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </td>
                         <td>
                           <?= $r['skin_last_update'] ?>
                         </td>
                         <td>
-                          <a href="edit.php?gm_skin_id=<?= $r['skin_id'] ?>">
+                          <a href="gm_skin_edit.php?skin_id=<?= $r['skin_id'] ?>">
                             <i class="mdi mdi-lead-pencil"></i>
                           </a>
                         </td>
@@ -202,7 +222,15 @@ if (empty($pageName)) {
               location.href = `gm_skin_delete.php?skin_id=${skin_id}`;
             }
           }
-
         </script>
+        <!-- <script src="/js/boilerplate.js"></script>
+          <script src="/js/canvas-renderer.js"></script>
+          <script src="/js/vector.js"></script>
+          <script src="/js/anchor.js"></script>
+          <script src="/js/path-command.js"></script>
+          <script src="/js/shape.js"></script>
+          <script src="/js/dragger.js"></script>
+          <script src="/js/illustration.js"></script>
+          <script src="/js/kid-kit.js"></script> -->
 
         <?php include __DIR__ . '/parts/html-foot.php' ?>

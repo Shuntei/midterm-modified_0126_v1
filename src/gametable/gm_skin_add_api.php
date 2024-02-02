@@ -19,6 +19,23 @@
         $last_update = date($last_update);
     }
 
+    # 檢查是否有檔案上傳
+if (!empty($_FILES['file'])) {
+    $file = $_FILES['file'];
+    $filename = $file['name'];
+    $filepath = __DIR__ . '/3dmodel/' . $filename;
+
+    # 將檔案移動到指定路徑
+    if (move_uploaded_file($file['tmp_name'], $filepath)) {
+        $output['file'] = $filename;  // 將檔案名稱存入資料庫
+        $output['success'] = true;
+    } else {
+        $output['error'] = '檔案移動失敗';
+    }
+} else {
+    $output['error'] = '沒有上傳的檔案';
+}
+
     $sql = "INSERT INTO `gm_skin`(`skin_id`, `skin_name`, `skin_model_id`, `role`, `file`, `skin_last_update`) VALUES (?, ?, ?, ?, ?, ?)";
 
     $stmt = $pdo->prepare($sql);
