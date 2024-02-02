@@ -1,6 +1,4 @@
-
 <div class="container-scroller">
-
   <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-top flex-row fixed-top">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
       <div class="me-3">
@@ -70,8 +68,8 @@
           </a>
           <div class="collapse" id="tables">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="/midterm/src/chatroom/live_sticker_inventory-list-admin.php">點數消耗紀錄</a></li>
-              <li class="nav-item"> <a class="nav-link" href="/midterm/src/chatroom/live_get_point-list-admin.php">貼圖管理</a></li>
+              <li class="nav-item"> <a class="nav-link" href="/midterm/src/chatroom/live_sticker_inventory-list-admin.php">貼圖管理</a></li>
+              <li class="nav-item"> <a class="nav-link" href="/midterm/src/chatroom/live_get_point-list-admin.php">點數消耗紀錄</a></li>
             </ul>
           </div>
         </li>
@@ -85,6 +83,7 @@
             <ul class="nav flex-column sub-menu">
               <li class="nav-item"> <a class="nav-link" href="/midterm/src/shoppingCart/ca_merchandise_list_admin.php">商品列表</a></li>
               <li class="nav-item"> <a class="nav-link" href="/midterm/src/shoppingCart/ca_cart_list_admin.php">購物車</a></li>
+              <li class="nav-item"> <a class="nav-link" href="/midterm/src/shoppingCart/ca_orders_list_admin.php">訂單</a></li>
             </ul>
           </div>
         </li>

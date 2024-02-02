@@ -180,8 +180,18 @@ if (empty($pageName)) {
                         <thead>
                             <tr>
                                 <th><i class="fa-solid fa-trash-can"></i></th>
-                                <th>cart_id<a href="ca_cart_list_admin.php?sort=cart_id_desc"><i class="fa fa-arrow-down"></i></a>
-                                    <a href="ca_cart_list_admin.php?sort=cart_id_asc"><i class="fa fa-arrow-up"></i></a></th>
+                                <th> cart_id
+                                    <?php if ($sort == 'cart_id_asc') : ?>
+                                        <a href="ca_cart_list_admin.php?sort=cart_id_asc">
+                                            <i class="fa fa-arrow-up"></i>
+                                        </a>
+                                    <?php endif; ?>
+                                    <?php if ($sort == 'cart_id_desc') : ?>
+                                        <a href="ca_cart_list_admin.php?sort=cart_id_desc">
+                                            <i class="fa fa-arrow-down"></i>
+                                        </a>
+                                    <?php endif; ?>
+                                </th>
                                 <th>使用者id</th>
                                 <th>物品id</th>
                                 <th>數量</th>

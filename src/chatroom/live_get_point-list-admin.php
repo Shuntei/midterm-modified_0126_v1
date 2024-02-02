@@ -14,25 +14,30 @@ if ($page < 1) {
 
 $t_sql = "SELECT COUNT(1) FROM live_get_point";
 
-// $t_stmt = $pdo->query($t_sql);
-// $row = $t_stmt->fetch(PDO::FETCH_NUM);
 $row = $pdo->query($t_sql)->fetch(PDO::FETCH_NUM);
 
 $totalRows = $row[0];
 $totalPages = 0;
 $rows = [];
 
-
 if (isset($_GET['sort'])) {
     $selectedSort = $_GET["sort"];
     switch ($selectedSort) {
-        case 'id_ascend':
+        case 'user_ascend':
             $sortColumn = "user_id";
             $sortDisplay = "ASC";
+            break;
+        case 'user_descend':
+            $sortColumn = "user_id";
+            $sortDisplay = "DESC";
             break;
         case 'time_descend':
             $sortColumn = "date_get_point";
             $sortDisplay = 'DESC';
+            break;
+        case 'time_ascend':
+            $sortColumn = "date_get_point";
+            $sortDisplay = 'ASC';
             break;
         case 'point_descend':
             $sortColumn = "received_point";
@@ -42,6 +47,7 @@ if (isset($_GET['sort'])) {
             $sortColumn = "received_point";
             $sortDisplay = 'ASC';
             break;
+
         default:
             $sortColumn = "get_point_id";
             $sortDisplay = 'ASC';
@@ -52,6 +58,12 @@ if (isset($_GET['sort'])) {
     $sortDisplay = 'ASC';
 }
 
+$search = isset($_GET['searchbar']) ? $_GET['searchbar'] : "";
+$searching_sql = "WHERE point_source LIKE'%" . $search . "%'";
+
+if (empty($search)) {
+    $searching_sql = "";
+}
 
 if ($totalRows > 0) {
     $totalPages = ceil($totalRows / $perPage);
@@ -60,8 +72,7 @@ if ($totalRows > 0) {
         header('Location: ?page=' . $totalPages);
         exit;
     }
-    $sql = sprintf("SELECT * FROM live_get_point ORDER BY 
-    $sortColumn $sortDisplay LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
+    $sql = sprintf("SELECT * FROM live_get_point %s ORDER BY %s %s LIMIT %s, %s", $searching_sql, $sortColumn, $sortDisplay, ($page - 1) * $perPage, $perPage);
     $stmt = $pdo->query($sql);
     $rows = $stmt->fetchAll();
 }
@@ -69,10 +80,72 @@ if ($totalRows > 0) {
 ?>
 <?php include __DIR__ . '/parts-get-point/html-head.php' ?>
 <?php include('./../package/packageUp.php') ?>
-<?php include __DIR__ . '/parts-get-point/navbar.php' ?>
+
+<!-- Navbar -->
+<?php
+if (empty($pageName)) {
+    $pageName = '';
+}
+?>
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./live_get_point-list-admin.php">列表</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./live_get_point-add.php">新增</a>
+                    </li>
+                    <li class="nav-item">
+                        <p class="clock">現在 00:00:00</p>
+                    </li>
+                    <li class="nav-item">
+                        <p class="timePassed">閒置 00:00</p>
+                    </li>
+                </ul>
+                <!-- <ul class="navbar-nav mb-2 mb-lg-0">
+        <?php if (isset($_SESSION['admin'])) : ?>
+            <li class="nav-item">
+            <!-- <a class="nav-link">暱稱</a> -->
+                <a class="nav-link"><?= $_SESSION['admin']['nickname'] ?></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./logout.php">登出</a>
+                </li>
+            <?php else : ?>
+                <li class="nav-item">
+                    <a class="nav-link <?= $pageName == 'login' ? 'active' : '' ?>" href="./login.php">登入</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $pageName == 'register' ? 'active' : '' ?>" href="./register.php">註冊</a>
+                </li>
+            <?php endif ?>
+            </ul> -->
+            </div>
+        </div>
+    </nav>
+
+</div>
+<!-- Navbar End -->
+
+<style>
+    .distance {
+        margin-left: 10px;
+    }
+
+    ul.li distance {
+        line-height: 100%;
+    }
+</style>
 
 <div class="container-fluid">
     <div class="row">
+        <!-- 功能欄位在這裡 -->
         <div class="col">
             <!-- <?= "$totalRows, $totalPages" ?> -->
             <nav aria-label="Page navigation example">
@@ -98,15 +171,20 @@ if ($totalRows > 0) {
                         </a>
                     </li>
                     <form method="GET">
-                        <select name="sort" id="sort" onchange="changeUrl()">
-                            <option value="" selected disabled>選取排序</option>
-                            <option value="id_ascend">用戶ID小到大</option>
-                            <option value="time_descend">最新入庫</option>
-                            <option value="point_descend">點數大到小</option>
-                            <option value="point_ascend">點數小到小</option>
+                        <input type="text" id="searchbar" name="searchbar" class="searchbar distance" placeholder="輸入關鍵字">
+                        <select name="sort" id="sort">
+                            <option value="" selected disabled>誰排在前面？</option>
+                            <option value="point_descend">大點數</option>
+                            <option value="point_ascend">小點數</option>
+                            <option value="time_descend">最新</option>
+                            <option value="time_ascend">最舊</option>
+                            <option value="user_descend">大ID</option>
+                            <option value="user_ascend">小ID</option>
                         </select>
+                        <button type="button" class="reset">重置</button>
                     </form>
                 </ul>
+                <!-- 功能欄位結束了 -->
             </nav>
             <table class="table table-bordered table-striped">
                 <thead>
@@ -172,11 +250,69 @@ if ($totalRows > 0) {
         }
     }
 
+    // 排序＆搜尋系統開始
+    let sort = document.getElementById('sort')
+    let submit = document.getElementById('submit')
+
     function changeUrl() {
-        let sort = document.getElementById('sort')
-        let value = sort.value
-        window.location.href = "live_get_point-list-admin.php?sort=" + value
+        let sortValue = sort.value
+        let searchbar = document.getElementById('searchbar').value
+        window.location.href = `live_get_point-list-admin.php?&sort=${sortValue}&searchbar=${searchbar}&submit=`
     }
+
+    sort.addEventListener('change', changeUrl);
+    searchbar.addEventListener("change", changeUrl)
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchResult = new URLSearchParams(window.location.search);
+        const getSearchResult = searchResult.get('searchbar');
+
+        if (getSearchResult !== null) {
+            searchbar.value = decodeURIComponent(getSearchResult);
+        }
+    });
+
+    let reset = document.querySelector('.reset')
+    reset.addEventListener("click", event => {
+        window.location.href = `live_get_point-list-admin.php`
+    })
+    // 排序＆搜尋系統結束
+
+    // SideProject 計時器開始
+    let clock = document.querySelector('.clock')
+    let nowTime = () => {
+        let date = new Date();
+        return date.toLocaleTimeString()
+    }
+
+    setInterval(() => {
+        clock.innerHTML = `現在 ${nowTime()}`
+    }, 1000)
+
+    let startTime = 0
+    let elapsedTime = 0
+    let timePassed = document.querySelector('.timePassed')
+
+    function timer() {
+        startTime = Date.now() - elapsedTime
+        setInterval(update, 1000)
+    }
+
+    function update() {
+        let currentTime = Date.now();
+        elapsedTime = currentTime - startTime;
+
+        let minutes = Math.floor(elapsedTime / (1000 * 60) % 60)
+        let secs = Math.floor(elapsedTime / 1000 % 60)
+
+        minutes = String(minutes).padStart(2, "0");
+        secs = String(secs).padStart(2, "0");
+
+        timePassed.innerHTML = `閒置 ${minutes}:${secs}`
+    }
+
+    timer()
+    // SideProject 計時器結束
 </script>
 
 <?php include __DIR__ . '/parts-get-point/html-foot.php' ?>
