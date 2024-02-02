@@ -1,14 +1,14 @@
-<?php 
+<?php
 require __DIR__ . '/parts/db_connect_midterm.php';
 $pageName = 'edit';
 $title = '編輯';
 
-$tour_comment_id= isset($_GET['tour_comment_id']) ? intval($_GET['tour_comment_id']) : 0;
-$sql= "SELECT * FROM tr_tour_comment WHERE tour_comment_id=$tour_comment_id";
+$tour_comment_id = isset($_GET['tour_comment_id']) ? intval($_GET['tour_comment_id']) : 0;
+$sql = "SELECT * FROM tr_tour_comment WHERE tour_comment_id=$tour_comment_id";
 
-$row= $pdo->query($sql)->fetch(); #只抓一筆所以不要用fetchAll
+$row = $pdo->query($sql)->fetch(); #只抓一筆所以不要用fetchAll
 
-if(empty($row)){
+if (empty($row)) {
     header('Location: tr_tour_comment_list_admin.php');
     exit;  #結束php程式
 }
@@ -65,7 +65,9 @@ if(empty($row)){
                         </div>
                         <div class="mb-3">
                             <label for="comment_content" class="form-label">留言內容</label>
-                            <textarea type="text" class="form-control" id="comment_content" name="comment_content" cols="40" rows="4" value="<?= $row['comment_content'] ?>"></textarea>
+                            <br>
+                            <textarea type="text" id="comment_content" rows=2 name="comment_content"
+                            style="border: 1px solid #dee2e6; border-radius: 4px; width: 100%;padding: 14px 22px; "><?= $row['comment_content']; ?></textarea>
                             <div class="form-text"></div>
                         </div>
                         <div class="mb-3">
@@ -151,24 +153,24 @@ if(empty($row)){
     //     event_date_f.style.border = '1px solid red';
     //     event_date_f.nextElementSibling.innerHTML = "請填寫正確日期";
     // }
-        
+
     const sendForm = e => {
         e.preventDefault();
         // 沒有外觀的表單
         const fd = new FormData(document.form1);
 
         fetch('tr_tour_comment_edit_api.php', {
-            method: 'POST',
-            body: fd, // content-type: multipart/form-data
-        }).then(r => r.json())
-        .then(result => {
-            console.log({
-                result
-            });
-            if(result.success){
-                myModal.show();
-            }
-        })
+                method: 'POST',
+                body: fd, // content-type: multipart/form-data
+            }).then(r => r.json())
+            .then(result => {
+                console.log({
+                    result
+                });
+                if (result.success) {
+                    myModal.show();
+                }
+            })
             .catch(ex => console.log(ex))
     }
     const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))

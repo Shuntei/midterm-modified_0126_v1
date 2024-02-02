@@ -53,24 +53,24 @@ $title = '新增';
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="max_groupsize" class="form-label">人數</label>
+              <label for="max_groupsize" class="form-label">總人數</label>
               <input type="text" class="form-control" id="max_groupsize" name="max_groupsize">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="event_period" class="form-label">時長</label>
+              <label for="event_period" class="form-label">活動時長(hr)</label>
               <input type="text" class="form-control" id="event_period" name="event_period">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-                <label for="level_id" class="form-label">難度</label>
-                <select class="form-control" id="level_id" name="level_id">
+              <label for="level_id" class="form-label">難度</label>
+                <select class="form-select" id="level_id" name="level_id">
                   <option value="1">容易</option>
                   <option value="2">中等</option>
                   <option value="3">困難</option>
                 </select>
-                <div class="form-text"></div>
-              </div>
+              <div class="form-text"></div>
+            </div>
             <div class="mb-3">
               <label for="video_url" class="form-label">影片</label>
               <input type="text" class="form-control" id="video_url" name="video_url"></input>
@@ -83,12 +83,16 @@ $title = '新增';
             </div>
             <div class="mb-3">
               <label for="description" class="form-label">簡介</label>
-              <textarea type="text" class="form-control" id="description" name="description" cols="40" rows="4"></textarea>
+              <br>
+              <textarea type="text" id="description" rows=5 name="description" style="border: 1px solid #dee2e6;
+              border-radius: 4px; width: 100%;padding: 14px 22px; "></textarea>
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="content" class="form-label">內文</label><br>
-              <textarea type="text" id="content" name="content" cols="40" rows="10"></textarea>
+              <label for="content" class="form-label">內文</label>
+              <br>
+              <textarea type="text" id="content" rows=5 name="content" style="border: 1px solid #dee2e6;
+              border-radius: 4px; width: 100%;padding: 14px 22px; "></textarea>
               <div class="form-text"></div>
             </div>
             <button type="submit" class="btn btn-primary">新增</button>

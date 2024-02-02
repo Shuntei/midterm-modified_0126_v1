@@ -1,14 +1,14 @@
-<?php 
+<?php
 require __DIR__ . '/parts/db_connect_midterm.php';
 $pageName = 'edit';
 $title = '編輯';
 
-$tourid= isset($_GET['tour_id']) ? intval($_GET['tour_id']) : 0;
-$sql= "SELECT * FROM tr_tour WHERE tour_id=$tourid";
+$tourid = isset($_GET['tour_id']) ? intval($_GET['tour_id']) : 0;
+$sql = "SELECT * FROM tr_tour WHERE tour_id=$tourid";
 
-$row= $pdo->query($sql)->fetch(); #只抓一筆所以不要用fetchAll
+$row = $pdo->query($sql)->fetch(); #只抓一筆所以不要用fetchAll
 
-if(empty($row)){
+if (empty($row)) {
     header('Location: tr_tour_list_admin.php');
     exit;  #結束php程式
 }
@@ -69,19 +69,18 @@ if(empty($row)){
                             <div class="form-text"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="max_groupsize" class="form-label">人數</label>
+                            <label for="max_groupsize" class="form-label">總人數</label>
                             <input type="text" class="form-control" id="max_groupsize" name="max_groupsize" value="<?= $row['max_groupsize'] ?>">
                             <div class="form-text"></div>
                         </div>
                         <div class="mb-3">
-                            <label for="event_period" class="form-label">時長</label>
+                            <label for="event_period" class="form-label">活動時長(hr)</label>
                             <input type="text" class="form-control" id="event_period" name="event_period" value="<?= $row['event_period'] ?>">
                             <div class="form-text"></div>
                         </div>
                         <div class="mb-3">
                             <label for="level_id" class="form-label">難度</label>
-                            <select class="form-control" id="level_id" name="level_id">
-                                <option><?= $row['level_id'] ?></option>
+                            <select class="form-select" id="level_id" name="level_id">
                                 <option value="1">容易</option>
                                 <option value="2">中等</option>
                                 <option value="3">困難</option>
@@ -100,12 +99,16 @@ if(empty($row)){
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">簡介</label>
-                            <textarea type="text" class="form-control" id="description" name="description" cols="40" rows="4" value="<?= $row['description'] ?>"></textarea>
+                            <br>
+                            <textarea type="text" id="description" rows=5 name="description" style="border: 1px solid #dee2e6;
+                            border-radius: 4px; width: 100%;padding: 14px 22px; "><?= $row['description'] ; ?></textarea>
                             <div class="form-text"></div>
                         </div>
                         <div class="mb-3">
                             <label for="content" class="form-label">內文</label>
-                            <textarea type="text" class="form-control" id="content" name="content" cols="40" rows="8" value="<?= $row['content'] ?>"></textarea>
+                            <br>
+                            <textarea type="text" id="content" rows=5 name="content" style="border: 1px solid #dee2e6;
+                            border-radius: 4px; width: 100%;padding: 14px 22px; "><?= $row['content'] ; ?></textarea>
                             <div class="form-text"></div>
                         </div>
                         <button type="submit" class="btn btn-primary">修改</button>
@@ -186,24 +189,24 @@ if(empty($row)){
     //     event_date_f.style.border = '1px solid red';
     //     event_date_f.nextElementSibling.innerHTML = "請填寫正確日期";
     // }
-        
+
     const sendForm = e => {
         e.preventDefault();
         // 沒有外觀的表單
         const fd = new FormData(document.form1);
 
         fetch('tr_tour_edit_api.php', {
-            method: 'POST',
-            body: fd, // content-type: multipart/form-data
-        }).then(r => r.json())
-        .then(result => {
-            console.log({
-                result
-            });
-            if(result.success){
-                myModal.show();
-            }
-        })
+                method: 'POST',
+                body: fd, // content-type: multipart/form-data
+            }).then(r => r.json())
+            .then(result => {
+                console.log({
+                    result
+                });
+                if (result.success) {
+                    myModal.show();
+                }
+            })
             .catch(ex => console.log(ex))
     }
     const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
