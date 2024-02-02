@@ -104,7 +104,7 @@ if ($totalRows > 0) {
                             <div class="container-fluid">
                                 <form class="d-flex" method="POST" action="posts-list-no-admin.php?">
                                     <input class="form-control search-custom me-2" type="search" name="search" placeholder="Search" aria-label="Search">
-                                    <button class="btn btn-outline-primary btn-sm py-0 border-white" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                    <button class="btn btn-outline-primary btn-sm py-0 border-white" type="submit"><i class="fa-solid fa-magnifying-glass fs-5"></i></button>
                                 </form>
                             </div>
                         </nav>
