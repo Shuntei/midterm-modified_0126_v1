@@ -9,16 +9,16 @@ $title = '列表';
 $perPage = 20;
 
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
+$sortDirection = isset($_GET['sort']) && $_GET['sort'] === 'asc' ? 'asc' : 'desc';
 
 if ($page < 1) {
-  header('Location: ?page=1');
+  header('Location: ?page=1&sort=' . $sortDirection);
   exit;
 }
 
 $t_sql = "SELECT COUNT(1) from mb_user";
 
 $row = $pdo->query($t_sql)->fetch(PDO::FETCH_NUM);
-
 $totalRows = $row[0];
 $totalPages = 0;
 
@@ -30,8 +30,10 @@ if ($totalRows > 1) {
     exit;
   }
 
+  $orderBy = 'user_id ' . $sortDirection;
   $sql = sprintf(
-    "SELECT * from mb_user order by user_id DESC limit %s, %s",
+    "SELECT * from mb_user order by %s limit %s, %s",
+    $orderBy,
     ($page - 1) * $perPage,
     $perPage
   );
@@ -40,6 +42,79 @@ if ($totalRows > 1) {
 }
 ?>
 
+<style>
+  .text-gray {
+    color: gray;
+  }
+
+  /* div */
+  .search-box {
+    position: absolute;
+    top: 10%;
+    right: 0;
+    background: white;
+    height: 40px;
+    border-radius: 20px;
+    padding: 10px;
+  }
+
+  /* input */
+  .search-input {
+    outline: none;
+    border: none;
+    background: none;
+    width: 0;
+    color: black;
+    float: left;
+    font-size: 16px;
+    transition: .3s;
+  }
+
+  .search-input::placeholder {
+    color: gray;
+  }
+
+  /* icon */
+  .search-btn {
+    color: #fff;
+    float: right;
+    width: 25px;
+    height: 25px;
+    background: #6b6b6b;
+    display: flex;
+    align-items: center;
+    padding-left: 1px;
+    text-decoration: none;
+    transition: .3s;
+    position: absolute;
+    top: 20%;
+    right: 0;
+  }
+
+  .search-input:focus,
+  .search-input:not(:placeholder-shown) {
+    width: calc(100%);
+    padding: 0 6px;
+  }
+
+  .search-box:hover>.search-input {
+    width: calc(100%);
+    padding: 0 6px;
+  }
+
+  .search-box:hover>.search-btn,
+  .search-input:focus+.search-btn,
+  .search-input:not(:placeholder-shown)+.search-btn {
+    background: #333232;
+    color: white;
+    position: absolute;
+    top: 10%;
+    right: -10px;
+    width: 30px;
+    height: 30px;
+    padding-left: 3px;
+  }
+</style>
 
 <div class="col-lg-12 grid-margin stretch-card">
   <div class="card">
@@ -96,25 +171,30 @@ if ($totalRows > 1) {
         <table class="table table-hover">
           <thead>
             <tr>
-              <th><i class="fa-solid fa-trash"></i></th>
-              <th>ID </th>
-              <th>Name</th>
+              <th>ID
+                <i class="bi <?= $sortDirection === 'desc' ? 'bi-arrow-down' : 'bi-arrow-up' ?> " id="sortIcon"></i>
+              </th>
+              <th class="position-relative d-flex align-items-center">Name
+                <div class="search-box">
+                  <input type="text" class="search-input" placeholder="Search Name">
+                  <a class="search-btn rounded-circle" href="#">
+                    <!-- Seach Icon -->
+                    <i class="fas fa-search"></i>
+                  </a>
+                </div>
+              </th>
               <th>Email</th>
               <th>Phone</th>
               <th>Birthday</th>
               <th>Created at</th>
               <th>Skin id</th>
               <th><i class="fa-solid fa-file-pen"></i></th>
+              <th><i class="fa-solid fa-trash"></i></th>
             </tr>
           </thead>
           <tbody>
             <?php foreach ($rows as $r) : ?>
               <tr>
-                <td>
-                  <a href="javascript: deleteUser(<?= $r['user_id'] ?>)">
-                    <i class="fa-solid fa-trash"></i>
-                  </a>
-                </td>
                 <td><?= $r['user_id'] ?></td>
                 <td><?= $r['name'] ?></td>
                 <td><?= $r['email'] ?></td>
@@ -122,8 +202,13 @@ if ($totalRows > 1) {
                 <td><?= $r['birthday'] ?></td>
                 <td><?= $r['created_at'] ?></td>
                 <td><?= $r['fk_skin_id'] ?></td>
-                <td><a href="edit.php?userId=<?= $r['user_id'] ?>">
-                    <i class="fa-solid fa-file-pen"></i>
+                <td><a href="edit.php?userId=<?= $r['user_id'] ?>&page=<?= $page ?>">
+                    <i class="fa-solid fa-file-pen text-gray"></i>
+                  </a>
+                </td>
+                <td>
+                  <a href="javascript: deleteUser(<?= $r['user_id'] ?>)">
+                    <i class="fa-solid fa-trash text-gray"></i>
                   </a>
                 </td>
               <?php endforeach; ?>
@@ -136,6 +221,17 @@ if ($totalRows > 1) {
 <?php include "./../package/packageDown.php";
 include "./parts/scripts.php" ?>
 <script>
+  let sortDirection = '<?= $sortDirection ?>'
+
+  function toggleSortDirection() {
+    sortDirection = sortDirection === 'desc' ? 'asc' : 'desc';
+    location.href = `?page=<?= $page ?>&sort=${sortDirection}`;
+  }
+
+  document.querySelector('#sortIcon').addEventListener('click', () => {
+    toggleSortDirection()
+  })
+
   function deleteUser(userId) {
     if (confirm(`Do you want to delete ${userId}'s information?`)) {
       location.href = `delete.php?userId=${userId}`
