@@ -41,7 +41,7 @@
       color: red;
     }
     .search-custom:focus {
-      border: 1px solid #34B1AA;
+      border: 1px solid #1F3BB3;
     }
     </style>
 </head>

@@ -10,21 +10,28 @@
     // TODO: 資料輸入之前, 要做檢查
     # filter_var('bob@example.com', FILTER_VALIDATE_EMAIL);
 
-    $postId = isset($_POST["post_id"]) ? intval($_POST["post_id"]) : 0;
-    if(empty($postId)) {
-        $output['error'] = '沒有資料編號';
-        $output['code'] = 401;
-        echo json_encode($output, JSON_UNESCAPED_UNICODE);
-        exit;
-    }
-
-$sql = "INSERT INTO `sn_comments` (`post_id`, `content`) VALUES (?,?)";
+    // $birthday = empty($_POST['birthday']) ? null : $_POST['birthday'];
+    // $birthday = strtotime($birthday); #轉換為timestamp
+    // if($birthday===false) {
+    //     $birthday = null;
+    // }else {
+    //     $birthday = date('Y-m-d', $birthday);
+    // }
+    $sql = "INSERT INTO `sn_friends` SET 
+    `friendship_id`=?,
+    `user_id`=?,
+    `friend_id`=?,
+    `status`=?,
+    `friend_timestamp`=?";
 
     $stmt = $pdo->prepare($sql);
     try{
         $stmt->execute([
-        $postId,
-        $_POST['content'],
+        $_POST['friendship_id'],
+        $_POST['user_id'],
+        $_POST['friend_id'],
+        $_POST['status'],
+        $_POST['friend_timestamp'],
         ]);
     }catch(PDOException $e) {
         $output['error'] = 'SQL failed : ' . $e->getMessage();

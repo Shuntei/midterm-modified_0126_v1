@@ -16,7 +16,7 @@ $t_sql = "SELECT COUNT(1) FROM sn_posts";
 $row = $pdo->query($t_sql)->fetch(PDO::FETCH_NUM);
 
 // 抓取comment內容
-$sql_cm = "SELECT * FROM sn_comments";
+$sql_cm = "SELECT * FROM sn_comments ORDER BY comment_id DESC";
 $row_cm = $pdo->query($sql_cm)->fetchAll(PDO::FETCH_ASSOC);
 // 抓取結束 
 
@@ -41,7 +41,6 @@ $newOrder = ($order === 'asc') ? 'desc' : 'asc';
 $toggle = isset($_GET['toggleImg']) ? $_GET['toggleImg'] : '';
 $imgChange = ($toggle === "<i class='fa-solid fa-down-long'></i>") ? "<i class='fa-solid fa-up-long'></i>" : "<i class='fa-solid fa-down-long'></i>";
 
-
 $inputSearch = isset($_POST['search']) ? $_POST['search'] : '';
 
 if ($totalRows > 0) {
@@ -64,7 +63,7 @@ if ($totalRows > 0) {
 <div class="container-fluid overflow-auto">
     <div class="row">
         <div class="col">
-            <h3 class="my-2 text-center fw-bold">Post</h3>
+            <h3 class="my-2 text-center fw-bold">Posts</h3>
             <nav aria-label="Page navigation example" class="d-flex justify-content-between">
                 <ul class="pagination">
                     <li class="page-item">
@@ -96,19 +95,23 @@ if ($totalRows > 0) {
                         </a>
                     </li>
                 </ul>
-                <ul>
+                <ul class="d-flex">
+                    <li>
+                        <a href="./posts-add.php" class="text-decoration-none fs-10 btn btn-outline-primary btn-sm border-primary">Add</a>
+                    </li>
                     <li>
                         <nav class="navbar pt-0 bg-white">
                             <div class="container-fluid">
                                 <form class="d-flex" method="POST" action="posts-list-no-admin.php?">
                                     <input class="form-control search-custom me-2" type="search" name="search" placeholder="Search" aria-label="Search">
-                                    <button class="btn btn-outline-success btn-sm border-none" type="submit">Search</button>
+                                    <button class="btn btn-outline-primary btn-sm py-0 border-white" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                                 </form>
                             </div>
                         </nav>
                     </li>
                 </ul>
             </nav>
+            <?php if($rows) : ?>
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr>
@@ -121,7 +124,7 @@ if ($totalRows > 0) {
                         <th>video_url</th>
                         <th>location</th>
                         <th>tagged_users</th>
-                        <th>posts_timestamp                           
+                        <th>posts_timestamp
                             <a href="?order=<?= $newOrder; ?>&toggleImg=<?= $imgChange; ?>" class="text-decoration-none">
                                 <?= $imgChange ?>
                             </a>
@@ -155,7 +158,7 @@ if ($totalRows > 0) {
                                     查看留言
                                 </button>
                                 <!-- Modal -->
-                                <div class="modal fade" id="detailCm-<?= $postId ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="detailCm-<?= $postId ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" id="yes">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -173,15 +176,16 @@ if ($totalRows > 0) {
                                                         <!-- api結束 -->
                                                     <?php endif; ?>
                                                 <?php endforeach ?>
-                                                <form id="cmForm<?= $r['post_id'] ?>" name="formCm<?= $r['post_id'] ?>" method="post" onsubmit="sendCmForm(<?= $r['post_id'] ?>)" class="d-flex flex-column">
+                                                <form name="formCm<?= $r['post_id'] ?>" method="post" onsubmit="sendCmForm(<?= $r['post_id'] ?>)" class="d-flex flex-column">
+                                                    <input type="hidden" name="post_id" value="<?= $r['post_id'] ?>">
                                                     <textarea type="text" id="content" name="content" placeholder="留言..." style="border: 1px solid #dee2e6;border-radius: 4px;width: 100%;padding: 14px 22px"></textarea>
                                                     <button type="submit" class="btn btn-primary btn-sm mt-2 me-2 py-1 align-self-end" style="width: 10%"><i class="fa-regular fa-circle-right"></i></button>
                                                 </form>
                                             </div>
-                                            <div class="modal-footer">
+                                            <!-- <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                                                 <button type="button" class="btn btn-primary">Save changes</button>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -197,6 +201,10 @@ if ($totalRows > 0) {
                     <?php endforeach ?>
                 </tbody>
             </table>
+            <?php else : ?>
+                <div class="text-center fs-5 text-danger mb-5">Sorry, we couldn't find any results.</div>
+            <?php endif; ?>
+
             <h4 class="my-3 text-center fw-bold">留言總覽</h4>
             <table class="table table-bordered table-striped mt-3">
                 <thead>
@@ -227,7 +235,7 @@ if ($totalRows > 0) {
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
     function delete_one(post_id) {
-        if (confirm(`是否要刪除編號為${post_id}的資料?`)) {
+        if (confirm(`是否要刪除編號為${post_id}的帖子?`)) {
             location.href = `post-delete.php?post_id=${post_id}`;
         }
     }
@@ -263,42 +271,35 @@ if ($totalRows > 0) {
         });
     }
 
-//   const {
-//     cr_id: cr_id_f,
-//     user_id: user_id_f,
-//     post_id: post_id_f,
-//     content: content_f,
-//     parent_id: parent_id_f,
-//     // comment_timestamp: location_f,
-//   } = document.formRp;
+    const sendCmForm = (postId) => {
+        event.preventDefault();
 
-  const sendCmForm = (postId) => {
-    event.preventDefault();
+        let isPass = true;
 
-    let isPass = true;
-
-    if(isPass) {
-      //"沒有外觀"的表單
-        const fd = new FormData(document.forms[`formCm${postId}`]);
-        console.log('確認:', fd);
-        console.log(postId);
-        
-        fetch(`comments-add-api.php?`, {
-            method: 'POST',
-            body: fd,
-        }).then(r => r.json())
-        .then(result => {
-            console.log({result});
-            if(result.success) {
-                alert('留言成功~');
-            }
-        }).catch(
-            e => console.log('Fetching comment failed:', e)
-            );
+        if (isPass) {
+            //"沒有外觀"的表單
+            console.log(postId);
+            const fd = new FormData(document.forms[`formCm${postId}`]);
+            console.log('確認:', fd);
+            fetch(`comments-add-api.php?`, {
+                    method: 'POST',
+                    body: fd,
+                }).then(r => r.json())
+                .then(result => {
+                    console.log({
+                        result
+                    });
+                    if (result.success) {
+                        alert('留言成功~');
+                        // location.href= "posts-list-no-admin.php";
+                        location.reload();
+                    }
+                }).catch(
+                    e => console.log('Fetching comment failed:', e)
+                );
         }
     }
-    
-        
+
 </script>
 <?php include __DIR__ . '/../package/packageDown.php' ?>
 <?php include __DIR__ . '/parts/html-foot.php' ?>

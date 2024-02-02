@@ -16,7 +16,11 @@
     <div class="col-6">
       <div class="card">
         <div class="card-body bg-secondary rounded">
-          <h5 class="card-title">發文</h5>
+          <div class="d-flex">
+            <h5 class="card-title">發文</h5>
+            <button type="button" class="btn-close" aria-label="Close" onclick="goBack()"></button>
+            <!--a href="javascript: delete_one(<?= $r['post_id'] ?>)" -->
+          </div>
             <form name="form1" method="post" onsubmit="sendForm(event)">
               <div class="mb-3">
               <label for="content" class="form-label">content</label>
@@ -26,7 +30,7 @@
                 <div class="form-text"></div>
               </div>
               <div class="mb-3">
-                <label for="image_url" class="form-label">image_url</label>
+                <label for="image_url" class="form-label">上傳圖片</label>
                 <input type="text" class="form-control" id="image_url" name="image_url" value="">
                 <div class="form-text"></div>
               </div>

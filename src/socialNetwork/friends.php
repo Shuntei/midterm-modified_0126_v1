@@ -1,8 +1,7 @@
 <?php
-
 require __DIR__ . '/parts/db_connect.php';
-$pageName = 'list';
-$title = 'comment';
+$pageName = 'friends';
+$title = 'friends';
 
 $perPage = 20;
 
@@ -12,7 +11,7 @@ if ($page < 1) {
     exit;
 }
 
-$t_sql = "SELECT COUNT(1) FROM sn_comments";
+$t_sql = "SELECT COUNT(1) FROM sn_friends";
 
 // $t_stmt = $pdo->query($t_sql);
 // $row = $t_stmt->fetch(PDO::FETCH_NUM);
@@ -29,24 +28,24 @@ if ($totalRows > 0) {
         header('Location: ?page=' . $totalPages);
         exit;
     }
-    $sql = sprintf("SELECT * FROM sn_comments ORDER BY comment_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
+    $sql = sprintf("SELECT * FROM sn_friends ORDER BY friendship_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
     $stmt = $pdo->query($sql);
     $rows = $stmt->fetchAll();
 }
 
-
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include __DIR__ . '/packageUp.php' ?>
+<?php include __DIR__ . '/../package/packageUp.php' ?>
 <?php include __DIR__ . '/parts/navbar.php' ?>
-<div class="container-fluid">
+
+<div class="container-fluid ">
     <div class="row">
         <div class="col">
-            <!-- <?= "$totalRows, $totalPages" ?> -->
-            <nav aria-label="Page navigation example">
+        <h3 class="my-2 text-center fw-bold">Friends</h3>
+            <nav aria-label="Page navigation example" class="d-flex justify-content-between">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a class="page-link" href="#">
+                        <a class="page-link" href="?page=<?= 1 ?>">
                             <i class="fa-solid fa-angles-left"></i>
                         </a>
                     </li>
@@ -69,9 +68,22 @@ if ($totalRows > 0) {
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="#">
+                        <a class="page-link" href="?page=<?= $totalPages ?>">
                             <i class="fa-solid fa-angles-right"></i>
                         </a>
+                    </li>
+                </ul>
+                <ul class="d-flex align-items-center">
+                    <li><i class="fa-solid fa-user-plus fs-5"></i></li>
+                    <li>
+                        <nav class="navbar pt-0 bg-white">
+                            <div class="container-fluid">
+                                <form class="d-flex" method="POST" action="friends.php?">
+                                    <input class="form-control search-custom me-2" type="search" name="search" placeholder="Search" aria-label="Search">
+                                    <button class="btn btn-outline-primary btn-sm py-0 border border-white" type="submit"><i class="fa-solid fa-magnifying-glass fs-5"></i></button>
+                                </form>
+                            </div>
+                        </nav>
                     </li>
                 </ul>
             </nav>
@@ -79,12 +91,11 @@ if ($totalRows > 0) {
                 <thead>
                     <tr>
                         <th><i class="fa-solid fa-trash-can"></i></th>
-                        <th>comment_id</th>
+                        <th>friendship_id</th>
                         <th>user_id</th>
-                        <th>content</th>
-                        <th>post_id</th>
-                        <th>comment_timestamp</th>
-                        <th><i class="fa-solid fa-pen-to-square"></i></th>
+                        <th>friend_id</th>
+                        <th>status</th>
+                        <th>friend_timestamp</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -92,22 +103,15 @@ if ($totalRows > 0) {
                     <?php foreach ($rows as $r) : ?>
                         <tr>
                             <td>
-                                <a href="javascript: delete_one(<?= $r['comment_id'] ?>)">
+                                <a href="javascript: delete_one(<?= $r['friendship_id'] ?>)">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </a>
                             </td>
-                            <td><?= $r['comment_id'] ?></td>
+                            <td><?= $r['friendship_id'] ?></td>
                             <td><?= $r['user_id'] ?></td>
-                            <td><?= $r['content'] ?></td>
-                            <td><?= $r['post_id'] ?></td>
-                            <td><?= $r['comment_timestamp'] ?></td>
-                            <!-- <td><?= htmlentities($r['address']) ?></td> -->
-                            <!-- <td><?= strip_tags($r['address']) ?></td> -->
-                            <td>
-                                <a href="edit.php?comment_id=<?= $r['comment_id'] ?>">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                            </td>
+                            <td><?= $r['friend_id'] ?></td>
+                            <td><?= $r['status'] ?></td>
+                            <td><?= $r['friend_timestamp'] ?></td>
                         </tr>
                         <!-- endwhile  -->
                     <?php endforeach ?>
@@ -115,19 +119,15 @@ if ($totalRows > 0) {
             </table>
         </div>
     </div>
-    <!-- <prev><?php
-                print_r($stmt->fetch());
-                print_r($stmt->fetch());
-                ?></prev> -->
 </div>
 
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
-    function delete_one(sid) {
-        if (confirm(`是否要刪除編號為${sid}的資料?`)) {
-            location.href = `delete.php?sid=${sid}`;
+    function delete_one(friendship_id) {
+        if (confirm(`是否要刪除編號為${friendship_id}的好友?`)) {
+            location.href = `friends-delete.php?friendship_id=${friendship_id}`;
         }
     }
 </script>
-<?php include __DIR__ . '/packageDown.php' ?>
+<?php include __DIR__ . '/../package/packageDown.php' ?>
 <?php include __DIR__ . '/parts/html-foot.php' ?>
