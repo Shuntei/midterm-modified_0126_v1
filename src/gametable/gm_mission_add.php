@@ -19,6 +19,11 @@ $title = '新增';
           <h4 class="card-title">新增</h4>
           <p class="card-description">Basic form layout</p>
           <form name="form1" method="post" onsubmit="sendForm(event)">
+          <div class="mb-3">
+              <label for="#" class="form-label">#</label>
+              <input type="text" class="form-control" id="#" name="#" placeholder="Int">
+              <div class="form-text"></div>
+            </div>
             <div class="mb-3">
               <label for="mission_id" class="form-label">Mission ID</label>
               <input type="text" class="form-control" id="mission_id" name="mission_id" placeholder="Int">
