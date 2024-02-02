@@ -170,7 +170,7 @@ if ($totalRows > 0) {
                                                     <?php if ($r['post_id'] === $r_cm['post_id']) : ?>
                                                         <?= $r_cm['content'] . $r_cm['post_id'] . "<br>"; ?>
                                                         <!-- 用api寫 -->
-                                                        <button onclick="checkReply(<?= $r_cm['comment_id'] ?>)" style="margin-top: 5px" class="border-1">查看回覆</button>
+                                                        <button onclick="checkReply(<?= $r_cm['comment_id'] ?>)" style="margin-top: 5px" class="border-1 rounded">查看回覆</button>
                                                         <?= "comment id:" . $r_cm['comment_id'] ?>
                                                         <div id='showReply<?= $r_cm['comment_id'] ?>' style="margin-top: 5px;white-space: normal;"></div>
                                                         <!-- api結束 -->
