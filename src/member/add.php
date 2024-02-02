@@ -115,7 +115,7 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
                         <p class="text-danger mt-1" id="requiredInfo"></p>
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary me-2">Add</button>
-                            <button type="button" class="btn btn-light">Clear</button>
+                            <button type="button" class="btn btn-light" id="btn-cancel">Cancel</button>
                         </div>
                     </form>
                 </div>
@@ -136,6 +136,38 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
         birthday
     } = document.form1;
 
+    document.querySelector('#btn-cancel').addEventListener('click', cancelAdd)
+
+    function hasFilledInputs() {
+        return (
+            name.value.trim() ||
+            email.value.trim() ||
+            phone.value.trim() ||
+            password.value.trim() ||
+            rePassword.value.trim() ||
+            birthday.value.trim() ||
+            picture.value.trim()
+        )
+    }
+
+    function cancelAdd() {
+        if (hasFilledInputs()) {
+            swal({
+                title: "Discard information?",
+                text: "if you cancel now, any entered information will be lost.",
+                icon: "warning",
+                buttons: ["No, keep adding", "Yes, discard"],
+                dangerMode: true,
+            }).then((willDiscard) => {
+                if (willDiscard) {
+                    window.location.href = 'member.php'
+                }
+            })
+        } else {
+            window.location.href = 'member.php'
+        }
+    }
+
     document.querySelector('#profilePic').addEventListener('click', () => {
         document.querySelector('#pictureInput').click();
     })
@@ -148,15 +180,15 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
         const fd = new FormData(document.form1);
 
         fetch("upload-profile.php", {
-            method: "post",
-            body: fd
-        })
-        .then(r => r.json())
-        .then(data => {
-            if(data.success){
-                document.querySelector('#uploadedPicture').value = data.file;
-            }
-        })
+                method: "post",
+                body: fd
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    document.querySelector('#uploadedPicture').value = data.file;
+                }
+            })
     }
 
     function validateName(name) {

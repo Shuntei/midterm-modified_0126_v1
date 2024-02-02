@@ -121,7 +121,7 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
                         </div>
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary me-2">Edit</button>
-                            <button type="button" class="btn btn-light">Cancel</button>
+                            <button type="button" class="btn btn-light" id="btn-cancel">Cancel</button>
                         </div>
                     </form>
                 </div>
@@ -138,6 +138,41 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
         phone,
         birthday
     } = document.form1;
+
+    const initialFormData = {
+        name: '<?= addslashes($row['name']) ?>',
+        email: '<?= addslashes($row['email']) ?>',
+        phone: '<?= addslashes($row['phone']) ?>',
+        birthday: '<?= addslashes($row['birthday']) ?>',
+        skinId: '<?= addslashes($row['fk_skin_id']) ?>',
+    }
+
+    document.querySelector('#btn-cancel').addEventListener('click', cancelEdit)
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentPage = urlParams.get('page') || 'member.php';
+
+    function cancelEdit() {
+        const isEdited = Object.keys(initialFormData).some(
+            (key) => initialFormData[key] != window.form1[key].value
+        )
+
+        if (isEdited) {
+            swal({
+                title: "Discard changes?",
+                text: "if you cancel now, any unsaved changes will be lost.",
+                icon: "warning",
+                buttons: ["No, keep editing", "Yes, discard"],
+                dangerMode: true,
+            }).then((willDiscard)=> {
+                if(willDiscard){
+                    window.location.href = `member.php?page=${currentPage}`
+                }
+            })
+        } else {
+            window.location.href = `member.php?page=${currentPage}`
+        }
+    }
 
     function validateName(name) {
         return name.length >= 2;
@@ -168,6 +203,17 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
         phone.style.border = "1px solid #dee2e6";
         birthday.nextElementSibling.innerHTML = "";
         birthday.style.border = "1px solid #dee2e6";
+
+        const isEdited = Object.keys(initialFormData).some(
+            (key) => initialFormData[key] != window.form1[key].value
+        )
+
+        if (!isEdited) {
+            swal("No information has been edited", {
+                icon: 'info'
+            })
+            return;
+        }
 
         let isPass = true;
 
@@ -219,6 +265,24 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
                                     swal("It has been edited successfully", {
                                         icon: "success",
                                     });
+                                } else {
+                                    switch (result.code) {
+                                        case 1:
+                                            swal("This email has been registered already", {
+                                                icon: "error",
+                                            });
+                                            break;
+                                        case 2:
+                                            swal("This phone number has been registered already", {
+                                                icon: "error",
+                                            });
+                                            break;
+                                        case 3:
+                                            swal("Unsuccessful", {
+                                                icon: "error",
+                                            });
+                                            break;
+                                    }
                                 }
                             })
                     }
