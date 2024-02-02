@@ -35,6 +35,10 @@ if (isset($_GET['sort'])) {
             $sortColumn = "sticker_cost";
             $sortDisplay = 'ASC';
             break;
+        case 'original':
+            $sortColumn = "sticker_inventory_id";
+            $sortDisplay = 'ASC';
+            break;
         default:
             $sortColumn = "sticker_inventory_id";
             $sortDisplay = 'ASC';
@@ -68,7 +72,57 @@ if ($totalRows > 0) {
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
 <?php include('./../package/packageUp.php') ?>
-<?php include __DIR__ . '/parts/navbar.php' ?>
+<!-- Navbar -->
+<?php
+if (empty($pageName)) {
+    $pageName = '';
+}
+?>
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./live_get_point-list-admin.php">列表</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./live_get_point-add.php">新增</a>
+                    </li>
+                    <li class="nav-item">
+                        <p class="clock">現在 00:00:00</p>
+                    </li>
+                    <li class="nav-item">
+                        <p class="timePassed">閒置 00:00</p>
+                    </li>
+                </ul>
+                <!-- <ul class="navbar-nav mb-2 mb-lg-0">
+        <?php if (isset($_SESSION['admin'])) : ?>
+            <li class="nav-item">
+            <!-- <a class="nav-link">暱稱</a> -->
+                <a class="nav-link"><?= $_SESSION['admin']['nickname'] ?></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./logout.php">登出</a>
+                </li>
+            <?php else : ?>
+                <li class="nav-item">
+                    <a class="nav-link <?= $pageName == 'login' ? 'active' : '' ?>" href="./login.php">登入</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $pageName == 'register' ? 'active' : '' ?>" href="./register.php">註冊</a>
+                </li>
+            <?php endif ?>
+            </ul> -->
+            </div>
+        </div>
+    </nav>
+
+</div>
+<!-- Navbar End -->
 
 <style>
     .photo {
@@ -120,22 +174,21 @@ if ($totalRows > 0) {
                             <i class="fa-solid fa-angle-right"></i>
                         </a>
                     </li>
+
                     <form method="GET">
-                        <input type="text" id="searchbar" name="searchbar" class="searchbar distance">
-                        <button type="submit" id="submit" name="submit" class="submit">搜尋</button>
-                    </form>
-                    <form method="GET">
-                        <select name="sort" id="sort" onchange="changeUrl()">
-                            <option value="" selected disabled>選取排序</option>
-                            <option value="id_descend">編碼大到小</option>
-                            <option value="cost_descend">金額大到小</option>
-                            <option value="cost_ascend">金額小到大</option>
+                        <input type="text" id="searchbar" name="searchbar" class="searchbar distance" placeholder="輸入關鍵字">
+                        <select name="sort" id="sort">
+                            <option value="" selected disabled>誰排在前面？</option>
+                            <option value="original">小編碼</option>
+                            <option value="id_descend">大編碼</option>
+                            <option value="cost_ascend">小金額</option>
+                            <option value="cost_descend">大金額</option>
                         </select>
+                        <button type="button" class="reset">重置</button>
                     </form>
+                </ul>
         </div>
         <!-- 功能欄位結束了 -->
-
-        </ul>
         </nav>
         <table class="table table-bordered table-striped">
             <thead>
@@ -157,16 +210,16 @@ if ($totalRows > 0) {
                                 <i class="fa-solid fa-trash-can"></i>
                             </a>
                         </td>
-                        <td>
+                        <td style="max-width: 30px;">
                             <?= $r['sticker_inventory_id'] ?>
                         </td>
-                        <td>
+                        <td style="max-width: 150px;">
                             <?= $r['sticker_title'] ?>
                         </td>
-                        <td>
+                        <td style="max-width: 50px;">
                             <?= $r['sticker_cost'] ?>
                         </td>
-                        <td>
+                        <td style="max-width: 200px;">
                             <div class="photo">
                                 <img src="./imgs/<?= $r['sticker_pic'] ?>">
                             </div>
@@ -199,16 +252,69 @@ if ($totalRows > 0) {
         }
     }
 
-    let searchbar = document.querySelector('.searchbar');
-    searchbar.addEventListener("submit", event => {
-
-    })
+    // 排序＆搜尋系統開始
+    let sort = document.getElementById('sort')
+    let submit = document.getElementById('submit')
 
     function changeUrl() {
-        let sort = document.getElementById('sort')
-        let value = sort.value
-        window.location.href = "live_sticker_inventory-list-admin.php?sort=" + value
+        let sortValue = sort.value
+        let searchbar = document.getElementById('searchbar').value
+        window.location.href = `live_sticker_inventory-list-admin.php?&sort=${sortValue}&searchbar=${searchbar}&submit=`
     }
+
+    sort.addEventListener('change', changeUrl);
+    searchbar.addEventListener("change", changeUrl)
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchResult = new URLSearchParams(window.location.search);
+        const getSearchResult = searchResult.get('searchbar');
+
+        if (getSearchResult !== null) {
+            searchbar.value = decodeURIComponent(getSearchResult);
+        }
+    });
+
+    let reset = document.querySelector('.reset')
+    reset.addEventListener("click", event => {
+        window.location.href = `live_sticker_inventory-list-admin.php`
+    })
+    // 排序＆搜尋系統結束
+
+    // SideProject 計時器開始
+    let clock = document.querySelector('.clock')
+    let nowTime = () => {
+        let date = new Date();
+        return date.toLocaleTimeString()
+    }
+
+    setInterval(() => {
+        clock.innerHTML = `現在 ${nowTime()}`
+    }, 1000)
+
+    let startTime = 0
+    let elapsedTime = 0
+    let timePassed = document.querySelector('.timePassed')
+
+    function timer() {
+        startTime = Date.now() - elapsedTime
+        setInterval(update, 1000)
+    }
+
+    function update() {
+        let currentTime = Date.now();
+        elapsedTime = currentTime - startTime;
+
+        let minutes = Math.floor(elapsedTime / (1000 * 60) % 60)
+        let secs = Math.floor(elapsedTime / 1000 % 60)
+
+        minutes = String(minutes).padStart(2, "0");
+        secs = String(secs).padStart(2, "0");
+
+        timePassed.innerHTML = `閒置 ${minutes}:${secs}`
+    }
+
+    timer()
+    // SideProject 計時器結束
 </script>
 
 <?php include __DIR__ . '/parts/html-foot.php' ?>

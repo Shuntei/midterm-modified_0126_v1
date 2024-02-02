@@ -101,14 +101,14 @@ if (empty($pageName)) {
                         <table class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th><i class="fa-solid fa-trash-can"></i></th>
+                                    <th><!--<i class="fa-solid fa-trash-can"></i>--></th>
                                     <th>#</th>
                                     <th>會員編號</th>
                                     <th>揪團編號</th>
                                     <th>留言內容</th>
                                     <th>回覆編號</th>
                                     <th>建立時間</th>
-                                    <th><i class="fa-solid fa-pen-to-square"></i></th>
+                                    <th><!--<i class="fa-solid fa-pen-to-square"></i>--></th>
                                 </tr>
                             </thead>
                             <tbody>
