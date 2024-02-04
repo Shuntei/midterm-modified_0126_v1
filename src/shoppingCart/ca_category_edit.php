@@ -22,8 +22,8 @@ if (empty($row)) {
     }
 </style>
 
-<div class="container-fluid">
-    <div class="row">
+<div class="container-fluid mx-auto my-3">
+    <div class="row justify-content-center">
         <div class="col-6">
             <div class="card">
                 <div class="card-body">
@@ -45,7 +45,7 @@ if (empty($row)) {
                             <div class="form-text"></div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">修改</button>
+                        <button type="submit" class="btn btn-outline-dark">修改</button>
                     </form>
                 </div>
             </div>

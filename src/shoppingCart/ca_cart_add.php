@@ -23,22 +23,22 @@ $title = '新增';
                             <div class="col-12">
                                 
                                 <div class="mb-3">
-                                    <label for="quantity" class="form-label">quantity</label>
+                                    <label for="quantity" class="form-label">數量</label>
                                     <input type="text" class="form-control" id="quantity" name="quantity">
                                     <div class="form-text"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="user_id" class="form-label">user_id</label>
+                                    <label for="user_id" class="form-label">使用者ＩＤ</label>
                                     <input type="text" class="form-control" id="user_id" name="user_id">
                                     <div class="form-text"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="unit_price" class="form-label">unit_price</label>
+                                    <label for="unit_price" class="form-label">單價</label>
                                     <input type="text" class="form-control" id="unit_price" name="unit_price">
                                     <div class="form-text"></div>
                                 </div>
                                 <div class="mb-3">
-                                    <label for="item_id" class="form-label">item_id</label>
+                                    <label for="item_id" class="form-label">商品ＩＤ</label>
                                     <input type="text" class="form-control" id="item_id" name="item_id">
                                     <div class="form-text"></div>
                                 </div>

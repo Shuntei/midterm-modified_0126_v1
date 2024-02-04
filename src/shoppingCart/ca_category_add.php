@@ -20,7 +20,6 @@ $title = '新增';
                     <form name="form1" method="post" onsubmit="sendForm(event)">
                         <div class="row">
                             <div class="col-6">
-                                
                                 <div class="mb-3">
                                     <label for="category_name" class="form-label">類別名稱</label>
                                     <input type="text" class="form-control" id="category_name" name="category_name">
@@ -34,7 +33,7 @@ $title = '新增';
                             </div>
                         </div>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <button type="submit" class="btn btn-primary ">新增</button>
+                            <button type="submit" class="btn btn-outline-dark ">新增</button>
                         </div>
                     </form>
                 </div>

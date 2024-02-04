@@ -22,8 +22,8 @@ if (empty($row)) {
   }
 </style>
 
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid mx-auto my-auto">
+  <div class="row justify-content-center">
     <div class="col-6">
       <div class="card">
         <div class="card-body">
@@ -35,17 +35,17 @@ if (empty($row)) {
             </div>
             <input type="hidden" name="cart_id" value="<?= $row['cart_id'] ?>">
             <div class="mb-3">
-              <label for="item_id" class="form-label">item_id</label>
+              <label for="item_id" class="form-label">商品id</label>
               <input type="text" class="form-control" id="item_id" name="item_id" value="<?= htmlentities($row['item_id']) ?>">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="quantity" class="form-label">quantity</label>
+              <label for="quantity" class="form-label">數量</label>
               <input type="text" class="form-control" id="quantity" name="quantity" value="<?= $row['quantity'] ?>">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="user_id" class="form-label">user_id</label>
+              <label for="user_id" class="form-label">使用者id</label>
               <input type="text" class="form-control" id="user_id" name="user_id" value="<?= $row['user_id'] ?>">
               <div class="form-text"></div>
             </div>

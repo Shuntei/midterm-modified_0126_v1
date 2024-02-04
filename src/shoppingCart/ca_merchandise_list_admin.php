@@ -239,7 +239,7 @@ $rows2 = $stmt2->fetchAll();
                                         <button type="button" class="btn btn-outline-secondary"><a class="nav-link" href="./ca_merchandise_add.php">新增</a></button>
                                     </div>
                                     <form action="ca_merchandise_list_admin.php" method="get" name="form2" id="form2" class="">
-                                        <label for="" class="border border-secondary rounded bg-secondary text-light ">價格區間</label>
+                                        <label for="" class="border border-secondary rounded bg-secondary text-light p-1">價格區間</label>
                                         <input class="rounded border-secondary" name="price1" type="text" id="price1" value="0" size="3">-
                                         <input class="rounded border-secondary" name="price2" type="text" id="price2" value="0" size="3">
                                         <input type="submit" id="button2" class="btn btn-secondary" value="查詢">
@@ -374,7 +374,7 @@ $rows2 = $stmt2->fetchAll();
                                         <?php endforeach ?>
                                     </tbody>
                                 </table>
-                                <button type="button" class="btn btn-danger" id="delete-selected">刪除勾選</button>
+                                <button type="button" class="btn btn-outline-danger" id="delete-selected">刪除勾選</button>
                             </div>
                         </div>
                     </div>
@@ -509,7 +509,7 @@ $rows2 = $stmt2->fetchAll();
                                         <?php endforeach ?>
                                     </tbody>
                                 </table>
-                                <button type="button" class="btn btn-danger" id="delete-selected-category">刪除勾選</button>
+                                <button type="button" class="btn btn-outline-danger" id="delete-selected-category">刪除勾選</button>
 
                             </div>
                         </div>

@@ -1,333 +1,530 @@
 <?php
+
 require __DIR__ . '/parts/db_connect_midterm.php';
 $pageName = 'list';
 $title = '列表';
-// 你該頁面前面的那些東東
-
-// 每一頁20筆資料
-$perPage = 20;
 
 
-// get網址列輸入?page= ，未輸入預設為1
-$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-if ($page < 1) {
-    // redirect
-    header('Location: ?page=1');
-    exit;
-}
+// 獲取篩選條件的價格值
+// $price1 = isset($_GET['price1']) ? intval($_GET['price1']) : 0;
+// $price2 = isset($_GET['price2']) ? intval($_GET['price2']) : PHP_INT_MAX; // 使用 PHP_INT_MAX 作為預設最大值
 
+// // 修正 SQL 查詢，加入價格區間條件
+// $sql = sprintf("SELECT * FROM ca_merchandise WHERE unit_price BETWEEN :price1 AND :price2 ORDER BY item_id DESC");
+// $stmt = $pdo->prepare($sql);
+// $stmt->bindValue(':price1', $price1, PDO::PARAM_INT);
+// $stmt->bindValue(':price2', $price2, PDO::PARAM_INT);
+// $stmt->execute();
 
-// 取得資料總筆數COUNT(1)
-$t_sql = "SELECT COUNT(1) FROM ca_orders";
-$row = $pdo->query($t_sql)->fetch(PDO::FETCH_NUM);
+// $rows = $stmt->fetchAll();
+// $sql = sprintf("SELECT * FROM ca_merchandise ORDER BY item_id DESC ");
+// $sql = sprintf("SELECT * FROM ca_merchandise ORDER BY item_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
+// $stmt = $pdo->query($sql);
+// $rows = $stmt->fetchAll();
+// 老師寫的
+// $stmt = $pdo->query("SELECT * FROM ca_merchandise LIMIT 0, 20");
 
-// print_r($row); exit;  # 直接離程式
-$totalRows = $row[0]; # 取得總筆數
-
-
-// 必須先設預設值，html裡面迴圈需要有讀取資料
-$totalPages = 0;
-$rows = [];
-
-
-
-
-// GPT，添加篩選功能
-// 頁面數量
-// 第一頁 => 顯示1~20筆資料
-// 頁數和顯示資料的關係 => ($page-1)*$perPage
-if ($totalRows > 0) {
-    $totalPages = ceil($totalRows / $perPage); # 計算總頁數
-    if ($page > $totalPages) {
-        header('Location: ?page=' . $totalPages);
-        exit;
-    }
-
-    // 篩選功能，判斷是否有篩選條件放入
-    // 在原有的 $sql 前添加條件
-    $filterConditions = [];
-
-    if (!empty($_GET['filterName'])) {
-        $filterConditions[] = "store_name LIKE :filterName";
-    }
-
-    if (!empty($_GET['filterPhone'])) {
-        $filterConditions[] = "store_tel LIKE :filterPhone";
-    }
-
-    if (!empty($_GET['filterEmail'])) {
-        $filterConditions[] = "store_email LIKE :filterEmail";
-    }
-
-    if (!empty($_GET['filterAddress'])) {
-        $filterConditions[] = "store_address LIKE :filterAddress";
-    }
-
-    if (!empty($_GET['filterSubscription'])) {
-        $filterConditions[] = "sub_name = :filterSubscription";
-    }
-
-    // 預設排序順序為 DESC
-    $order = isset($_GET['order']) ? $_GET['order'] : 'desc';
-
-    // sql顯示列表資料
-    $sql = "SELECT store_id, store_name, store_email, store_tel, store_address, sub_name, sub_date 
-        FROM ca_orders
-        LEFT JOIN store_sub ON store.sub_id = store_sub.sub_id";
-
-
-    // 將篩選條件加入 SQL 查詢中
-    if (!empty($filterConditions)) {
-        $sql .= " WHERE " . implode(' AND ', $filterConditions);
-    }
-
-    // 加入排序邏輯
-    if (isset($_GET['orderBy'])) {
-        $orderField = $_GET['orderBy'];
-        $orderType = ($order === 'desc') ? 'DESC' : 'ASC';
-        $sql .= " ORDER BY store.$orderField $orderType";
-    } else {
-        // 若未指定排序條件，預設以 store_id DESC 排序
-        $sql .= " ORDER BY store.store_id DESC";
-    }
-
-
-    $sql .= " LIMIT :offset, :limit";
-
-
-    // 使用參數化查詢
-    $stmt = $pdo->prepare($sql);
-
-    // 綁定參數
-    if (!empty($_GET['filterName'])) {
-        $stmt->bindValue(':filterName', '%' . $_GET['filterName'] . '%', PDO::PARAM_STR);
-    }
-
-    if (!empty($_GET['filterPhone'])) {
-        $stmt->bindValue(':filterPhone', '%' . $_GET['filterPhone'] . '%', PDO::PARAM_STR);
-    }
-
-    if (!empty($_GET['filterEmail'])) {
-        $stmt->bindValue(':filterEmail', '%' . $_GET['filterEmail'] . '%', PDO::PARAM_STR);
-    }
-
-    if (!empty($_GET['filterAddress'])) {
-        $stmt->bindValue(':filterAddress', '%' . $_GET['filterAddress'] . '%', PDO::PARAM_STR);
-    }
-
-    if (!empty($_GET['filterSubscription'])) {
-        $stmt->bindValue(':filterSubscription', $_GET['filterSubscription'], PDO::PARAM_STR);
-    }
-
-
-    // 綁定 LIMIT 參數
-    $stmt->bindValue(':offset', ($page - 1) * $perPage, PDO::PARAM_INT);
-    $stmt->bindValue(':limit', $perPage, PDO::PARAM_INT);
-
-    // 執行查詢
-    $stmt->execute();
-
-    // 取得結果
-    $rows = $stmt->fetchAll();
-}
-
+$sql = sprintf("SELECT * FROM ca_orders ORDER BY order_id DESC ");
+$stmt = $pdo->query($sql);
+$rows = $stmt->fetchAll();
 
 ?>
 
-<?php include '../parts/html-head.php' ?>
+<?php include __DIR__ . '/parts/html-head.php' ?>
 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
+<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css">
+<div class="container-scroller">
+    <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-top flex-row fixed-top">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
+            <div class="me-3">
+                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-bs-toggle="minimize">
+                    <span class="icon-menu"></span>
+                </button>
+            </div>
+            <div>
+                <a class="navbar-brand brand-logo" href="../index_.php">
+                    <img src="../assets/images/ruined.png" alt="logo" />
+                </a>
 
-<body id="page-top">
+            </div>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-top">
+            <ul class="navbar-nav">
+                <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
+                    <h1 class="welcome-text">Why are we still here? Just to suffer? <span class="text-black fw-bold"></span></h1>
+                    <h3 class="welcome-sub-text"></h3>
+                </li>
+            </ul>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas">
+                <span class="mdi mdi-menu"></span>
+            </button>
+        </div>
+    </nav>
+    <!-- partial -->
+    <div class=" page-body-wrapper">
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <ul class="nav">
+                <li class="nav-item nav-category">Forms and Datas</li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
+                        <i class="menu-icon mdi mdi-card-text-outline"></i>
+                        <span class="menu-title">Member</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="form-elements">
+                        <ul class="nav flex-column sub-menu">
 
-    <!-- Page Wrapper -->
-    <div id="wrapper">
+                            <li class="nav-item"><a class="nav-link" href="/midterm/src/member/member.php">User</a></li>
 
-        <!-- Sidebar -->
-        <?php include '../parts/navbar.php' ?>
-        <!-- End of Sidebar -->
-
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
-
-            <!-- Main Content -->
-            <div id="content">
-
-                <!-- Topbar -->
-                <?php include '../parts/navtop.php' ?>
-                <!-- End of Topbar -->
-
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-                    <!-- 頁面整塊貼上!!!!!! -->
-                    <div class="row">
-                        <!-- 分頁切換功能 -->
-                        <div class="row my-2">
-                            <!-- bootstrap => navigation -->
-                            <nav class="mx-2" aria-label="Page navigation example">
-                                <ul class="pagination">
-
-                                    <!-- 第一頁 -->
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page=1&orderBy=<?= $_GET['orderBy'] ?? 'store_id' ?>&order=<?= $_GET['order'] ?? 'desc' ?>&filterName=<?= $_GET['filterName'] ?? '' ?>&filterEmail=<?= $_GET['filterEmail'] ?? '' ?>&filterPhone=<?= $_GET['filterPhone'] ?? '' ?>&filterAddress=<?= $_GET['filterAddress'] ?? '' ?>&filterSubscription=<?= $_GET['filterSubscription'] ?? '' ?>">
-                                            <i class="fa-solid fa-angles-left"></i>
-                                        </a>
-                                    </li>
-                                    <!-- 上一頁 -->
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page=<?= $page - 1 ?>&orderBy=<?= $_GET['orderBy'] ?? 'store_id' ?>&order=<?= $_GET['order'] ?? 'desc' ?>&filterName=<?= $_GET['filterName'] ?? '' ?>&filterEmail=<?= $_GET['filterEmail'] ?? '' ?>&filterPhone=<?= $_GET['filterPhone'] ?? '' ?>&filterAddress=<?= $_GET['filterAddress'] ?? '' ?>&filterSubscription=<?= $_GET['filterSubscription'] ?? '' ?>">
-                                            <i class="fa-solid fa-angle-left"></i>
-                                        </a>
-                                    </li>
-
-                                    <?php for ($i = $page - 2; $i <= $page + 2; $i++) :
-                                        if ($i >= 1 and $i <= $totalPages) : 0
-                                    ?>
-                                            <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                                                <a class="page-link" href="?page=<?= $i ?>&orderBy=<?= $_GET['orderBy'] ?? 'store_id' ?>&order=<?= $_GET['order'] ?? 'desc' ?>&filterName=<?= $_GET['filterName'] ?? '' ?>&filterEmail=<?= $_GET['filterEmail'] ?? '' ?>&filterPhone=<?= $_GET['filterPhone'] ?? '' ?>&filterAddress=<?= $_GET['filterAddress'] ?? '' ?>&filterSubscription=<?= $_GET['filterSubscription'] ?? '' ?>">
-                                                    <?= $i ?>
-                                                </a>
-                                            </li>
-                                    <?php endif;
-                                    endfor; ?>
-
-                                    <!-- 下一頁 -->
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page=<?= $page + 1 ?>&orderBy=<?= $_GET['orderBy'] ?? 'store_id' ?>&order=<?= $_GET['order'] ?? 'desc' ?>&filterName=<?= $_GET['filterName'] ?? '' ?>&filterEmail=<?= $_GET['filterEmail'] ?? '' ?>&filterPhone=<?= $_GET['filterPhone'] ?? '' ?>&filterAddress=<?= $_GET['filterAddress'] ?? '' ?>&filterSubscription=<?= $_GET['filterSubscription'] ?? '' ?>">
-                                            <i class="fa-solid fa-angle-right"></i>
-                                        </a>
-                                    </li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page=<?= $totalPages ?>&orderBy=<?= $_GET['orderBy'] ?? 'store_id' ?>&order=<?= $_GET['order'] ?? 'desc' ?>&filterName=<?= $_GET['filterName'] ?? '' ?>&filterEmail=<?= $_GET['filterEmail'] ?? '' ?>&filterPhone=<?= $_GET['filterPhone'] ?? '' ?>&filterAddress=<?= $_GET['filterAddress'] ?? '' ?>&filterSubscription=<?= $_GET['filterSubscription'] ?? '' ?>">
-                                            <i class="fa-solid fa-angles-right"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                        <!-- 篩選功能 -->
-                        <form class="d-flex align-items-center" method="get" action="">
-                            <div class="form-group mx-1">
-                                <label for="filterName">姓名：</label>
-                                <input type="text" id="filterName" name="filterName" value="<?= isset($_GET['filterName']) ? htmlentities($_GET['filterName']) : '' ?>">
-                            </div>
-                            <div class="form-group mx-1">
-                                <label for="filterEmail">信箱：</label>
-                                <input type="text" id="filterEmail" name="filterEmail" value="<?= isset($_GET['filterEmail']) ? htmlentities($_GET['filterEmail']) : '' ?>">
-                            </div>
-                            <div class="form-group mx-1">
-                                <label for="filterPhone">電話：</label>
-                                <input type="text" id="filterPhone" name="filterPhone" value="<?= isset($_GET['filterPhone']) ? htmlentities($_GET['filterPhone']) : '' ?>">
-                            </div>
-                            <div class="form-group mx-1">
-                                <label for="filterAddress">地址：</label>
-                                <input type="text" id="filterAddress" name="filterAddress" value="<?= isset($_GET['filterAddress']) ? htmlentities($_GET['filterAddress']) : '' ?>">
-                            </div>
-                            <div class="form-group mx-1">
-                                <label for="filterSubscription">訂閱方案：</label>
-                                <select id="filterSubscription" name="filterSubscription">
-                                    <option value="" <?= empty($_GET['filterSubscription']) ? 'selected' : '' ?>>請選擇</option>
-                                    <option value="1個月" <?= isset($_GET['filterSubscription']) && $_GET['filterSubscription'] === '1個月' ? 'selected' : '' ?>>1個月</option>
-                                    <option value="6個月" <?= isset($_GET['filterSubscription']) && $_GET['filterSubscription'] === '6個月' ? 'selected' : '' ?>>6個月</option>
-                                    <option value="12個月" <?= isset($_GET['filterSubscription']) && $_GET['filterSubscription'] === '12個月' ? 'selected' : '' ?>>12個月</option>
-                                </select>
-                            </div>
-                            <button type="submit" class="btn btn-primary mx-1  ">篩選</button>
-                            <input type="hidden" name="orderBy" value="<?= $_GET['orderBy'] ?? 'store_id' ?>">
-                            <input type="hidden" name="order" value="<?= $_GET['order'] ?? 'desc' ?>">
-                        </form>
+                        </ul>
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"><a class="nav-link" href="../pages/forms/basic_elements.html">UserPermission</a></li>
+                        </ul>
                     </div>
-                    <div class="row">
-                        <!-- 列表顯示 -->
-                        <div class="col">
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <!-- 刪除按鈕 -->
-                                        <th><i class="fa-solid fa-trash"></i></th>
-                                        <th>#
-                                            <a href="?orderBy=store_id&order=<?= (isset($_GET['orderBy']) && $_GET['orderBy'] === 'store_id' && isset($_GET['order']) && $_GET['order'] === 'asc') ? 'desc' : 'asc' ?>&filterName=<?= $_GET['filterName'] ?? '' ?>&filterEmail=<?= $_GET['filterEmail'] ?? '' ?>&filterPhone=<?= $_GET['filterPhone'] ?? '' ?>&filterAddress=<?= $_GET['filterAddress'] ?? '' ?>&filterSubscription=<?= $_GET['filterSubscription'] ?? '' ?>">
-                                                <i class="fas <?= (isset($_GET['orderBy']) && $_GET['orderBy'] === 'store_id' && $_GET['order'] === 'asc') ? 'fa-arrow-up' : 'fa-arrow-down' ?>"></i>
-                                            </a>
-                                        </th>
-                                        <th>姓名</th>
-                                        <th>信箱</th>
-                                        <th>電話</th>
-                                        <th>地址</th>
-                                        <th>訂閱方案
-                                            <a href="?orderBy=sub_id&order=<?= (isset($_GET['orderBy']) && $_GET['orderBy'] === 'sub_id' && isset($_GET['order']) && $_GET['order'] === 'asc') ? 'desc' : 'asc' ?>&filterName=<?= $_GET['filterName'] ?? '' ?>&filterEmail=<?= $_GET['filterEmail'] ?? '' ?>&filterPhone=<?= $_GET['filterPhone'] ?? '' ?>&filterAddress=<?= $_GET['filterAddress'] ?? '' ?>&filterSubscription=<?= $_GET['filterSubscription'] ?? '' ?>">
-                                                <i class="fas <?= (isset($_GET['orderBy']) && $_GET['orderBy'] === 'sub_id' && $_GET['order'] === 'asc') ? 'fa-arrow-up' : 'fa-arrow-down' ?>"></i>
-                                            </a>
-                                        </th>
-                                        <th>訂閱日期</th>
-                                        <!-- 修改按鈕 -->
-                                        <th><i class="fa-solid fa-file-pen"></i></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($rows as $r) : ?>
-                                        <tr>
-                                            <!-- 假連結方式，執行一個 刪除函式 -->
-                                            <!-- href="javascript:  -->
-                                            <td>
-                                                <a href="javascript: delete_one(<?= $r['store_id'] ?>)">
-                                                    <i class="fa-solid fa-trash"></i>
-                                                </a>
-                                            </td>
-                                            <!-- <td>
-                                <a href="delete.php?store_id=<?= $r['store_id'] ?>"><i class="fa-solid fa-trash"></i></a>
-                            </td> -->
-                                            <td><?= $r['store_id'] ?></td>
-                                            <td><?= $r['store_name'] ?></td>
-                                            <td><?= $r['store_email'] ?></td>
-                                            <td><?= $r['store_tel'] ?></td>
-                                            <td><?= htmlentities($r['store_address']) ?></td>
-                                            <td><?= $r['sub_name'] ?></td>
-                                            <td><?= $r['sub_date'] ?></td>
-                                            <td>
-                                                <a href="edit.php?store_id=<?= $r['store_id'] ?>"><i class="fa-solid fa-file-pen"></i></a>
-                                            </td>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
+                        <i class="menu-icon mdi mdi-chart-line"></i>
+                        <span class="menu-title">SNS</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="charts">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link" href="/midterm/src/socialNetwork/public-board.php">看板分類</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="/midterm/src/socialNetwork/posts-list-no-admin.php">帖子</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#tables" aria-expanded="false" aria-controls="tables">
+                        <i class="menu-icon mdi mdi-message-text"></i>
+                        <span class="menu-title">ChatRoom</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="tables">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link" href="/midterm/src/chatroom/live_sticker_inventory-list-admin.php">貼圖管理</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="/midterm/src/chatroom/live_get_point-list-admin.php">點數消耗紀錄</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#shoppingCart" aria-expanded="false" aria-controls="shoppingCart">
+                        <i class="menu-icon mdi mdi-cart-outline"></i>
+                        <span class="menu-title">ShoppingCart</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="shoppingCart">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link" href="/midterm/src/shoppingCart/ca_merchandise_list_admin.php">商品列表</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="/midterm/src/shoppingCart/ca_cart_list_admin.php">購物車</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="/midterm/src/shoppingCart/ca_orders_list_admin.php">訂單</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#game" aria-expanded="false" aria-controls="game">
+                        <i class="menu-icon mdi mdi-cake-variant"></i>
+                        <span class="menu-title">Game</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="game">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link" href="/midterm/src/gametable/gm_coupon_list_admin.php">Coupon</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#tour" aria-expanded="false" aria-controls="tour">
+                        <i class="menu-icon mdi mdi-layers-outline"></i>
+                        <span class="menu-title">Tour</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="tour">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"> <a class="nav-link" href="/midterm/src/tour/tr_tour_list_admin.php">Tour</a></li>
+                            <li class="nav-item"> <a class="nav-link" href="/midterm/src/tour/tr_tour_comment_list_admin.php">TourComment</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <!-- partial -->
+        <div class="main-panel overflow-auto" style="height: 0px;">
+            <!-- 這裡引入 -->
+            <?php
+            if (empty($pageName)) {
+                $pageName = '';
+            }
+            ?>
 
-                                            <!-- 避免 XSS 攻擊 -->
-                                            <!--<td><?= htmlentities($r['store_address']) ?></td>-->
-                                            <!--<td><?= strip_tags($r['store_address']) ?></td>-->
+            <div class="container-fluid my-3">
+                <div class="row">
+                    <div class="col">
+                        <!-- <?= "$totalRows, $totalPages" ?> -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">商品列表</h4>
+                                <p class="card-description">
+
+                                <div class="d-flex justify-content-between">
+                                    <div class="">
+                                        <button type="button" class="btn btn-outline-secondary"><a class="nav-link" href="./ca_merchandise_add.php">新增</a></button>
+                                    </div>
+                                    <form action="ca_merchandise_list_admin.php" method="get" name="form2" id="form2" class="">
+                                        <label for="" class="border border-secondary rounded bg-secondary text-light ">價格區間</label>
+                                        <input class="rounded border-secondary" name="price1" type="text" id="price1" value="0" size="3">-
+                                        <input class="rounded border-secondary" name="price2" type="text" id="price2" value="0" size="3">
+                                        <input type="submit" id="button2" class="btn btn-secondary" value="查詢">
+                                    </form>
+                                </div>
+
+                                </p>
+                                <div class="container-fluid">
+                                    <!--
+                        <nav class="navbar navbar-expand-lg bg-light rounded">
+                            <div class="container-fluid ">
+
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                         <li class="nav-item">
+                                            <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./ca_merchandise_list_admin.php">列表</a>
+                                        </li> 
+                                        <li class="nav-item me-4">
+                                            <button type="button" class="btn btn-outline-secondary"><a class="nav-link" href="./ca_merchandise_add.php">新增</a></button>
+                                        </li>
+                                        <!--  page navigation start
+                                        <!-- <nav aria-label="Pagination example">
+                                            <ul class="pagination mx-3">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=1">
+                                                        <i class="fa-solid fa-angles-left"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=<?= $page - 1 ?>">
+                                                        <i class="fa-solid fa-angle-left" href="?page"></i>
+                                                    </a>
+                                                </li>
+                                                <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
+                                                    if ($i >= 1 and $i <= $totalPages) : ?>
+                                                        <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                                                            <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                                                        </li>
+                                                <?php endif;
+                                                endfor; ?>
+
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=<?= $page + 1 ?>">
+                                                        <i class="fa-solid fa-angle-right"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=<?= $totalPages ?>">
+                                                        <i class="fa-solid fa-angles-right"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav> 
+                                        <!-- search -->
+                                    <!-- <div class="mx-3 mb-3">
+                                            <form method="get" action="ca_merchandise_list_admin.php">
+                                                <input type="text" class="search_byname" name="item_name" id="search_byname" placeholder="請輸入商品名" aria-describedby="button-addon2" value="<?= isset($_GET['item_name']) ? $_GET['item_name'] : "" ?>">
+                                                <button class="btn btn-outline-primary" type="submit" id="button-addon2">搜尋</button>
+                                            </form>
+                                        </div> -->
+                                    <!-- search end-->
+                                    <!--  pagination end-->
+                                    </ul>
+                                    <!-- <ul class="navbar-nav mb-2 mb-lg-0">
+          <?php if (isset($_SESSION['admin'])) : ?>
+            <li class="nav-item">
+              <!-- <a class="nav-link">暱稱</a> 
+                <a class="nav-link"><?= $_SESSION['admin']['nickname'] ?></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./logout.php">登出</a>
+                </li>
+            <?php else : ?>
+                <li class="nav-item">
+                    <a class="nav-link <?= $pageName == 'login' ? 'active' : '' ?>" href="./login.php">登入</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $pageName == 'register' ? 'active' : '' ?>" href="./register.php">註冊</a>
+                </li>
+            <?php endif ?>
+            </ul> 
+                                </div>
+                            </div>
+                        </nav>
+            -->
+                                </div>
+                                <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true">
+                                    <thead>
+                                        <tr>
+                                            <th><i class="fa-solid fa-trash-can"></i></th>
+                                            <th data-sortable="true">#
+                                                <!-- <a href="ca_merchandise_list_admin.php?sort=item_id_desc"><i class="fa fa-arrow-down"></i></a>
+                                    <a href="ca_merchandise_list_admin.php?sort=item_id_asc"><i class="fa fa-arrow-up"></i></a> -->
+                                            </th>
+                                            <th data-sortable="true">商品名稱</th>
+                                            <th data-sortable="true">存貨</th>
+                                            <th data-sortable="true">種類id</th>
+                                            <th data-sortable="true">商品描述</th>
+                                            <th data-sortable="true">單價</th>
+                                            <th>商品圖片 </th>
+
+                                            <th><i class="fa-solid fa-pen-to-square"></i></th>
                                         </tr>
-                                    <?php endforeach ?>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <!-- while($r = $stmt->fetch()):  -->
+                                        <?php foreach ($rows as $r) : ?>
+                                            <tr>
+
+                                                <td><input type="checkbox" class="checkbox" data-itemid="<?= $r['item_id'] ?>"></td>
+
+
+                                                <td><?= $r['item_id'] ?></td>
+                                                <td><?= $r['item_name'] ?></td>
+                                                <td><?= $r['quantity'] ?></td>
+                                                <td><?= $r['category_id'] ?></td>
+                                                <td><?= $r['description'] ?></td>
+                                                <td><?= $r['unit_price'] ?></td>
+                                                <td><?= $r['product_img'] ?></td>
+                                                <!-- <td><?= htmlentities($r['address']) ?></td> -->
+                                                <!-- <td><?= strip_tags($r['address']) ?></td> -->
+                                                <td>
+                                                    <a href="ca_merchandise_edit.php?item_id=<?= $r['item_id'] ?>">
+                                                        <i class="fa-solid fa-pen-to-square text-secondary"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <!-- endwhile  -->
+                                        <?php endforeach ?>
+                                    </tbody>
+                                </table>
+                                <button type="button" class="btn btn-outline-danger" id="delete-selected">刪除勾選</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.container-fluid -->
-
+                <!-- <prev><?php
+                            print_r($stmt->fetch());
+                            print_r($stmt->fetch());
+                            ?></prev> -->
             </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <?php include '../parts/footer.php' ?>
-            <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <?php include '../parts/scripts.php' ?>
 
 
-    <script>
-        function delete_one(store_id) {
-            if (confirm(`是否要刪除編號為 ${store_id} 的資料?`)) {
-                location.href = `delete.php?store_id=${store_id}`;
-            }
-        }
-    </script>
+            <div class="container-fluid my-3">
+                <div class="row">
+                    <div class="col">
+                        <!-- <?= "$totalRows, $totalPages" ?> -->
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">商品分類</h4>
+                                <p class="card-description">
+                                <div class="nav-item me-4">
+                                    <button type="button" class="btn btn-outline-secondary"><a class="nav-link" href="./ca_category_add.php">新增</a></button>
+                                </div>
+                                </p>
+                                <div class="container-fluid">
+                                    <!--
+                        <nav class="navbar navbar-expand-lg bg-light rounded">
+                            <div class="container-fluid ">
 
+                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                         <li class="nav-item">
+                                            <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./ca_merchandise_list_admin.php">列表</a>
+                                        </li> 
+                                        <li class="nav-item me-4">
+                                            <button type="button" class="btn btn-outline-secondary"><a class="nav-link" href="./ca_merchandise_add.php">新增</a></button>
+                                        </li>
+                                        <!--  page navigation start
+                                        <!-- <nav aria-label="Pagination example">
+                                            <ul class="pagination mx-3">
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=1">
+                                                        <i class="fa-solid fa-angles-left"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=<?= $page - 1 ?>">
+                                                        <i class="fa-solid fa-angle-left" href="?page"></i>
+                                                    </a>
+                                                </li>
+                                                <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
+                                                    if ($i >= 1 and $i <= $totalPages) : ?>
+                                                        <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                                                            <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                                                        </li>
+                                                <?php endif;
+                                                endfor; ?>
 
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=<?= $page + 1 ?>">
+                                                        <i class="fa-solid fa-angle-right"></i>
+                                                    </a>
+                                                </li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="?page=<?= $totalPages ?>">
+                                                        <i class="fa-solid fa-angles-right"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav> 
+                                        <!-- search -->
+                                    <!-- <div class="mx-3 mb-3">
+                                            <form method="get" action="ca_merchandise_list_admin.php">
+                                                <input type="text" class="search_byname" name="item_name" id="search_byname" placeholder="請輸入商品名" aria-describedby="button-addon2" value="<?= isset($_GET['item_name']) ? $_GET['item_name'] : "" ?>">
+                                                <button class="btn btn-outline-primary" type="submit" id="button-addon2">搜尋</button>
+                                            </form>
+                                        </div> -->
+                                    <!-- search end-->
+                                    <!--  pagination end-->
+                                    </ul>
+                                    <!-- <ul class="navbar-nav mb-2 mb-lg-0">
+          <?php if (isset($_SESSION['admin'])) : ?>
+            <li class="nav-item">
+              <!-- <a class="nav-link">暱稱</a> 
+                <a class="nav-link"><?= $_SESSION['admin']['nickname'] ?></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./logout.php">登出</a>
+                </li>
+            <?php else : ?>
+                <li class="nav-item">
+                    <a class="nav-link <?= $pageName == 'login' ? 'active' : '' ?>" href="./login.php">登入</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?= $pageName == 'register' ? 'active' : '' ?>" href="./register.php">註冊</a>
+                </li>
+            <?php endif ?>
+            </ul> 
+                                </div>
+                            </div>
+                        </nav>
+            -->
+                                </div>
+                                <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true">
+                                    <thead>
+                                        <tr>
+                                            <th><i class="fa-solid fa-trash-can"></i></th>
 
-    <?php include '../parts/html-foot.php' ?>
+                                            <th data-sortable="true">類別id</th>
+                                            <th data-sortable="true">類別名稱</th>
+                                            <th><i class="fa-solid fa-pen-to-square"></i></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- while($r = $stmt->fetch()):  -->
+                                        <?php foreach ($rows2 as $r2) : ?>
+                                            <tr>
+                                                <td>
+                                                    <input type="checkbox" class="checkbox-category" data-categoryid="<?= $r2['category_id'] ?>">
+                                                </td>
+                                                <td><?= $r2['category_id'] ?></td>
+                                                <td><?= $r2['category_name'] ?></td>
+                                                <td>
+                                                    <a href="ca_category_edit.php?category_id=<?= $r2['category_id'] ?>">
+                                                        <i class="fa-solid fa-pen-to-square text-secondary"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <!-- endwhile  -->
+                                        <?php endforeach ?>
+                                    </tbody>
+                                </table>
+                                <button type="button" class="btn btn-outline-danger" id="delete-selected-category">刪除勾選</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <prev><?php
+                            print_r($stmt->fetch());
+                            print_r($stmt->fetch());
+                            ?></prev> -->
+            </div>
+            <?php include __DIR__ . '/../package/packageDown.php' ?>
+            <?php include __DIR__ . '/parts/scripts.php' ?>
+            <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+            <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
+            </body>
+
+            </html>
+
+            <script>
+                $("#delete-selected").click(function() {
+                    var selectedItems = [];
+                    $(".checkbox:checked").each(function() {
+                        selectedItems.push($(this).data("itemid"));
+                    });
+
+                    if (selectedItems.length > 0 && confirm("是否要刪除所選項目?")) {
+                        // 使用 AJAX 進行刪除
+                        $.ajax({
+                            url: "ca_merchandise_delete.php",
+                            method: "POST", // 或 "GET"，取決於你的後端設置
+                            data: {
+                                item_ids: selectedItems
+                            },
+                            success: function(response) {
+                                // 刪除成功後的處理，可以根據需要刷新頁面或執行其他操作
+                                alert("刪除成功");
+                                location.reload(); // 例如刷新頁面
+                            },
+                            error: function(xhr, status, error) {
+                                // 刪除失敗的處理
+                                alert("刪除失敗: " + error);
+                            }
+                        });
+                    }
+                });
+
+                $("#delete-selected-category").click(function() {
+                    var selectedCategories = [];
+                    $(".checkbox-category:checked").each(function() {
+                        selectedCategories.push($(this).data("categoryid"));
+                    });
+
+                    if (selectedCategories.length > 0 && confirm("是否要刪除所選項目?")) {
+                        // 使用 AJAX 進行刪除
+                        $.ajax({
+                            url: "ca_category_delete.php",
+                            method: "POST", // 或 "GET"，取決於你的後端設置
+                            data: {
+                                category_ids: selectedCategories
+                            },
+                            success: function(response) {
+                                // 刪除成功後的處理，可以根據需要刷新頁面或執行其他操作
+                                alert("刪除成功");
+                                location.reload(); // 例如刷新頁面
+                            },
+                            error: function(xhr, status, error) {
+                                // 刪除失敗的處理
+                                alert("刪除失敗: " + error);
+                            }
+                        });
+                    }
+                });
+
+                function delete_category(category_id) {
+                    if (confirm(`是否要刪除編號為${category_id}的資料?`)) {
+                        location.href = `ca_category_delete.php?category_id=${category_id}`;
+                    }
+                }
+            </script>
+
+            <?php include __DIR__ . '/parts/html-foot.php' ?>
