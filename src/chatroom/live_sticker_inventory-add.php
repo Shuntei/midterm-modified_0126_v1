@@ -7,7 +7,7 @@ $title = '新增';
 
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include ('./../package/packageUp.php') ?>
+<?php include('./../package/packageUp.php') ?>
 <?php include __DIR__ . '/parts/navbar.php' ?>
 <style>
   form .mb-3 .form-text {
@@ -15,8 +15,8 @@ $title = '新增';
   }
 </style>
 
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid ">
+  <div class="row d-flex justify-content-center mt-4">
     <div class="col-6">
       <div class="card">
         <div class="card-body">
@@ -54,22 +54,22 @@ $title = '新增';
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">新增結果</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">圖片已建檔</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="alert alert-success" role="alert">
-          新增成功
+          請問是否繼續新增資料？
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">繼續新增</button>
-        <a type="button" class="btn btn-primary" href="live_sticker_inventory-list-admin.php">回列表</a>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">再來一筆</button>
+        <a type="button" class="btn btn-primary" href="live_sticker_inventory-list-admin.php">回去列表</a>
       </div>
     </div>
   </div>
 </div>
-<?php include ('./../package/packageDown.php') ?>
+<?php include('./../package/packageDown.php') ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
   const {
@@ -95,20 +95,20 @@ $title = '新增';
     if (sticker_title_f.value === "") {
       isPass = false;
       sticker_title_f.style.border = '1px solid red';
-      sticker_title_f.nextElementSibling.innerHTML = "請正確填入資料";
+      sticker_title_f.nextElementSibling.innerHTML = "此格不許空白";
     }
 
     if (sticker_cost_f.value === "") {
       // alert("請填寫正確的姓名");
       isPass = false;
       sticker_cost_f.style.border = '1px solid red';
-      sticker_cost_f.nextElementSibling.innerHTML = "請正確填入資料";
+      sticker_cost_f.nextElementSibling.innerHTML = "此格不許空白";
     }
 
     if (sticker_pic_f.value === '') {
       isPass = false;
       sticker_pic_f.style.border = '1px solid red';
-      sticker_pic_f.nextElementSibling.innerHTML = "請正確填入資料";
+      sticker_pic_f.nextElementSibling.innerHTML = "此格不許空白";
     }
 
     if (isPass) {
@@ -137,9 +137,9 @@ $title = '新增';
     const fd = new FormData(document.form1);
 
     fetch("./live-upload-avatar.php", {
-      method: "POST",
-      body: fd, // enctype="multipart/form-data"
-    })
+        method: "POST",
+        body: fd, // enctype="multipart/form-data"
+      })
       .then((r) => r.json())
       .then((data) => {
         if (data.success) {
@@ -147,7 +147,7 @@ $title = '新增';
         }
       });
   }
-    // 抓圖片結束
+  // 抓圖片結束
 
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
 </script>

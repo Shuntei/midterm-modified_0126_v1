@@ -4,7 +4,7 @@ require __DIR__ . '/parts/db_connect_midterm.php';
 $pageName = 'list';
 $title = '列表';
 
-$perPage = 20;
+$perPage = 10;
 
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 if ($page < 1) {
@@ -93,7 +93,7 @@ if (empty($pageName)) {
                         <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./live_sticker_inventory-add.php">新增</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <ul class="navbar-nav d-flex justify-content-end mb-2 mb-lg-0">
                     <li class="nav-item">
                         <p class="nav-link clock me-3 fs-5">⏰ 0:00:00 PM</p>
                     </li>
@@ -128,8 +128,8 @@ if (empty($pageName)) {
 
 <style>
     .photo {
-        width: 100px;
-        height: 100px;
+        width: 150px;
+        height: 150px;
         overflow: hidden;
         /* border: 1px solid black; */
     }
@@ -148,6 +148,21 @@ if (empty($pageName)) {
     ul.li distance {
         line-height: 100%;
     }
+
+    .outline {
+        border: 1px solid hsl(0, 0%, 0%, 0.2) !important;
+        padding: 3px 5px;
+
+    }
+
+    .reset {
+        transition: background-color 0.5 ease;
+    }
+
+    .reset:hover {
+        background-color: red;
+        color: white;
+    }
 </style>
 
 <div class="container-fluid">
@@ -155,7 +170,7 @@ if (empty($pageName)) {
         <!-- 功能欄位在這裡 -->
         <div class="col">
             <form method="GET" class="d-flex justify-content-center my-3">
-                <input type="text" id="searchbar" name="searchbar" class="searchbar distance me-3 page-link border" type="search" placeholder="輸入關鍵字">
+                <input type="text" id="searchbar" name="searchbar" class="searchbar distance ps-2 me-3 page-link border" type="search" placeholder="輸入關鍵字">
                 <select name="sort" id="sort" class="me-3 page-link border">
                     <option value="" selected disabled>誰排在前面？</option>
                     <option value="original">小編碼</option>
@@ -163,12 +178,12 @@ if (empty($pageName)) {
                     <option value="cost_ascend">小金額</option>
                     <option value="cost_descend">大金額</option>
                 </select>
-                <button type="button" class="reset me-3 page-link border border-light">重置</button>
+                <button type="button" class="reset me-3 page-link border border-light outline">重置</button>
             </form>
         </div>
         <!-- 功能欄位結束了 -->
         </nav>
-        <table class="table table-bordered table-striped">
+        <table class="table table-bordered table-striped text-center">
             <thead>
                 <tr>
                     <th><i class="fa-solid fa-trash-can"></i></th>
@@ -198,7 +213,7 @@ if (empty($pageName)) {
                             <?= $r['sticker_cost'] ?>
                         </td>
                         <td style="max-width: 200px;">
-                            <div class="photo">
+                            <div class="photo m-auto">
                                 <img src="./imgs/<?= $r['sticker_pic'] ?>">
                             </div>
                         </td>
@@ -218,7 +233,6 @@ if (empty($pageName)) {
     <div class="row">
         <!-- 功能欄位在這裡 -->
         <div class="col d-flex justify-content-center">
-
             <!-- <?= "$totalRows, $totalPages" ?> -->
             <nav aria-label="Page navigation example">
                 <ul class="pagination mt-2 mb-2">
@@ -241,8 +255,6 @@ if (empty($pageName)) {
                             <i class="fa-solid fa-angle-right"></i>
                         </a>
                     </li>
-
-
                 </ul>
         </div>
         <!-- <prev><?php
@@ -250,6 +262,7 @@ if (empty($pageName)) {
                     print_r($stmt->fetch());
                     ?></prev> -->
     </div>
+
     <?php include('./../package/packageDown.php') ?>
     <?php include __DIR__ . '/parts/scripts.php' ?>
 

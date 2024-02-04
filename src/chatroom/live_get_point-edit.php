@@ -13,8 +13,8 @@ if (empty($row)) {
 <?php include __DIR__ . '/parts-get-point/html-head.php' ?>
 <?php include ('./../package/packageUp.php') ?>
 <?php include __DIR__ . '/parts-get-point/navbar.php' ?>
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid ">
+  <div class="row d-flex justify-content-center mt-4">
     <div class="col-6">
       <div class="card">
         <div class="card-body">
@@ -58,17 +58,17 @@ if (empty($row)) {
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">編輯結果</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">已成功編輯</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="alert alert-success" role="alert">
-          新增成功
+          請問要繼續編輯嗎？
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">繼續編輯</button>
-        <a type="button" class="btn btn-primary" href="live_get_point-list-admin.php">到列表頁</a>
+        <a type="button" class="btn btn-primary" href="live_get_point-list-admin.php">回去列表</a>
       </div>
     </div>
   </div>
@@ -99,20 +99,20 @@ if (empty($row)) {
     if (user_id_f.value === "" || isNaN(user_id_f.value)) {
       isPass = false;
       user_id_f.style.border = '1px solid red';
-      user_id_f.nextElementSibling.innerHTML = "請正確填入資料";
+      user_id_f.nextElementSibling.innerHTML = "此格不許空白";
     }
 
     if (received_point_f.value === "" || isNaN(received_point_f.value)) {
       // alert("請填寫正確的姓名");
       isPass = false;
       received_point_f.style.border = '1px solid red';
-      received_point_f.nextElementSibling.innerHTML = "請正確填數資料";
+      received_point_f.nextElementSibling.innerHTML = "此格不許空白";
     }
 
     if (point_source_f.value === '') {
       isPass = false;
       point_source_f.style.border = '1px solid red';
-      point_source_f.nextElementSibling.innerHTML = "請正確填數資料";
+      point_source_f.nextElementSibling.innerHTML = "此格不許空白";
     }
 
     if (isPass) {
