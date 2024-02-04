@@ -87,16 +87,18 @@ if (empty($pageName)) {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./live_get_point-list-admin.php">列表</a>
+                        <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./live_sticker_inventory-add.php">列表</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./live_get_point-add.php">新增</a>
+                        <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./live_sticker_inventory-add.php">新增</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <p class="nav-link clock me-3 fs-5">⏰ 0:00:00 PM</p>
                     </li>
                     <li class="nav-item">
-                        <p class="clock">現在 00:00:00</p>
-                    </li>
-                    <li class="nav-item">
-                        <p class="timePassed">閒置 00:00</p>
+                        <p class="nav-link timePassed fs-5">😴 00:00</p>
                     </li>
                 </ul>
                 <!-- <ul class="navbar-nav mb-2 mb-lg-0">
@@ -152,41 +154,17 @@ if (empty($pageName)) {
     <div class="row">
         <!-- 功能欄位在這裡 -->
         <div class="col">
-            <!-- <?= "$totalRows, $totalPages" ?> -->
-            <nav aria-label="Page navigation example">
-                <ul class="pagination mt-2 mb-2">
-                    <li class="page-item">
-                        <a class="page-link" href="?page=<?= $page - 1 ?>">
-                            <i class="fa-solid fa-angle-left" href="?page"></i>
-                        </a>
-                    </li>
-                    <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
-                        if ($i >= 1 and $i <= $totalPages) : ?>
-                            <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                                <a class="page-link" href="?page=<?= $i ?>">
-                                    <?= $i ?>
-                                </a>
-                            </li>
-                    <?php endif;
-                    endfor; ?>
-                    <li class="page-item">
-                        <a class="page-link" href="?page=<?= $page + 1 ?>">
-                            <i class="fa-solid fa-angle-right"></i>
-                        </a>
-                    </li>
-
-                    <form method="GET">
-                        <input type="text" id="searchbar" name="searchbar" class="searchbar distance" placeholder="輸入關鍵字">
-                        <select name="sort" id="sort">
-                            <option value="" selected disabled>誰排在前面？</option>
-                            <option value="original">小編碼</option>
-                            <option value="id_descend">大編碼</option>
-                            <option value="cost_ascend">小金額</option>
-                            <option value="cost_descend">大金額</option>
-                        </select>
-                        <button type="button" class="reset">重置</button>
-                    </form>
-                </ul>
+            <form method="GET" class="d-flex justify-content-center my-3">
+                <input type="text" id="searchbar" name="searchbar" class="searchbar distance me-3 page-link border" type="search" placeholder="輸入關鍵字">
+                <select name="sort" id="sort" class="me-3 page-link border">
+                    <option value="" selected disabled>誰排在前面？</option>
+                    <option value="original">小編碼</option>
+                    <option value="id_descend">大編碼</option>
+                    <option value="cost_ascend">小金額</option>
+                    <option value="cost_descend">大金額</option>
+                </select>
+                <button type="button" class="reset me-3 page-link border border-light">重置</button>
+            </form>
         </div>
         <!-- 功能欄位結束了 -->
         </nav>
@@ -236,85 +214,116 @@ if (empty($pageName)) {
         </table>
     </div>
 </div>
-<!-- <prev><?php
-            print_r($stmt->fetch());
-            print_r($stmt->fetch());
-            ?></prev> -->
-</div>
-<?php include('./../package/packageDown.php') ?>
-<?php include __DIR__ . '/parts/scripts.php' ?>
+<div class="container-fluid">
+    <div class="row">
+        <!-- 功能欄位在這裡 -->
+        <div class="col d-flex justify-content-center">
 
-<script>
-    function delete_one(
-        sticker_inventory_id) {
-        if (confirm(`是否要刪除編號為${sticker_inventory_id}的資料?`)) {
-            location.href = `live_sticker_inventory-delete.php?sticker_inventory_id=${sticker_inventory_id}`;
+            <!-- <?= "$totalRows, $totalPages" ?> -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination mt-2 mb-2">
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?= $page - 1 ?>">
+                            <i class="fa-solid fa-angle-left" href="?page"></i>
+                        </a>
+                    </li>
+                    <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
+                        if ($i >= 1 and $i <= $totalPages) : ?>
+                            <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                                <a class="page-link" href="?page=<?= $i ?>">
+                                    <?= $i ?>
+                                </a>
+                            </li>
+                    <?php endif;
+                    endfor; ?>
+                    <li class="page-item">
+                        <a class="page-link" href="?page=<?= $page + 1 ?>">
+                            <i class="fa-solid fa-angle-right"></i>
+                        </a>
+                    </li>
+
+
+                </ul>
+        </div>
+        <!-- <prev><?php
+                    print_r($stmt->fetch());
+                    print_r($stmt->fetch());
+                    ?></prev> -->
+    </div>
+    <?php include('./../package/packageDown.php') ?>
+    <?php include __DIR__ . '/parts/scripts.php' ?>
+
+    <script>
+        function delete_one(
+            sticker_inventory_id) {
+            if (confirm(`是否要刪除編號為${sticker_inventory_id}的資料?`)) {
+                location.href = `live_sticker_inventory-delete.php?sticker_inventory_id=${sticker_inventory_id}`;
+            }
         }
-    }
 
-    // 排序＆搜尋系統開始
-    let sort = document.getElementById('sort')
-    let submit = document.getElementById('submit')
+        // 排序＆搜尋系統開始
+        let sort = document.getElementById('sort')
+        let submit = document.getElementById('submit')
 
-    function changeUrl() {
-        let sortValue = sort.value
-        let searchbar = document.getElementById('searchbar').value
-        window.location.href = `live_sticker_inventory-list-admin.php?&sort=${sortValue}&searchbar=${searchbar}&submit=`
-    }
-
-    sort.addEventListener('change', changeUrl);
-    searchbar.addEventListener("change", changeUrl)
-
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchResult = new URLSearchParams(window.location.search);
-        const getSearchResult = searchResult.get('searchbar');
-
-        if (getSearchResult !== null) {
-            searchbar.value = decodeURIComponent(getSearchResult);
+        function changeUrl() {
+            let sortValue = sort.value
+            let searchbar = document.getElementById('searchbar').value
+            window.location.href = `live_sticker_inventory-list-admin.php?&sort=${sortValue}&searchbar=${searchbar}&submit=`
         }
-    });
 
-    let reset = document.querySelector('.reset')
-    reset.addEventListener("click", event => {
-        window.location.href = `live_sticker_inventory-list-admin.php`
-    })
-    // 排序＆搜尋系統結束
+        sort.addEventListener('change', changeUrl);
+        searchbar.addEventListener("change", changeUrl)
 
-    // SideProject 計時器開始
-    let clock = document.querySelector('.clock')
-    let nowTime = () => {
-        let date = new Date();
-        return date.toLocaleTimeString()
-    }
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchResult = new URLSearchParams(window.location.search);
+            const getSearchResult = searchResult.get('searchbar');
 
-    setInterval(() => {
-        clock.innerHTML = `現在 ${nowTime()}`
-    }, 1000)
+            if (getSearchResult !== null) {
+                searchbar.value = decodeURIComponent(getSearchResult);
+            }
+        });
 
-    let startTime = 0
-    let elapsedTime = 0
-    let timePassed = document.querySelector('.timePassed')
+        let reset = document.querySelector('.reset')
+        reset.addEventListener("click", event => {
+            window.location.href = `live_sticker_inventory-list-admin.php`
+        })
+        // 排序＆搜尋系統結束
 
-    function timer() {
-        startTime = Date.now() - elapsedTime
-        setInterval(update, 1000)
-    }
+        // SideProject 計時器開始
+        let clock = document.querySelector('.clock')
+        let nowTime = () => {
+            let date = new Date();
+            return date.toLocaleTimeString()
+        }
 
-    function update() {
-        let currentTime = Date.now();
-        elapsedTime = currentTime - startTime;
+        setInterval(() => {
+            clock.innerHTML = `⏰ ${nowTime()}`
+        }, 1000)
 
-        let minutes = Math.floor(elapsedTime / (1000 * 60) % 60)
-        let secs = Math.floor(elapsedTime / 1000 % 60)
+        let startTime = 0
+        let elapsedTime = 0
+        let timePassed = document.querySelector('.timePassed')
 
-        minutes = String(minutes).padStart(2, "0");
-        secs = String(secs).padStart(2, "0");
+        function timer() {
+            startTime = Date.now() - elapsedTime
+            setInterval(update, 1000)
+        }
 
-        timePassed.innerHTML = `閒置 ${minutes}:${secs}`
-    }
+        function update() {
+            let currentTime = Date.now();
+            elapsedTime = currentTime - startTime;
 
-    timer()
-    // SideProject 計時器結束
-</script>
+            let minutes = Math.floor(elapsedTime / (1000 * 60) % 60)
+            let secs = Math.floor(elapsedTime / 1000 % 60)
 
-<?php include __DIR__ . '/parts/html-foot.php' ?>
+            minutes = String(minutes).padStart(2, "0");
+            secs = String(secs).padStart(2, "0");
+
+            timePassed.innerHTML = `😴 ${minutes}:${secs}`
+        }
+
+        timer()
+        // SideProject 計時器結束
+    </script>
+
+    <?php include __DIR__ . '/parts/html-foot.php' ?>
