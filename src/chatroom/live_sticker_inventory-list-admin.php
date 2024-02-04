@@ -94,6 +94,7 @@ if (empty($pageName)) {
                     </li>
                 </ul>
                 <ul class="navbar-nav d-flex justify-content-end mb-2 mb-lg-0">
+
                     <li class="nav-item">
                         <p class="nav-link clock me-3 fs-5">⏰ 0:00:00 PM</p>
                     </li>
@@ -170,7 +171,9 @@ if (empty($pageName)) {
         <!-- 功能欄位在這裡 -->
         <div class="col">
             <form method="GET" class="d-flex justify-content-center my-3">
+
                 <input type="text" id="searchbar" name="searchbar" class="searchbar distance ps-2 me-3 page-link border" type="search" placeholder="輸入關鍵字">
+
                 <select name="sort" id="sort" class="me-3 page-link border">
                     <option value="" selected disabled>誰排在前面？</option>
                     <option value="original">小編碼</option>
@@ -178,7 +181,9 @@ if (empty($pageName)) {
                     <option value="cost_ascend">小金額</option>
                     <option value="cost_descend">大金額</option>
                 </select>
+
                 <button type="button" class="reset me-3 page-link border border-light outline">重置</button>
+
             </form>
         </div>
         <!-- 功能欄位結束了 -->
@@ -265,7 +270,6 @@ if (empty($pageName)) {
 
     <?php include('./../package/packageDown.php') ?>
     <?php include __DIR__ . '/parts/scripts.php' ?>
-
     <script>
         function delete_one(
             sticker_inventory_id) {
