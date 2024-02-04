@@ -31,17 +31,19 @@ $totalPages = 0;
 $rows = [];
 
 $order = isset($_GET['order']) ? $_GET['order'] : '';
-
 // 切換排序順序
 $newOrder = ($order === 'asc') ? 'desc' : 'asc';
-
 // 生成帶有新排序順序的 URL(第二種寫法,a href要帶入$toggleUrl)
 // $toggleUrl = $_SERVER['PHP_SELF'] . "?order=$newOrder";
 
 $toggle = isset($_GET['toggleImg']) ? $_GET['toggleImg'] : '';
-$imgChange = ($toggle === "<i class='fa-solid fa-down-long'></i>") ? "<i class='fa-solid fa-up-long'></i>" : "<i class='fa-solid fa-down-long'></i>";
+$imgChange = ($toggle === "<i class='fa-solid fa-down-long text-white'></i>") ? "<i class='fa-solid fa-up-long text-white'></i>" : "<i class='fa-solid fa-down-long text-white'></i>";
 
 $inputSearch = isset($_POST['search']) ? $_POST['search'] : '';
+$startDate = isset($_POST['start_date']) ? $_POST['start_date'] : '';
+$endDate = isset($_POST['end_date']) ? $_POST['end_date'] : '';
+
+$selectedOption = isset($_POST['search_type']) ? $_POST['search_type'] : '';
 
 if ($totalRows > 0) {
     $totalPages = ceil($totalRows / $perPage);
@@ -50,175 +52,232 @@ if ($totalRows > 0) {
         header('Location: ?page=' . $totalPages);
         exit;
     }
-    $sql = sprintf("SELECT * FROM sn_posts WHERE content LIKE '%%%s%%' ORDER BY posts_timestamp $newOrder LIMIT %s, %s", $inputSearch, ($page - 1) * $perPage, $perPage);
+
+    if (!$startDate && !$endDate && !$inputSearch) {
+        $sql = sprintf("SELECT * FROM sn_posts ORDER BY posts_timestamp $newOrder 
+        LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
+    } else {
+        if ($inputSearch && !$startDate && !$endDate) {
+            $sql = "SELECT * FROM sn_posts WHERE $selectedOption LIKE '%$inputSearch%'
+            ORDER BY posts_timestamp $newOrder LIMIT " . (($page - 1) * $perPage) . ", $perPage";
+        } else {
+            if ($startDate && !$endDate) {
+                $sql = "SELECT * FROM sn_posts WHERE $selectedOption LIKE '%$inputSearch%'
+                AND (posts_timestamp BETWEEN '$startDate' AND '$startDate 23:59:59')
+                ORDER BY posts_timestamp $newOrder LIMIT " . (($page - 1) * $perPage) . ", $perPage";
+            } else {
+                $sql = "SELECT * FROM sn_posts WHERE $selectedOption LIKE '%$inputSearch%'
+                AND (posts_timestamp BETWEEN '$startDate' AND '$endDate 23:59:59')
+                ORDER BY posts_timestamp $newOrder LIMIT " . (($page - 1) * $perPage) . ", $perPage";
+            }
+        }
+    }
+
     $stmt = $pdo->prepare($sql);
     $stmt->execute();
     $rows = $stmt->fetchAll();
 }
 
+function highlightSearchTerm($content, $searchTerm)
+{
+    if ($searchTerm) {
+        // 使用 str_ireplace 進行不區分大小寫的搜尋並替換，並添加高亮樣式
+        $highlightedTerm = '<span class="bg-dark text-light fs-3" style="border-radius: 3px">' . $searchTerm . '</span>';
+        $content = str_ireplace($searchTerm, $highlightedTerm, $content);
+    }
+
+    return $content;
+}
+
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
 <?php include __DIR__ . '/../package/packageUp.php' ?>
-<?php include __DIR__ . '/parts/navbar.php' ?>
-<div class="container-fluid overflow-auto">
+<!-- <?php include __DIR__ . '/parts/navbar.php' ?> -->
+<div class="container-fluid overflow-auto px-5" style="background-color: #6C757D;">
     <div class="row">
         <div class="col">
-            <h3 class="my-2 text-center fw-bold">Posts</h3>
+            <h3 class="my-2 text-center fw-bold mt-4">Posts</h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb border-0 ps-0">
+                    <li class="breadcrumb-item"><a href="./public-board.php" class="text-decoration-none" style="color:#000">Public Boards</a></li>
+                    <li class="mx-3" style="color:#000">&gt;</li>
+                    <li class="breadcrumb-item active text-white" aria-current="page">Posts &amp; Comments</li>
+                    <li class="mx-3" style="color:#000">&gt;</li>
+                    <li class="breadcrumb-item"><a href="./comments-reply-list-no-admin.php" class="text-decoration-none" style="color:#000">Comment Replies</a></li>
+                </ol>
+            </nav>
             <nav aria-label="Page navigation example" class="d-flex justify-content-between">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a class="page-link" href="?page=<?= 1 ?>">
+                        <a class="page-link text-dark" href="?page=<?= 1 ?>">
                             <i class="fa-solid fa-angles-left"></i>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page=<?= $page - 1 ?>">
+                        <a class="page-link text-dark" href="?page=<?= $page - 1 ?>">
                             <i class="fa-solid fa-angle-left" href="?page"></i>
                         </a>
                     </li>
                     <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
                         if ($i >= 1 and $i <= $totalPages) : ?>
                             <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                                <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                                <a class="page-link text-dark" href="?page=<?= $i ?>"><?= $i ?></a>
                             </li>
                     <?php endif;
                     endfor; ?>
 
                     <li class="page-item">
-                        <a class="page-link" href="?page=<?= $page + 1 ?>">
+                        <a class="page-link text-dark" href="?page=<?= $page + 1 ?>">
                             <i class="fa-solid fa-angle-right"></i>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page=<?= $totalPages ?>">
+                        <a class="page-link text-dark" href="?page=<?= $totalPages ?>">
                             <i class="fa-solid fa-angles-right"></i>
                         </a>
                     </li>
                 </ul>
                 <ul class="d-flex">
                     <li>
-                        <a href="./posts-add.php" class="text-decoration-none fs-10 btn btn-outline-primary btn-sm border-primary">Add</a>
-                    </li>
-                    <li>
-                        <nav class="navbar pt-0 bg-white">
+                        <nav class="navbar bg-light rounded pb-1">
                             <div class="container-fluid">
                                 <form class="d-flex" method="POST" action="posts-list-no-admin.php?">
-                                    <input class="form-control search-custom me-2" type="search" name="search" placeholder="Search" aria-label="Search">
-                                    <button class="btn btn-outline-primary btn-sm py-0 border-white" type="submit"><i class="fa-solid fa-magnifying-glass fs-5"></i></button>
+                                    <!-- 測試 -->
+                                    <label for="inputOptions" style="white-space:nowrap" class="me-2"><i class="fa-solid fa-filter fs-5 pt-1"></i></label>
+                                    <select id="inputOptions" name="search_type" class="form-select form-select-sm me-2 search-custom focus-ring focus-ring-light" style="height: 32px">
+                                        <option value="content">content</option>
+                                        <option value="location">location</option>
+                                        <option value="board_id">border id</option>
+                                    </select>
+                                    <input type="date" name="start_date" value="<?= $startDate ?>" class="form-control me-2 px-1 search-custom" id="startDate">
+                                    <input type="date" name="end_date" value="<?= $endDate ?>" class="form-control me-2 px-1 search-custom" id="endDate">
+                                    <input class="form-control search-custom me-1" type="search" name="search" placeholder="Search" value="<?= $inputSearch ?>" aria-label="Search">
+                                    <button class="btn btn-outline-dark btn-sm py-0 border-white" type="submit"><i class="fa-solid fa-magnifying-glass fs-5"></i></button>
+                                    <a href="./posts-add.php" class="text-decoration-none fs-10 btn btn-outline-dark btn-sm border-white me-2"><i class="fa-solid fa-plus fs-5"></i></a>
+                                    <a href="posts-list-no-admin.php" class="d-flex align-baseline align-self-center text-decoration-none mx-1">
+                                        <i class="fa-solid fa-arrow-rotate-right fs-5 page-link text-dark"></i></a>
                                 </form>
                             </div>
                         </nav>
                     </li>
                 </ul>
             </nav>
-            <?php if($rows) : ?>
-            <table class="table table-bordered table-striped">
-                <thead>
-                    <tr>
-                        <th><i class="fa-solid fa-trash-can"></i></th>
-                        <th><i class="fa-solid fa-pen-to-square"></i></th>
-                        <th>post_id</th>
-                        <th>user_id</th>
-                        <th>content</th>
-                        <th>image_url</th>
-                        <th>video_url</th>
-                        <th>location</th>
-                        <th>tagged_users</th>
-                        <th>posts_timestamp
-                            <a href="?order=<?= $newOrder; ?>&toggleImg=<?= $imgChange; ?>" class="text-decoration-none">
-                                <?= $imgChange ?>
-                            </a>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- while($r = $stmt->fetch()):  -->
-                    <?php foreach ($rows as $r) : ?>
-                        <tr>
-                            <td>
-                                <a href="javascript: delete_one(<?= $r['post_id'] ?>)">
-                                    <i class="fa-solid fa-trash-can"></i>
+            <?php if ($rows) : ?>
+                <table class="table table-light table-hover">
+                    <thead>
+                        <tr class="table-dark">
+                            <th style="border-radius: 10px 0 0 0">remove</th>
+                            <th>edit</th>
+                            <th>post_id</th>
+                            <th>user_id</th>
+                            <th>board_id</th>
+                            <th class="text-center">content</th>
+                            <th>image_url</th>
+                            <th>video_url</th>
+                            <th>location</th>
+                            <th>tagged_users</th>
+                            <th style="border-radius: 0 10px 0 0">posts_timestamp
+                                <a href="?order=<?= $newOrder; ?>&toggleImg=<?= $imgChange; ?>" class="text-decoration-none">
+                                    <?= $imgChange ?>
                                 </a>
-                            </td>
-                            <td>
-                                <a href="post-edit.php?post_id=<?= $r['post_id'] ?>">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </a>
-                            </td>
-                            <td><?= $r['post_id'] ?></td>
-                            <td><?= $r['user_id'] ?></td>
-                            <td class="d-flex justify-content-between align-items-center">
-                                <?= $r['content'] ?>
-                                <?php
-                                $postId = $r['post_id'];
-                                ?>
-                                <!-- modal -->
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailCm-<?= $postId ?>" id="showCm-<?= $postId ?>">
-                                    查看留言
-                                </button>
-                                <!-- Modal -->
-                                <div class="modal fade" id="detailCm-<?= $postId ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" id="yes">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">留言</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- while($r = $stmt->fetch()):  -->
+                        <?php foreach ($rows as $r) : ?>
+                            <tr>
+                                <td>
+                                    <a href="javascript: delete_one(<?= $r['post_id'] ?>)">
+                                        <i class="fa-solid fa-trash-can text-dark"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="post-edit.php?post_id=<?= $r['post_id'] ?>">
+                                        <i class="fa-solid fa-pen-to-square text-dark"></i>
+                                    </a>
+                                </td>
+                                <td><?= $r['post_id'] ?></td>
+                                <td><?= $r['user_id'] ?></td>
+                                <td><?= $r['board_id'] ?></td>
+                                <td class="d-flex justify-content-between align-items-center">
+                                    <?php if (!$r['content']) : ?>
+                                        <div class="text-danger fs-6">No contents.</div>
+                                        <!-- modal -->
+                                        <!-- Button trigger modal -->
+                                    <?php else : ?>
+                                        <?php
+                                        $postId = $r['post_id'];
+                                        ?>
+                                        <div><?= highlightSearchTerm($r['content'], $inputSearch) ?></div>
+                                        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#detailCm-<?= $postId ?>" id="showCm-<?= $postId ?>">
+                                            查看留言
+                                        </button>
+                                    <?php endif; ?>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="detailCm-<?= $postId ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" id="yes">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header bg-secondary">
+                                                    <h5 class="modal-title" id="exampleModalLabel">留言</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <?php foreach ($row_cm as $r_cm) : ?>
+                                                        <?php if ($r['post_id'] === $r_cm['post_id']) : ?>
+                                                            <?= $r_cm['content'] . $r_cm['post_id'] . "<br>"; ?>
+                                                            <!-- 用api寫 -->
+                                                            <button onclick="checkReply(<?= $r_cm['comment_id'] ?>)" style="margin-top: 5px" class="border-0 rounded px-2 py-1">查看回覆</button>
+                                                            <?= "comment id:" . $r_cm['comment_id'] ?>
+                                                            <div id='showReply<?= $r_cm['comment_id'] ?>' style="margin-top: 5px;white-space: normal;"></div>
+                                                            <!-- api結束 -->
+                                                        <?php endif; ?>
+                                                    <?php endforeach ?>
+                                                    <form name="formCm<?= $r['post_id'] ?>" method="post" onsubmit="sendCmForm(<?= $r['post_id'] ?>)" class="d-flex flex-column">
+                                                        <input type="hidden" name="post_id" value="<?= $r['post_id'] ?>">
+                                                        <textarea type="text" id="content" name="content" placeholder="留言..." style="border: 1px solid #dee2e6;border-radius: 4px;width: 100%;padding: 14px 22px"></textarea>
+                                                        <button type="submit" class="btn btn-dark btn-sm mt-2 me-2 py-1 align-self-end" style="width: 10%"><i class="fa-regular fa-circle-right"></i></button>
+                                                    </form>
+                                                </div>
                                             </div>
-                                            <div class="modal-body">
-                                                <?php foreach ($row_cm as $r_cm) : ?>
-                                                    <?php if ($r['post_id'] === $r_cm['post_id']) : ?>
-                                                        <?= $r_cm['content'] . $r_cm['post_id'] . "<br>"; ?>
-                                                        <!-- 用api寫 -->
-                                                        <button onclick="checkReply(<?= $r_cm['comment_id'] ?>)" style="margin-top: 5px" class="border-1 rounded">查看回覆</button>
-                                                        <?= "comment id:" . $r_cm['comment_id'] ?>
-                                                        <div id='showReply<?= $r_cm['comment_id'] ?>' style="margin-top: 5px;white-space: normal;"></div>
-                                                        <!-- api結束 -->
-                                                    <?php endif; ?>
-                                                <?php endforeach ?>
-                                                <form name="formCm<?= $r['post_id'] ?>" method="post" onsubmit="sendCmForm(<?= $r['post_id'] ?>)" class="d-flex flex-column">
-                                                    <input type="hidden" name="post_id" value="<?= $r['post_id'] ?>">
-                                                    <textarea type="text" id="content" name="content" placeholder="留言..." style="border: 1px solid #dee2e6;border-radius: 4px;width: 100%;padding: 14px 22px"></textarea>
-                                                    <button type="submit" class="btn btn-primary btn-sm mt-2 me-2 py-1 align-self-end" style="width: 10%"><i class="fa-regular fa-circle-right"></i></button>
-                                                </form>
-                                            </div>
-                                            <!-- <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Save changes</button>
-                                            </div> -->
                                         </div>
                                     </div>
-                                </div>
-                                <!-- model -->
-                            </td>
-                            <td><?= $r['image_url'] ?></td>
-                            <td><?= $r['video_url'] ?></td>
-                            <td><?= $r['location'] ?></td>
-                            <td><?= $r['tagged_users'] ?></td>
-                            <td><?= $r['posts_timestamp'] ?></td>
-                        </tr>
-                        <!-- endwhile  -->
-                    <?php endforeach ?>
-                </tbody>
-            </table>
+                                    <!-- model -->
+                                </td>
+                                <td><?= $r['image_url'] ?></td>
+                                <td><?= $r['video_url'] ?></td>
+                                <td><?= $r['location'] ?></td>
+                                <td><?= $r['tagged_users'] ?></td>
+                                <td><?= $r['posts_timestamp'] ?></td>
+                            </tr>
+                            <!-- endwhile  -->
+                        <?php endforeach ?>
+                    </tbody>
+                </table>
             <?php else : ?>
-                <div class="text-center fs-5 text-danger mb-5">Sorry, we couldn't find any results.</div>
+                <div class="text-center fs-5 text-warning mb-5 fw-bold">Sorry, we couldn't find any results.</div>
             <?php endif; ?>
 
-            <h4 class="my-3 text-center fw-bold">留言總覽</h4>
-            <table class="table table-bordered table-striped mt-3">
+            <h3 class="my-4 text-center fw-bold">Comments</h3>
+            <table class="table table-light table-hover mb-5">
                 <thead>
-                    <tr>
+                    <tr class="table-dark">
+                        <th style="border-radius: 10px 0 0 0">remove</th>
                         <th>comment_id</th>
                         <th>user_id</th>
                         <th>post_id</th>
                         <th>content</th>
-                        <th>comment_timestamp</th>
+                        <th style="border-radius: 0 10px 0 0">comment_timestamp</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($row_cm as $r_cm) : ?>
                         <tr>
+                            <td>
+                                <a href="javascript: delete_cm(<?= $r_cm['comment_id'] ?>)">
+                                    <i class="fa-solid fa-trash-can text-dark"></i>
+                                </a>
+                            </td>
                             <td><?= $r_cm['comment_id'] ?></td>
                             <td><?= $r_cm['user_id'] ?></td>
                             <td><?= $r_cm['post_id'] ?></td>
@@ -235,15 +294,21 @@ if ($totalRows > 0) {
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
     function delete_one(post_id) {
-        if (confirm(`是否要刪除編號為${post_id}的帖子?`)) {
+        if (confirm(`是否要刪除編號為${post_id}的貼文?`)) {
             location.href = `post-delete.php?post_id=${post_id}`;
+        }
+    }
+
+    function delete_cm(comment_id) {
+        if (confirm(`是否要刪除編號為${comment_id}的留言?`)) {
+            location.href = `posts-comment-delete.php?comment_id=${comment_id}`;
         }
     }
 
     const checkReply = (commentId) => {
         event.preventDefault();
 
-        fetch(`posts-list-no-admin-api.php?comment_id=${commentId}`)
+        fetch(`posts-comment-reply-api.php?comment_id=${commentId}`)
             .then(response => response.json())
             .then((replies) => {
                 getReply(replies);
@@ -299,7 +364,6 @@ if ($totalRows > 0) {
                 );
         }
     }
-
 </script>
 <?php include __DIR__ . '/../package/packageDown.php' ?>
 <?php include __DIR__ . '/parts/html-foot.php' ?>

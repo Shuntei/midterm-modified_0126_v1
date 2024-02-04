@@ -18,3 +18,4 @@ if (isset($_GET['comment_id'])) {
     echo json_encode(['error' => 'Comment ID not provided']);
     exit;
 }
+

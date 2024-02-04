@@ -12,57 +12,61 @@ if (empty($row)) {
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
 <?php include __DIR__ . '/../package/packageUp.php' ?>
-<?php include __DIR__ . '/parts/navbar.php' ?>
-<div class="container-fluid">
-  <div class="row d-flex justify-content-center">
+<!-- <?php include __DIR__ . '/parts/navbar.php' ?> -->
+<div class="container-fluid d-flex justify-content-center" style="background-color: #6C757D; height: 200svh">
+  <div class="row d-flex justify-content-center py-5 w-75">
     <div class="col-6">
       <div class="card">
-        <div class="card-body bg-secondary rounded">
-          <h5 class="card-title">編輯帖子</h5>
+        <div class="card-body bg-dark rounded">
+          <div class="d-flex justify-content-between">
+            <h5 class="card-title text-light">編輯貼文</h5>
+            <a href="./posts-list-no-admin.php" class="ms-2"><i class="fa-solid fa-xmark fs-5 text-light"></i></a>
+          </div>
           <form name="form1" method="post" onsubmit="sendForm(event)">
             <div class="mb-3">
-              <label class="form-label">編號</label>
+              <label class="form-label text-light">post_id</label>
               <input type="text" class="form-control" disabled value="<?= $row['post_id'] ?>">
             </div>
             <input type="hidden" name="post_id" value="<?= $row['post_id'] ?>">
             <div class="mb-3">
-              <label for="user_id" class="form-label">user_id</label>
+              <label for="user_id" class="form-label text-light">user_id</label>
               <input type="text" class="form-control" id="user_id" name="user_id" value="<?= htmlentities($row['user_id']) ?>">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-            <label for="content" class="form-label">content</label>
-              <textarea type="text" id="content" name="content"   style="border: 1px solid #dee2e6;  
-              border-radius: 4px; width: 100%;padding: 14px 22px"><?= $row['content'] ?></textarea>
+              <label for="content" class="form-label text-light">content</label>
+              <textarea type="text" id="content" name="content" style="border: 1px solid #dee2e6;  
+            border-radius: 4px; width: 100%;padding: 14px 22px"><?= $row['content'] ?></textarea>
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="image_url" class="form-label">image_url</label>
+              <label for="image_url" class="form-label text-light">image_url</label>
               <input type="text" class="form-control" id="image_url" name="image_url" value="<?= $row['image_url'] ?>">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="video_url" class="form-label">video_url</label>
+              <label for="video_url" class="form-label text-light">video_url</label>
               <input type="text" class="form-control" id="video_url" name="video_url" value="<?= $row['video_url'] ?>">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="location" class="form-label">location</label>
-              <textarea type="text" id="location" name="location" 
-              style="border: 1px solid #dee2e6;border-radius: 4px; width: 100%;padding: 14px 22px"><?= $row['location'] ?></textarea>
+              <label for="location" class="form-label text-light">location</label>
+              <textarea type="text" id="location" name="location" style="border: 1px solid #dee2e6;border-radius: 4px; width: 100%;padding: 14px 22px"><?= $row['location'] ?></textarea>
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="tagged_users" class="form-label">tagged_users</label>
+              <label for="tagged_users" class="form-label text-light">tagged_users</label>
               <input type="text" class="form-control" id="tagged_users" name="tagged_users" value="<?= $row['tagged_users'] ?>">
               <div class="form-text"></div>
             </div>
-            <!-- <div class="mb-3">
-              <label for="posts_timestamp" class="form-label">posts_timestamp</label>
-              <input type="date" class="form-control" id="posts_timestamp" name="posts_timestamp" value="<?= $row['posts_timestamp'] ?>">
+            <div class="mb-3">
+              <label for="posts_timestamp" class="form-label text-light">posts_timestamp</label>
+              <input type="date" class="form-control bg-dark text-light" id="posts_timestamp" name="posts_timestamp" value="<?= $row['posts_timestamp'] ?>" disabled>
               <div class="form-text"></div>
-            </div> -->
-            <button type="submit" class="btn btn-primary">修改</button>
+            </div>
+            <div class="d-flex justify-content-end mt-5 pb-0">
+              <button type="submit" class="btn btn-light rounded text-dark btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">修改</button>
+            </div>
           </form>
         </div>
       </div>
@@ -80,20 +84,19 @@ if (empty($row)) {
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="alert alert-success" role="alert">
-          修改成功
+        <div class="alert alert-success fs-5" role="alert">
+          修改成功✌('ω'✌ )三✌('ω')✌三( ✌'ω')✌
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">繼續編輯</button>
-        <a type="button" class="btn btn-primary" href="posts-list-no-admin.php">到列表頁</a>
+        <a type="button" class="btn btn-dark" href="posts-list-no-admin.php">到列表頁</a>
       </div>
     </div>
   </div>
 </div>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
-document.querySelectorAll("textarea").value="";
   const {
     post_id: post_id_f,
     user_id: user_id_f,
