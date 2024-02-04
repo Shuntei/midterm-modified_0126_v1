@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Document</title>
+</head>
+<body>
+<div style="cursor: pointer;" onclick="document.uploadForm1.avatar.click()">點選上傳圖片</div>
+<form name="uploadForm1" hidden>
+    <input type="file" name="avatar" onchange="uploadFile()"/>
+</form>
+<div style="width: 300px">
+    <img src="" alt="" id="myimg" width="100%"/>
+</div>
+<script>
+  function uploadFile() {
+    const fd = new FormData(document.uploadForm1);
+
+    fetch("upload-avatar.php", {
+      method: "POST",
+      body: fd, // enctype="multipart/form-data"
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success) {
+          myimg.src = "/3dmodel/" + data.file;
+        }
+      });
+  }
+</script>
+</body>
+</html>

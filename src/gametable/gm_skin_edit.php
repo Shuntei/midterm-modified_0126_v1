@@ -13,7 +13,7 @@ if (empty($row)) {
 
 
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include __DIR__ . '/parts/packageUp.php' ?>
+<?php include './../package/packageUp.php' ?>
 
 
 <style>
@@ -50,14 +50,19 @@ if (empty($row)) {
               <input type="text" class="form-control" id="role" name="role" value="<?= $row['role'] ?>">
               <div class="form-text"></div>
             </div>
+            <!-- <div class="mb-3">
+              <label for="file" class="form-label">Upload model</label>
+              <input type="file" class="form-control" id="file" name="file" value="<?= $row['file'] ?>">
+              <div class="form-text"></div>
+            </div> -->
             <div class="mb-3">
-              <label for="upload_file" class="form-label">Upload model</label>
-              <input type="text" class="form-control" id="upload_file" name="upload_file" value="<?= $row['upload_file'] ?>">
+              <label for="upload_file" class="form-label">Upload Model</label>
+              <input type="file" class="form-control" id="upload_file" value="<?= $row['file'] ?>" name="file">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
               <label for="last_update" class="form-label">Last Update</label>
-              <input type="datetime-local" class="form-control" id="last_update" name="last_update"><?= $row['skin_last_update'] ?></input>
+              <input type="datetime-local" class="form-control" id="last_update" name="last_update" value="<?= $row['skin_last_update'] ?>"></input>
               <div class="form-text"></div>
             </div>
             <button type="submit" class="btn btn-primary text-white me-0" data-bs-toggle="modal"
@@ -99,6 +104,23 @@ if (empty($row)) {
 <?php include __DIR__ . '/parts/packageDown.php' ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
+
+// # 檢查是否有檔案上傳
+if (!empty($_FILES['file'])) {
+    $file = $_FILES['file'];
+    $filename = $file['name'];
+    $filepath = __DIR__ . '/3dmodel/' . $filename;
+
+    // # 將檔案移動到指定路徑
+    if (move_uploaded_file($file['tmp_name'], $filepath)) {
+        $output['file'] = $filename;  // 將檔案名稱存入資料庫
+        $output['success'] = true;
+    } else {
+        $output['error'] = '檔案移動失敗';
+    }
+} else {
+    $output['error'] = '沒有上傳的檔案';
+}
   // const {
   //   name: name_f,
   //   email: email_f,
@@ -164,25 +186,25 @@ if (empty($row)) {
       );
     }
 
-  // const sendForm = e => {
-  //   e.preventDefault();
-  //   const fd = new FormData(document.form1);
+  const sendForm = e => {
+    e.preventDefault();
+    const fd = new FormData(document.form1);
 
-  //   fetch('ca_merchandise_edit_api.php', {
-  //       method: 'POST',
-  //       body: fd,
-  //     }).then(r => r.json())
-  //     .then(result => {
-  //       console.log({
-  //         result
-  //       });
-  //       if (result.success) {
-  //         myModal.show();
-  //       }
-  //     }).catch(
-  //       e => console.log(e)
-  //     );
-  // }
+    fetch('ca_merchandise_edit_api.php', {
+        method: 'POST',
+        body: fd,
+      }).then(r => r.json())
+      .then(result => {
+        console.log({
+          result
+        });
+        if (result.success) {
+          myModal.show();
+        }
+      }).catch(
+        e => console.log(e)
+      );
+  }
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
 </script>
 

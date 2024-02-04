@@ -11,16 +11,50 @@ $skinSql = "SELECT skin_id, skin_name FROM `gm_skin` WHERE 1";
 $skinRow = $pdo->query($skinSql)->fetchAll();
 ?>
 
+<style>
+    .profilePic {
+        width: 150px;
+        border-radius: 50px;
+        top: -180px;
+        right: 20px;
+
+    }
+
+    .form1 {
+        margin-top: 80px;
+    }
+
+    .cameraIcon {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        z-index: 2;
+    }
+</style>
+
 <div class="container d-flex justify-content-center">
     <div class="container col-12 col-md-6 mt-4">
         <div class="col-md-12 col-12 grid-margin stretch-card">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title text-center">Add New User</h4>
-                    <p class="card-description text-center">
+                    <h4 class="card-title mt-5">Add New User</h4>
+                    <p class="card-description">
                         Please fill the information correctly
                     </p>
-                    <form class="forms-sample" name="form1" method="post" onsubmit="sendForm(event)" novalidate>
+                    <form class="forms-sample position-relative form1" name="form1" method="post" onsubmit="sendForm(event)" novalidate enctype="multipart/form-data">
+                        <div id="profilePic" class="profilePic position-absolute position-relative" role="button">
+                            <div class="bg-secondary cameraIcon img-thumbnail rounded-circle">
+                                <i class="bi bi-camera fw-bold"></i>
+                            </div>
+                            <img src="../assets/images/member/default-profile.jpeg" class="img-thumbnail rounded-circle position-relative" alt="">
+                        </div>
+                        <input type="file" id="pictureInput" name="picture" class="d-none">
+                        <input type="hidden" name="uploadedPicture" id="uploadedPictire" value="">
                         <div class="form-group row align-items-start">
                             <label for="name" class="col-sm-3 col-form-label">Name</label>
                             <div class="col-sm-9 mt-2">
@@ -58,13 +92,6 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
                             </div>
                         </div>
                         <div class="form-group row align-items-start">
-                            <label for="picture" class="col-sm-3 col-form-label">Profile Picture</label>
-                            <div class="col-sm-9 mt-2 ">
-                                <input type="file" class="form-control" id="picture" name="picture">
-                                <p class="text-danger mt-1"></p>
-                            </div>
-                        </div>
-                        <div class="form-group row align-items-start">
                             <label for="birthday" class="col-sm-3 col-form-label">Birthday</label>
                             <div class="col-sm-9 mt-2">
                                 <input type="date" class="form-control" id="birthday" name="birthday" required>
@@ -88,7 +115,7 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
                         <p class="text-danger mt-1" id="requiredInfo"></p>
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-primary me-2">Add</button>
-                            <button type="button" class="btn btn-light">Clear</button>
+                            <button type="button" class="btn btn-light" id="btn-cancel">Cancel</button>
                         </div>
                     </form>
                 </div>
@@ -108,6 +135,61 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
         picture,
         birthday
     } = document.form1;
+
+    document.querySelector('#btn-cancel').addEventListener('click', cancelAdd)
+
+    function hasFilledInputs() {
+        return (
+            name.value.trim() ||
+            email.value.trim() ||
+            phone.value.trim() ||
+            password.value.trim() ||
+            rePassword.value.trim() ||
+            birthday.value.trim() ||
+            picture.value.trim()
+        )
+    }
+
+    function cancelAdd() {
+        if (hasFilledInputs()) {
+            swal({
+                title: "Discard information?",
+                text: "if you cancel now, any entered information will be lost.",
+                icon: "warning",
+                buttons: ["No, keep adding", "Yes, discard"],
+                dangerMode: true,
+            }).then((willDiscard) => {
+                if (willDiscard) {
+                    window.location.href = 'member.php'
+                }
+            })
+        } else {
+            window.location.href = 'member.php'
+        }
+    }
+
+    document.querySelector('#profilePic').addEventListener('click', () => {
+        document.querySelector('#pictureInput').click();
+    })
+
+    document.querySelector('#pictureInput').addEventListener('change', () => {
+        uploadFile()
+    })
+
+    function uploadFile() {
+        const fd = new FormData(document.form1);
+
+        fetch("upload-profile.php", {
+                method: "post",
+                body: fd
+            })
+            .then(r => r.json())
+            .then(data => {
+                if (data.success) {
+                    document.querySelector('#uploadedPicture').value = data.file;
+                }
+            })
+    }
 
     function validateName(name) {
         return name.length >= 2;

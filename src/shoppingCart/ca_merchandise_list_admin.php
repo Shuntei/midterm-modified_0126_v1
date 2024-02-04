@@ -70,11 +70,22 @@ $title = '列表';
 
 // $stmt->execute();
 // $rows = $stmt->fetchAll();
+// 獲取篩選條件的價格值
+$price1 = isset($_GET['price1']) ? intval($_GET['price1']) : 0;
+$price2 = isset($_GET['price2']) ? intval($_GET['price2']) : PHP_INT_MAX; // 使用 PHP_INT_MAX 作為預設最大值
 
-$sql = sprintf("SELECT * FROM ca_merchandise ORDER BY item_id DESC ");
-// $sql = sprintf("SELECT * FROM ca_merchandise ORDER BY item_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
-$stmt = $pdo->query($sql);
+// 修正 SQL 查詢，加入價格區間條件
+$sql = sprintf("SELECT * FROM ca_merchandise WHERE unit_price BETWEEN :price1 AND :price2 ORDER BY item_id DESC");
+$stmt = $pdo->prepare($sql);
+$stmt->bindValue(':price1', $price1, PDO::PARAM_INT);
+$stmt->bindValue(':price2', $price2, PDO::PARAM_INT);
+$stmt->execute();
+
 $rows = $stmt->fetchAll();
+// $sql = sprintf("SELECT * FROM ca_merchandise ORDER BY item_id DESC ");
+// $sql = sprintf("SELECT * FROM ca_merchandise ORDER BY item_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
+// $stmt = $pdo->query($sql);
+// $rows = $stmt->fetchAll();
 // 老師寫的
 // $stmt = $pdo->query("SELECT * FROM ca_merchandise LIMIT 0, 20");
 
@@ -102,11 +113,21 @@ if (empty($pageName)) {
             <!-- <?= "$totalRows, $totalPages" ?> -->
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Merchandise</h4>
+                    <h4 class="card-title">商品列表</h4>
                     <p class="card-description">
-                    <div class="nav-item me-4">
-                        <button type="button" class="btn btn-outline-secondary"><a class="nav-link" href="./ca_merchandise_add.php">新增</a></button>
+
+                    <div class="d-flex justify-content-between">
+                        <div class="">
+                            <button type="button" class="btn btn-outline-secondary"><a class="nav-link" href="./ca_merchandise_add.php">新增</a></button>
+                        </div>
+                        <form action="ca_merchandise_list_admin.php" method="get" name="form2" id="form2" class="">
+                            <label for="" class="border border-secondary rounded bg-secondary text-light ">價格區間</label>
+                            <input class="rounded border-secondary" name="price1" type="text" id="price1" value="0" size="3">-
+                            <input class="rounded border-secondary" name="price2" type="text" id="price2" value="0" size="3">
+                            <input type="submit" id="button2" class="btn btn-secondary" value="查詢">
+                        </form>
                     </div>
+
                     </p>
                     <div class="container-fluid">
                         <!--
@@ -198,12 +219,12 @@ if (empty($pageName)) {
                                     <!-- <a href="ca_merchandise_list_admin.php?sort=item_id_desc"><i class="fa fa-arrow-down"></i></a>
                                     <a href="ca_merchandise_list_admin.php?sort=item_id_asc"><i class="fa fa-arrow-up"></i></a> -->
                                 </th>
-                                <th data-sortable="true">item_name</th>
-                                <th data-sortable="true">quantity</th>
-                                <th data-sortable="true">category_id</th>
-                                <th data-sortable="true">description</th>
-                                <th data-sortable="true">unit_price</th>
-                                <th>product_img </th>
+                                <th data-sortable="true">商品名稱</th>
+                                <th data-sortable="true">存貨</th>
+                                <th data-sortable="true">種類id</th>
+                                <th data-sortable="true">商品描述</th>
+                                <th data-sortable="true">單價</th>
+                                <th>商品圖片 </th>
 
                                 <th><i class="fa-solid fa-pen-to-square"></i></th>
                             </tr>
@@ -212,11 +233,10 @@ if (empty($pageName)) {
                             <!-- while($r = $stmt->fetch()):  -->
                             <?php foreach ($rows as $r) : ?>
                                 <tr>
-                                    <td>
-                                        <a href="javascript: delete_merchandise(<?= $r['item_id'] ?>)">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
-                                    </td>
+
+                                    <td><input type="checkbox" class="checkbox" data-itemid="<?= $r['item_id'] ?>"></td>
+
+
                                     <td><?= $r['item_id'] ?></td>
                                     <td><?= $r['item_name'] ?></td>
                                     <td><?= $r['quantity'] ?></td>
@@ -228,7 +248,7 @@ if (empty($pageName)) {
                                     <!-- <td><?= strip_tags($r['address']) ?></td> -->
                                     <td>
                                         <a href="ca_merchandise_edit.php?item_id=<?= $r['item_id'] ?>">
-                                            <i class="fa-solid fa-pen-to-square"></i>
+                                            <i class="fa-solid fa-pen-to-square text-secondary"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -236,7 +256,7 @@ if (empty($pageName)) {
                             <?php endforeach ?>
                         </tbody>
                     </table>
-
+                    <button type="button" class="btn btn-danger" id="delete-selected">刪除勾選</button>
                 </div>
             </div>
         </div>
@@ -254,7 +274,7 @@ if (empty($pageName)) {
             <!-- <?= "$totalRows, $totalPages" ?> -->
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Category</h4>
+                    <h4 class="card-title">商品分類</h4>
                     <p class="card-description">
                     <div class="nav-item me-4">
                         <button type="button" class="btn btn-outline-secondary"><a class="nav-link" href="./ca_category_add.php">新增</a></button>
@@ -346,7 +366,7 @@ if (empty($pageName)) {
                         <thead>
                             <tr>
                                 <th><i class="fa-solid fa-trash-can"></i></th>
-                                
+
                                 <th data-sortable="true">類別id</th>
                                 <th data-sortable="true">類別名稱</th>
                                 <th><i class="fa-solid fa-pen-to-square"></i></th>
@@ -357,15 +377,13 @@ if (empty($pageName)) {
                             <?php foreach ($rows2 as $r2) : ?>
                                 <tr>
                                     <td>
-                                        <a href="javascript: delete_category(<?= $r2['category_id'] ?>)">
-                                            <i class="fa-solid fa-trash-can"></i>
-                                        </a>
+                                        <input type="checkbox" class="checkbox-category" data-categoryid="<?= $r2['category_id'] ?>">
                                     </td>
                                     <td><?= $r2['category_id'] ?></td>
                                     <td><?= $r2['category_name'] ?></td>
                                     <td>
                                         <a href="ca_category_edit.php?category_id=<?= $r2['category_id'] ?>">
-                                            <i class="fa-solid fa-pen-to-square"></i>
+                                            <i class="fa-solid fa-pen-to-square text-secondary"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -373,6 +391,7 @@ if (empty($pageName)) {
                             <?php endforeach ?>
                         </tbody>
                     </table>
+                    <button type="button" class="btn btn-danger" id="delete-selected-category">刪除勾選</button>
 
                 </div>
             </div>
@@ -394,11 +413,57 @@ if (empty($pageName)) {
 </html>
 
 <script>
-    function delete_merchandise(item_id) {
-        if (confirm(`是否要刪除編號為${item_id}的資料?`)) {
-            location.href = `ca_merchandise_delete.php?item_id=${item_id}`;
+    $("#delete-selected").click(function() {
+        var selectedItems = [];
+        $(".checkbox:checked").each(function() {
+            selectedItems.push($(this).data("itemid"));
+        });
+
+        if (selectedItems.length > 0 && confirm("是否要刪除所選項目?")) {
+            // 使用 AJAX 進行刪除
+            $.ajax({
+                url: "ca_merchandise_delete.php",
+                method: "POST", // 或 "GET"，取決於你的後端設置
+                data: {
+                    item_ids: selectedItems
+                },
+                success: function(response) {
+                    // 刪除成功後的處理，可以根據需要刷新頁面或執行其他操作
+                    alert("刪除成功");
+                    location.reload(); // 例如刷新頁面
+                },
+                error: function(xhr, status, error) {
+                    // 刪除失敗的處理
+                    alert("刪除失敗: " + error);
+                }
+            });
         }
+    });
+
+    $("#delete-selected-category").click(function() {
+    var selectedCategories = [];
+    $(".checkbox-category:checked").each(function() {
+        selectedCategories.push($(this).data("categoryid"));
+    });
+
+    if (selectedCategories.length > 0 && confirm("是否要刪除所選項目?")) {
+        // 使用 AJAX 進行刪除
+        $.ajax({
+            url: "ca_category_delete.php",
+            method: "POST",  // 或 "GET"，取決於你的後端設置
+            data: { category_ids: selectedCategories },
+            success: function(response) {
+                // 刪除成功後的處理，可以根據需要刷新頁面或執行其他操作
+                alert("刪除成功");
+                location.reload();  // 例如刷新頁面
+            },
+            error: function(xhr, status, error) {
+                // 刪除失敗的處理
+                alert("刪除失敗: " + error);
+            }
+        });
     }
+});
 
     function delete_category(category_id) {
         if (confirm(`是否要刪除編號為${category_id}的資料?`)) {

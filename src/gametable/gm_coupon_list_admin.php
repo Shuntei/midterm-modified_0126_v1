@@ -53,23 +53,23 @@ if (empty($pageName)) {
                 <div class="home-tab">
                   <!-- page change btn start -->
                   <div class="d-sm-flex align-items-center justify-content-between border-bottom mb-5">
-                  <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                      <a class="nav-link active ps-0" id="profile-tab" aria-current="page" href="#" role="tab" aria-selected="true">Coupon</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="home-tab" href="gm_user_getcoupon_list_admin.php" role="tab" aria-selected="overview">User Get Coupon</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="contact-tab" href="gm_user_achieved_list_admin.php" role="tab" aria-selected="overview">User Achieved</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="more-tab" href="gm_mission_list_admin.php" role="tab" aria-selected="overview">Mission</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link border-0" id="more-tab" href="gm_skin_list_admin.php" role="tab" aria-selected="overview">Skin</a>
-                    </li>
-                  </ul>
+                    <ul class="nav nav-tabs" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active ps-0" id="profile-tab" aria-current="page" href="#" role="tab" aria-selected="true">Coupon</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="home-tab" href="gm_user_getcoupon_list_admin.php" role="tab" aria-selected="overview">User Get Coupon</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="contact-tab" href="gm_user_achieved_list_admin.php" role="tab" aria-selected="overview">User Achieved</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="more-tab" href="gm_mission_list_admin.php" role="tab" aria-selected="overview">Mission</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link border-0" id="more-tab" href="gm_skin_list_admin.php" role="tab" aria-selected="overview">Skin</a>
+                      </li>
+                    </ul>
                   <div>
                     <div class="btn-wrapper">
                       <a href="#" class="btn btn-otline-dark align-items-center"><i class="icon-share"></i> Share</a>

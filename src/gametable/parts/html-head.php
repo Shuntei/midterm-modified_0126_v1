@@ -37,6 +37,12 @@
     form .mb-3 .form-text {
       color: red;
     }
+    .illo {
+      display: block;
+      margin: 20px auto;
+      background: #FDB;
+      cursor: move;
+    }
     </style>
 </head>
 <body>
