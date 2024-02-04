@@ -137,9 +137,11 @@ $title = '新增';
     const fd = new FormData(document.form1);
 
     fetch("./live-upload-avatar.php", {
+
         method: "POST",
         body: fd, // enctype="multipart/form-data"
       })
+
       .then((r) => r.json())
       .then((data) => {
         if (data.success) {
@@ -147,7 +149,9 @@ $title = '新增';
         }
       });
   }
+
   // 抓圖片結束
+
 
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
 </script>
