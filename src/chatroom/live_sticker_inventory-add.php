@@ -1,6 +1,10 @@
 <?php require __DIR__ . '/parts/db_connect_midterm.php';
 $pageName = 'add';
 $title = '新增';
+
+
+
+
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
 <?php include ('./../package/packageUp.php') ?>
@@ -17,7 +21,7 @@ $title = '新增';
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">上架貼圖</h5>
-          <form name="form1" method="post" onsubmit="sendForm(event)">
+          <form name="form1" method="post" enctype="multipart/form-data" onsubmit="sendForm(event)">
             <div class="mb-3">
               <label for="name" class="form-label">貼圖名稱</label>
               <input type="text" class="form-control" id="sticker_title" name="sticker_title">
@@ -30,8 +34,11 @@ $title = '新增';
             </div>
             <div class="mb-3">
               <label for="text" class="form-label">上傳圖片</label>
-              <input type="text" class="form-control" id="sticker_pic" name="sticker_pic">
+              <input type="text" class="form-control" id="sticker_pic" name="sticker_pic" placeholder="輸入檔名＋副檔名，例 tux_cat.jpeg">
               <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+              <input type="file" name="sticker" id="sticker" onchange="uploadFile()" accept="image/*">
             </div>
             <button type="submit" class="btn btn-primary">新增</button>
           </form>
@@ -124,6 +131,23 @@ $title = '新增';
         );
     }
   }
+
+  // 抓圖片開始
+  function uploadFile() {
+    const fd = new FormData(document.form1);
+
+    fetch("./live-upload-avatar.php", {
+      method: "POST",
+      body: fd, // enctype="multipart/form-data"
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success) {
+          myimg.src = "./imgs/" + data.file;
+        }
+      });
+  }
+    // 抓圖片結束
 
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
 </script>
