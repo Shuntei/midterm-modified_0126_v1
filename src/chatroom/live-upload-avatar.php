@@ -1,5 +1,5 @@
 <?php
-$dir = __DIR__. './img/'; # 存放檔案的資料夾
+$dir = __DIR__ . "/imgs/"; # 存放檔案的資料夾
 
 $exts = [   # 檔案類型的篩選
   'image/jpeg' => '.jpg',
@@ -9,7 +9,10 @@ $exts = [   # 檔案類型的篩選
 
 $output = [ 
   'success' => false,
-  'file' => '' ]; # 輸出的格式
+  'file' => '' ,
+  'data'=> $_FILES  
+]; # 輸出的格式
+
   
 # 確保有上傳檔案，並且有 sticker 欄位，並且沒有錯誤
 if (!empty($_FILES) and !empty($_FILES['sticker']) and $_FILES['sticker']['error']==0) {
