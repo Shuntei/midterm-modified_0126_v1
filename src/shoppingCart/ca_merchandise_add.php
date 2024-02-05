@@ -18,46 +18,54 @@ $title = '新增';
         <div class="card-body">
           <h5 class="card-title">新增資料</h5>
           <form name="form1" method="post" onsubmit="sendForm(event)">
-          <div class="row">
-            <div class="col-6">
-              <div class="mb-3">
-                <label for="item_name" class="form-label">商品名稱</label>
-                <input type="text" class="form-control" id="item_name" name="item_name">
-                <div class="form-text"></div>
+            <div class="row">
+              <div class="col-6">
+                <div class="mb-3">
+                  <label for="item_name" class="form-label">商品名稱</label>
+                  <input type="text" class="form-control" id="item_name" name="item_name">
+                  <div class="form-text"></div>
+                </div>
+                <div class="mb-3">
+                  <label for="quantity" class="form-label">存貨</label>
+                  <input type="text" class="form-control" id="quantity" name="quantity">
+                  <div class="form-text"></div>
+                </div>
+                <div class="mb-3">
+                  <label for="category_id" class="form-label">商品種類ＩＤ</label>
+                  <input type="text" class="form-control" id="category_id" name="category_id">
+                  <div class="form-text"></div>
+                </div>
+                <div class="mb-3">
+                  <label for="unit_price" class="form-label">單價</label>
+                  <input type="text" class="form-control" id="unit_price" name="unit_price">
+                  <div class="form-text"></div>
+                </div>
+
+                  <div class="mb-3">
+                    <div style="cursor: pointer;" onclick="document.form1.image_url.click()" class="">點選上傳圖片</div>
+                    <!-- <form name="uploadForm1" hidden> -->
+                    <input type="file" id="picture" name="picture" onchange="uploadFile()" class="" />
+                    <!-- </form> -->
+                    <div style="width: 300px">
+                      <input type="text" name="newPictureName" id='newPictureName' hidden>
+                      <img src="" alt="" id="image_url" name="image_url" width="100%" />
+                    </div>
+                  </div>
+                  
+                  <div class="form-text"></div>
+
               </div>
-              <div class="mb-3">
-                <label for="quantity" class="form-label">存貨</label>
-                <input type="text" class="form-control" id="quantity" name="quantity">
-                <div class="form-text"></div>
-              </div>
-              <div class="mb-3">
-                <label for="category_id" class="form-label">商品種類ＩＤ</label>
-                <input type="text" class="form-control" id="category_id" name="category_id">
-                <div class="form-text"></div>
-              </div>
-              <div class="mb-3">
-                <label for="unit_price" class="form-label">單價</label>
-                <input type="text" class="form-control" id="unit_price" name="unit_price">
-                <div class="form-text"></div>
-              </div>
-              <div class="mb-3">
-                <label for="product_img" class="form-label">商品圖片</label>
-                <input type="text" class="form-control" id="product_img" name="product_img">
-                <div class="form-text"></div>
-              </div>
-            </div>
-            <div class="mb-3 col-6">
-              <label for="description" class="form-label">商品內容</label>
-              <br>
-              <textarea type="text" id="description" rows= 5 name="description"
-              style="border: 1px solid #dee2e6;
+              <div class="mb-3 col-6">
+                <label for="description" class="form-label">商品內容</label>
+                <br>
+                <textarea type="text" id="description" rows=5 name="description" style="border: 1px solid #dee2e6;
               border-radius: 4px; width: 100%;padding: 14px 22px; "></textarea>
-              <div class="form-text"></div>
-            </div>
+                <div class="form-text"></div>
+              </div>
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button type="submit" class="btn btn-outline-dark ">新增</button>
-</div>
+              <button type="submit" class="btn btn-outline-dark ">新增</button>
+            </div>
           </form>
         </div>
       </div>
@@ -180,6 +188,26 @@ $title = '新增';
       );
   }
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
+
+
+  function uploadFile() {
+    const fd = new FormData(document.form1);
+
+    fetch("upload-photos.php", {
+        method: "POST",
+        body: fd, // enctype="multipart/form-data"
+      })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success) {
+          // 將回傳的檔名放進Form1 送進資料庫
+          const newPictureName = document.getElementById('newPictureName')
+          newPictureName.value=data.file;
+          // 即時預覽圖片
+          image_url.src = "./upload-photos/" + data.file;
+        }
+      });
+  }
 </script>
 
 <?php include __DIR__ . '/parts/html-foot.php' ?>
