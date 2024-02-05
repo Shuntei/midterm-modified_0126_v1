@@ -161,58 +161,60 @@ $rows = $stmt->fetchAll();
 include "./parts/scripts.php" ?>
 <script>
     document.querySelectorAll('.permission-select').forEach(selectElement => {
-        selectElement.addEventListener('change', enableSaveBtn)
-    })
+        // Set the original value during the initial rendering
+        selectElement.dataset.originalValue = selectElement.value;
+
+        selectElement.addEventListener('change', enableSaveBtn);
+    });
 
     function enableSaveBtn() {
-        const saveBtn = document.querySelector('#btn-save')
-        saveBtn.disabled = false
+        const saveBtn = document.querySelector('#btn-save');
+        saveBtn.disabled = false;
     }
 
-    document.querySelector('#btn-save').addEventListener('click', saveChanges)
+    document.querySelector('#btn-save').addEventListener('click', saveChanges);
 
     function saveChanges() {
-        const selectElements = document.querySelectorAll('.permission-select')
-
-        const promises = []
+        const selectElements = document.querySelectorAll('.permission-select');
+        const promises = [];
 
         selectElements.forEach(selectElement => {
-            const perId = selectElement.value
-            const id = selectElement.dataset.rowId
+            const perId = selectElement.value;
+            const id = selectElement.dataset.rowId;
 
             // Check if the value has changed
             if (perId !== selectElement.dataset.originalValue) {
                 const formData = new FormData();
                 formData.append('permissionId', perId);
-                formData.append('id', id)
+                formData.append('id', id);
 
                 promises.push(
                     fetch('save.php', {
                         method: 'post',
-                        body: formData
+                        body: formData,
                     })
                     .then(response => response.json())
-                )
+                );
             }
-        })
+        });
 
         Promise.all(promises)
             .then(results => {
-                const success = results.every(result => result.success)
+                const success = results.every(result => result.success);
+
                 if (success) {
                     swal("Saved changes!", {
-                            icon: "success"
-                        })
-                        .then(() => {
-                            location.reload()
-                        })
+                        icon: "success",
+                    }).then(() => {
+                        location.reload();
+                    });
                 } else {
                     // Handle errors if needed
                 }
             })
             .catch(error => {
-                console.error('Error:', error)
-            })
+                console.error('Error:', error);
+            });
     }
 </script>
 <?php include "./parts/html-foot.php" ?>
