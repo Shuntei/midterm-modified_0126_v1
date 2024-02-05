@@ -147,6 +147,10 @@ if ($totalRows > 1) {
   a:hover .fa-trash {
     color: black;
   }
+
+  .email-padding {
+    padding-right: 80px;
+  }
 </style>
 
 <div class="col-lg-12 grid-margin stretch-card">
@@ -224,7 +228,7 @@ if ($totalRows > 1) {
                 </div>
               </th>
               <th class="position-relative">Email
-                <div class="search-box me-5">
+                <div class="search-box me-5 email-padding">
                   <input type="text" class="search-input searchEmail" placeholder="Search Email">
                   <a class="search-btn rounded-circle" href="#">
                     <i class="fas fa-search"></i>
