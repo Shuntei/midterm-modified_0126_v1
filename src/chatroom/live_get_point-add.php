@@ -133,7 +133,7 @@ if (empty($pageName)) {
       received_point_f.nextElementSibling.innerHTML = "此格不許空白";
     }
 
-    if (point_source_f.value === '') {
+    if (point_source_f.value === '' || point_source_f.value==="選擇取得方式") {
       isPass = false;
       point_source_f.style.border = '1px solid red';
       point_source_f.nextElementSibling.innerHTML = "此格不許空白";

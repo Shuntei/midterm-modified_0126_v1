@@ -39,6 +39,12 @@ if (empty($pageName)) {
   form .mb-3 .form-text {
     color: red;
   }
+
+  #displayPhoto{
+    max-width: 300px;
+    max-height: 300px;
+    object-fit: contain;
+  }
 </style>
 
 <div class="container-fluid ">

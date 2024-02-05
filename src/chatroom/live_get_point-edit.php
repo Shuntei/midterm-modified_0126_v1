@@ -86,6 +86,7 @@ if (empty($row)) {
 <?php include('./../package/packageDown.php') ?>
 <?php include __DIR__ . '/parts-get-point/scripts.php' ?>
 <script>
+
   const {
     user_id: user_id_f,
     received_point: received_point_f,

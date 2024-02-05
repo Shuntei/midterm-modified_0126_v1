@@ -192,24 +192,19 @@ if (empty($pageName)) {
             <table class="table table-bordered table-striped text-center">
                 <thead>
                     <tr>
-                        <th><i class="fa-solid fa-trash-can"></i></th>
                         <th>#</th>
                         <th>用戶ID</th>
                         <th>獲得點數</th>
                         <th>點數來源</th>
                         <th>獲得時間</th>
                         <th><i class="fa-solid fa-pen-to-square"></i></th>
+                        <th><i class="fa-solid fa-trash-can"></i></th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- while($r = $stmt->fetch()):  -->
                     <?php foreach ($rows as $r) : ?>
                         <tr>
-                            <td>
-                                <a href="javascript: delete_one(<?= $r['get_point_id'] ?>)">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </a>
-                            </td>
                             <td>
                                 <?= $r['get_point_id'] ?>
                             </td>
@@ -228,6 +223,11 @@ if (empty($pageName)) {
                             <td>
                                 <a href="live_get_point-edit.php?get_point_id=<?= $r['get_point_id'] ?>">
                                     <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="javascript: delete_one(<?= $r['get_point_id'] ?>)">
+                                    <i class="fa-solid fa-trash-can"></i>
                                 </a>
                             </td>
                         </tr>
