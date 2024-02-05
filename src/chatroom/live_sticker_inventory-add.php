@@ -39,6 +39,12 @@ if (empty($pageName)) {
   form .mb-3 .form-text {
     color: red;
   }
+
+  #displayPhoto{
+    max-width: 300px;
+    max-height: 300px;
+    object-fit: contain;
+  }
 </style>
 
 <div class="container-fluid ">
@@ -60,12 +66,10 @@ if (empty($pageName)) {
             </div>
             <div class="mb-3">
               <label for="text" class="form-label">上傳圖片</label>
-              <input type="text" name="newPictureName" id="newPictureName">
-              <input type="text" class="form-control" id="sticker_pic" name="sticker_pic" placeholder="輸入檔名＋副檔名，例 tux_cat.jpeg">
-              <div class="form-text"></div>
-            </div>
-            <div class="mb-3">
+              <input type="text" name="newPictureName" id="newPictureName" hidden><br>
+              <!-- <input type="text" class="form-control" id="sticker_pic" name="sticker_pic" placeholder="輸入檔名＋副檔名，例 tux_cat.jpeg"> -->
               <input type="file" name="sticker" id="sticker" onchange="uploadFile()" accept="image/*">
+              <div class="form-text"></div>
               <img src="" id="displayPhoto">
             </div>
             <button type="submit" class="btn btn-primary">新增</button>
@@ -103,7 +107,7 @@ if (empty($pageName)) {
   const {
     sticker_title: sticker_title_f,
     sticker_cost: sticker_cost_f,
-    sticker_pic: sticker_pic_f,
+    sticker: sticker_pic_f,
   } = document.form1;
 
   const sendForm = e => {
@@ -136,7 +140,7 @@ if (empty($pageName)) {
     if (sticker_pic_f.value === '') {
       isPass = false;
       sticker_pic_f.style.border = '1px solid red';
-      sticker_pic_f.nextElementSibling.innerHTML = "此格不許空白";
+      sticker_pic_f.nextElementSibling.innerHTML = "請上傳圖片";
     }
 
     if (isPass) {

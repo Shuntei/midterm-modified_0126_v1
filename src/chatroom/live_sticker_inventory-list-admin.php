@@ -176,11 +176,7 @@ if (empty($pageName)) {
                 <!-- while($r = $stmt->fetch()):  -->
                 <?php foreach ($rows as $r) : ?>
                     <tr>
-                        <td>
-                            <a href="javascript: delete_one(<?= $r['sticker_inventory_id'] ?>)">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </a>
-                        </td>
+                        
                         <td style="max-width: 30px;">
                             <?= $r['sticker_inventory_id'] ?>
                         </td>
@@ -198,6 +194,11 @@ if (empty($pageName)) {
                         <td>
                             <a href="live_sticker_inventory-edit.php?sticker_inventory_id=<?= $r['sticker_inventory_id'] ?>">
                                 <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="javascript: delete_one(<?= $r['sticker_inventory_id'] ?>)">
+                                <i class="fa-solid fa-trash-can"></i>
                             </a>
                         </td>
                     </tr>

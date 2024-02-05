@@ -29,7 +29,7 @@ try {
     $stmt->execute([
         $_POST['sticker_title'],
         $_POST['sticker_cost'],
-        $_POST['sticker_pic'],
+        $_POST['newPictureName'],
         $sticker_inventory_id
     ]);
 } catch (PDOException $e) {
