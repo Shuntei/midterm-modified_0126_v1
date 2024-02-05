@@ -175,7 +175,7 @@ if (empty($pageName)) {
         if (data.success) {
           let displayPhoto = document.getElementById('displayPhoto')
           newPictureName.value = data.file;
-          displayPhoto.src = "/imgs/" + data.file;
+          displayPhoto.src = "./imgs/" + data.file;
         }
       })
       .catch(e => console.log(e));
