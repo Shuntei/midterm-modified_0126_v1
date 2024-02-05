@@ -51,7 +51,6 @@ if ($totalRows > 1) {
 ?>
 
 <style>
-
   .text-gray {
     color: gray;
   }
@@ -151,64 +150,31 @@ if ($totalRows > 1) {
   .email-padding {
     padding-right: 80px;
   }
+
+  .page-link.active, .active > .page-link {
+    background-color: #1F3BB3;
+  }
+
+  .page-link {
+    color: #1F3BB3;
+  }
+  
 </style>
 
 <div class="col-lg-12 grid-margin stretch-card">
   <div class="card">
     <div class="card-body">
-      <!-- pagination start -->
-      <div class="row">
-        <div class="col d-flex align-items-center justify-content-between">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-
-              <li class="page-item <?= $page == 1 ? 'disabled' : '' ?>">
-                <a class="page-link" href="?page=1">
-                  <i class="fa-solid fa-angles-left"></i>
-                </a>
-              </li>
-
-              <li class="page-item <?= $page == 1 ? 'disabled' : '' ?>">
-                <a class="page-link" href="?page=<?= isset($_GET['page']) ? $_GET['page'] - 1 : 1 ?>">
-                  <i class="fa-solid fa-angle-left"></i>
-                </a>
-              </li>
-
-
-              <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
-                if ($i >= 1 and $i <= $totalPages) : ?>
-                  <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                    <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
-                  </li>
-              <?php endif;
-              endfor; ?>
-
-              <li class="page-item <?= $page == $totalPages ? 'disabled' : '' ?>">
-                <a class="page-link" href="?page=<?= isset($_GET['page']) ? $_GET['page'] + 1 : 1 ?>">
-                  <i class="fa-solid fa-angle-right"></i>
-                </a>
-              </li>
-              <li class="page-item <?= $page == $totalPages ? 'disabled' : '' ?>">
-                <a class="page-link" href="?page=<?= $totalPages ?>">
-                  <i class="fa-solid fa-angles-right"></i>
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div>
-            <a class="btn ms-3 bg-light p-2 border rounded text-dark" id="accountPlus" href="add.php">
-              <i class="mdi mdi-account-plus fs-5"></i>
-            </a>
-            <a href="javascript:deleteSelectedRows()" class="btn ms-3 bg-light p-2 border rounded text-dark">
-              <i class="bi bi-trash-fill fs-5"></i>
-            </a>
-          </div>
+      <div class="d-flex">
+        <h4 class="card-title mt-2">User Information</h4>
+        <div class="ms-auto mb-4 me-3">
+          <a class="btn ms-3 bg-light p-2 border rounded text-dark" id="accountPlus" href="add.php">
+            <i class="mdi mdi-account-plus fs-5"></i>
+          </a>
+          <a href="javascript:deleteSelectedRows()" class="btn ms-3 bg-light p-2 border rounded text-dark">
+            <i class="bi bi-trash-fill fs-5"></i>
+          </a>
         </div>
       </div>
-      <!-- pagination end -->
-      <h4 class="card-title">User Information</h4>
-      <p class="card-description">
-      </p>
       <div class="table-responsive">
         <table class="table table-hover">
           <thead>
@@ -277,6 +243,51 @@ if ($totalRows > 1) {
         </table>
       </div>
     </div>
+    <!-- pagination start -->
+    <div class="d-flex justify-content-center pb-3">
+      <div class="row">
+        <div class="col d-flex align-items-center justify-content-between">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+
+              <li class="page-item <?= $page == 1 ? 'disabled' : '' ?>">
+                <a class="page-link" href="?page=1">
+                  <i class="fa-solid fa-angles-left"></i>
+                </a>
+              </li>
+
+              <li class="page-item <?= $page == 1 ? 'disabled' : '' ?>">
+                <a class="page-link" href="?page=<?= isset($_GET['page']) ? $_GET['page'] - 1 : 1 ?>">
+                  <i class="fa-solid fa-angle-left"></i>
+                </a>
+              </li>
+
+
+              <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
+                if ($i >= 1 and $i <= $totalPages) : ?>
+                  <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                    <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                  </li>
+              <?php endif;
+              endfor; ?>
+
+              <li class="page-item <?= $page == $totalPages ? 'disabled' : '' ?>">
+                <a class="page-link" href="?page=<?= isset($_GET['page']) ? $_GET['page'] + 1 : 1 ?>">
+                  <i class="fa-solid fa-angle-right"></i>
+                </a>
+              </li>
+              <li class="page-item <?= $page == $totalPages ? 'disabled' : '' ?>">
+                <a class="page-link" href="?page=<?= $totalPages ?>">
+                  <i class="fa-solid fa-angles-right"></i>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+    </div>
+    <!-- pagination end -->
   </div>
 </div>
 <?php include "./../package/packageDown.php";

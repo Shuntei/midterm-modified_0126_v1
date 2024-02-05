@@ -33,7 +33,7 @@ include "./../package/packageUp.php";
                                 <input type="password" class="form-control form-control-lg rounded" id="password" placeholder="Password" name="password">
                             </div>
                             <div class="mt-3 text-center">
-                                <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
+                                <button class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
                             </div>
                         </form>
                     </div>
@@ -66,7 +66,9 @@ include "./../package/packageUp.php";
                 }).then(r => r.json())
                 .then(result => {
                     if (result.success) {
-                        location.href = 'member.php'
+                        if(result.session){
+                            location.href = 'member.php'
+                        }
                     } else {
                         switch (result.code) {
                             case 1:
