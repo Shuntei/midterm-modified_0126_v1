@@ -18,11 +18,11 @@
           <h1 class="welcome-text">
           <?php
                 if (isset($_SESSION['admin'])) {
-                    echo $_SESSION['admin']['userName'] . '<span class="text-black fs-5 welcome-text"> ' . $_SESSION['admin']['role'] . '</span>';
+                    echo $_SESSION['admin']['role'];
                 } elseif (isset($_SESSION['moderator'])) {
-                    echo $_SESSION['moderator']['userName'] . '<span class="text-black fs-5 welcome-text"> ' . $_SESSION['moderator']['role'] . '</span>';
+                    echo $_SESSION['moderator']['role'];
                 } elseif (isset($_SESSION['viewer'])) {
-                    echo $_SESSION['viewer']['userName'] . '<span class="text-black fs-5 welcome-text"> ' . $_SESSION['viewer']['role'] . '</span>';
+                    echo $_SESSION['viewer']['role'];
                 } else {
                     echo 'Hello';
                 }
