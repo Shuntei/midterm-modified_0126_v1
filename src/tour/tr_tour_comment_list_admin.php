@@ -9,31 +9,38 @@ if ($page < 1) {
     header('Location: ?page=1');
     exit;
 }
-
+// Search and date filter parameters
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $searchStartDate = isset($_GET['start_date']) ? $_GET['start_date'] : '';
 $searchEndDate = isset($_GET['end_date']) ? $_GET['end_date'] : '';
 
-// $t_sql = "SELECT COUNT(1) FROM tr_tour_comment";
+// Query to get total number of rows for pagination
+$t_sql = "SELECT COUNT(1) FROM tr_tour_comment";
 
-// totalpage changes accordingly to the search results
-// if (!empty($search)) {
-//     $t_sql .= " WHERE user_id = :search";
-// }
-// $t_stmt = $pdo->prepare($t_sql);
-// if (!empty($search)) {
-//     $t_stmt->bindParam(':search', $search, PDO::PARAM_STR);
-// }
-// $t_stmt->execute();
-// $row = $t_stmt->fetch(PDO::FETCH_NUM);
-// 
+if (!empty($search)) {
+    $t_sql .= " WHERE user_id = :search";
+}
+// Prepare and execute the query
+$t_stmt = $pdo->prepare($t_sql);
+if (!empty($search)) {
+    $t_stmt->bindParam(':search', $search, PDO::PARAM_STR);
+}
+$t_stmt->execute();
+$row = $t_stmt->fetch(PDO::FETCH_NUM);
+$totalRows = $row[0];
 
+// Additional search conditions, for tourID & comParentID
+$searchColumn = isset($_GET['search_column']) ? $_GET['search_column'] : 'user_id'; // Default to 'user_id' if not set
 $t_sql = "SELECT COUNT(1) FROM tr_tour_comment WHERE 1";
 $t_conditions = [];
 
 if (!empty($search)) {
-    $t_conditions[] = "user_id = :search";
+    $t_conditions[] = "$searchColumn = :search";
 }
+// 重複設了搜尋條件user_id 變成兩個column都要符合搜尋的數字
+// if (!empty($search)) {
+//     $t_conditions[] = "user_id = :search";
+// }
 
 if (!empty($searchStartDate) && !empty($searchEndDate)) {
     $t_conditions[] = "comment_time BETWEEN :start_date AND :end_date";
@@ -44,7 +51,7 @@ if (!empty($t_conditions)) {
 }
 
 $t_stmt = $pdo->prepare($t_sql);
-
+// printf($t_sql); // debug用
 if (!empty($search)) {
     $t_stmt->bindParam(':search', $search, PDO::PARAM_STR);
 }
@@ -56,9 +63,8 @@ if (!empty($searchStartDate) && !empty($searchEndDate)) {
 
 $t_stmt->execute();
 $row = $t_stmt->fetch(PDO::FETCH_NUM);
-// totalpage changes end
 
-$totalRows = $row[0];
+
 $totalPages = 0;
 $rows = [];
 
@@ -71,7 +77,7 @@ if ($totalRows > 0) {
     // search function start, show search result
     $sql = "SELECT * FROM tr_tour_comment WHERE 1"; // Start with a basic query
     if (!empty($search)) {
-        $sql .= " AND user_id = :search";
+        $sql .= " AND $searchColumn = :search";
     }
     if (!empty($searchStartDate) && !empty($searchEndDate)) {
         $sql .= " AND comment_time BETWEEN :start_date AND :end_date";
@@ -94,6 +100,17 @@ if ($totalRows > 0) {
     $rows = $stmt->fetchAll();
 }
 
+// highlight search term
+function highlightTerm($text, $searchTerm, $column)
+{
+    // Escape special characters in the search term
+    $escapedSearchTerm = preg_quote($searchTerm, '/');
+
+    // Use a case-insensitive regex to highlight matching terms only for the selected column
+    $highlightedText = preg_replace("/\b($escapedSearchTerm)\b/i", '<span class="highlight">$1</span>', $text);
+
+    return $highlightedText;
+}
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
 <?php include './../package/packageUp.php' ?>
@@ -102,6 +119,13 @@ if (empty($pageName)) {
     $pageName = '';
 }
 ?>
+
+<style>
+    .highlight {
+        background-color: yellow;
+        font-weight: bold;
+    }
+</style>
 
 <div class="container-fluid">
     <div class="row">
@@ -123,6 +147,12 @@ if (empty($pageName)) {
                                         <a class="me-2 nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./tr_tour_comment_add.php">新增</a>
                                     </li> -->
                                     <form class="d-flex" method="GET" action="tr_tour_comment_list_admin.php">
+                                        <select class="form-select me-2" name="search_column" id="search_column">
+                                            <option disabled selected>選擇欄位</option>
+                                            <option value="user_id" <?= isset($_GET['search_column']) && $_GET['search_column'] === 'user_id' ? 'selected' : '' ?>>會員編號</option>
+                                            <option value="tour_id" <?= isset($_GET['search_column']) && $_GET['search_column'] === 'tour_id' ? 'selected' : '' ?>>揪團編號</option>
+                                            <option value="comment_parent_id" <?= isset($_GET['search_column']) && $_GET['search_column'] === 'comment_parent_id' ? 'selected' : '' ?>>回覆編號</option>
+                                        </select>
                                         <input class="form-control me-2" type="search" placeholder="Search UserID" aria-label="Search" name="search" value="<?= isset($search) ? ($search) : '' ?>">
                                         <div style="white-space: nowrap;">留言時間：</div>
                                         <label class="me-2 flex-nowrap" for="start_date" style="white-space: nowrap;" display="hidden"></label>
@@ -182,10 +212,10 @@ if (empty($pageName)) {
                                                     </a>
                                                 </td>
                                                 <td class="text-center"><?= $r['tour_comment_id'] ?></td>
-                                                <td class="text-center"><?= $r['user_id'] ?></td>
-                                                <td class="text-center"><?= $r['tour_id'] ?></td>
+                                                <td class="text-center"><?= highlightTerm($r['user_id'], $search, 'user_id') ?></td>
+                                                <td class="text-center"><?= highlightTerm($r['tour_id'], $search, 'tour_id') ?></td>
                                                 <td><?= $r['comment_content'] ?></td>
-                                                <td class="text-center"><?= $r['comment_parent_id'] ?></td>
+                                                <td class="text-center"><?= highlightTerm($r['comment_parent_id'], $search, 'comment_parent_id') ?></td>
                                                 <td><?= $r['comment_time'] ?></td>
                                                 <td>
                                                     <a href="tr_tour_comment_edit.php?tour_comment_id=<?= $r['tour_comment_id'] ?>">

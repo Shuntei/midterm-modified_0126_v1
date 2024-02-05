@@ -1,22 +1,30 @@
 <?php
-
 require __DIR__ . '/parts/db_connect_midterm.php';
 $pageName = 'list';
 $title = '列表';
 
+function highlightTerm($text, $searchTerm)
+{
+    // Highlight the search term in the text
+    $highlightedText = preg_replace("/\b($searchTerm)\b/i", '<span class="highlight">$1</span>', $text);
+
+    return $highlightedText;
+}
+
+
 // Fetch ruin_name values from tr_location table
 $ruinNameList = [];
-$sql = "SELECT ruin_id, ruin_name FROM tr_location";
-$stmt = $pdo->query($sql);
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+$namesql = "SELECT ruin_id, ruin_name FROM tr_location";
+$nameStmt = $pdo->query($namesql);
+while ($row = $nameStmt->fetch(PDO::FETCH_ASSOC)) {
     $ruinNameList[$row['ruin_id']] = $row['ruin_name'];
 }
 
 // Fetch level_name values from tr_level table
 $lvlList = [];
-$sql = "SELECT level_id, level_name FROM tr_level";
-$stmt = $pdo->query($sql);
-while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+$lvlsql = "SELECT level_id, level_name FROM tr_level";
+$lvlstmt = $pdo->query($lvlsql);
+while ($row = $lvlstmt->fetch(PDO::FETCH_ASSOC)) {
     $lvlList[$row['level_id']] = $row['level_name'];
 }
 
@@ -31,9 +39,9 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $searchStartDate = isset($_GET['start_date']) ? $_GET['start_date'] : '';
 $searchEndDate = isset($_GET['end_date']) ? $_GET['end_date'] : '';
 
+// totalpage changes accordingly to the search results
 $t_sql = "SELECT COUNT(1) FROM tr_tour";
 
-// totalpage changes accordingly to the search results
 if (!empty($search)) {
     $t_sql .= " WHERE title LIKE :search";
 }
@@ -65,19 +73,20 @@ if ($totalRows > 0) {
             $sql .= " AND title LIKE :search";
         } elseif ($searchColumn === 'ruin_id') {
             $sql .= " AND ruin_id IN (SELECT ruin_id FROM tr_location WHERE ruin_name LIKE :search)";
-        } elseif ($searchColumn === 'level_id') {
-            $sql .= " AND level_id IN (SELECT level_id FROM tr_level WHERE level_name LIKE :search)";
-        } 
+        } elseif ($searchColumn === 'user_id') {
+            $sql .= " AND user_id = :search";
+        }
     }
     if (!empty($searchStartDate) && !empty($searchEndDate)) {
         $sql .= " AND event_date BETWEEN :start_date AND :end_date";
     }
-
+    
     // Order by and limit
     $sql .= " ORDER BY tour_id ASC LIMIT " . (($page - 1) * $perPage) . ", " . $perPage;
 
     // Prepare and execute the query
     $stmt = $pdo->prepare($sql);
+
     if (!empty($search)) {
         $searchParam = '%' . $search . '%';
         $stmt->bindParam(':search', $searchParam, PDO::PARAM_STR);
@@ -86,7 +95,7 @@ if ($totalRows > 0) {
         $stmt->bindParam(':start_date', $searchStartDate, PDO::PARAM_STR);
         $stmt->bindParam(':end_date', $searchEndDate, PDO::PARAM_STR);
     }
-
+    
     $stmt->execute();
     $rows = $stmt->fetchAll();
 }
@@ -94,9 +103,6 @@ if ($totalRows > 0) {
 
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
-<link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.22.2/dist/bootstrap-table.min.css"> -->
 <?php include './../package/packageUp.php' ?>
 <?php
 if (empty($pageName)) {
@@ -108,6 +114,10 @@ if (empty($pageName)) {
         max-width: 10vw !important;
         overflow: hidden !important;
         text-overflow: ellipsis !important;
+    }
+    .highlight {
+        background-color: yellow;
+        font-weight: bold;
     }
 </style>
 
@@ -137,12 +147,12 @@ if (empty($pageName)) {
                                     <!-- search for time period -->
                                     <form class="d-flex" method="GET" action="tr_tour_list_admin.php">
                                         <select class="form-select me-2" name="search_column" id="search_column">
-                                            <option disabled>選擇欄位</option>
-                                            <option value="user_id" <?= isset($_GET['search_column']) && $_GET['search_column'] === 'user_id' ? 'selected' : '' ?>>會員編號</option>
-                                            <option value="ruin_id" <?= isset($_GET['search_column']) && $_GET['search_column'] === 'ruin_id' ? 'selected' : '' ?>>地點</option>
-                                            <option value="max_groupsize" <?= isset($_GET['search_column']) && $_GET['search_column'] === 'max_groupsize' ? 'selected' : '' ?>>總人數</option>
-                                            <option value="level_id" <?= isset($_GET['search_column']) && $_GET['search_column'] === 'level_id' ? 'selected' : '' ?>>難易度</option>
+                                            <option disabled selected>選擇欄位</option>
                                             <option value="title" <?= isset($_GET['search_column']) && $_GET['search_column'] === 'title' ? 'selected' : '' ?>>標題</option>
+                                            <option value="ruin_id" <?= isset($_GET['search_column']) && $_GET['search_column'] === 'ruin_id' ? 'selected' : '' ?>>地點</option>
+                                            <!-- <option value="user_id" <?= isset($_GET['search_column']) && $_GET['search_column'] === 'user_id' ? 'selected' : '' ?>>會員編號</option>
+                                            <option value="max_groupsize" <?= isset($_GET['search_column']) && $_GET['search_column'] === 'max_groupsize' ? 'selected' : '' ?>>總人數</option>
+                                            <option value="level_id" <?= isset($_GET['search_column']) && $_GET['search_column'] === 'level_id' ? 'selected' : '' ?>>難易度</option> -->
                                         </select>
                                         <input class="form-control me-2" type="search" placeholder="Search Title" aria-label="Search" name="search" value="<?= isset($search) ? htmlspecialchars($search) : '' ?>">
                                         <div style="white-space: nowrap;">活動日期：</div>
@@ -179,23 +189,23 @@ if (empty($pageName)) {
                                 <table class="table table-hover"> <!-- data-toggle="table" data-show-columns="true" -->
                                     <thead>
                                         <tr class="text-center">
-                                            <th data-switchable="false"><input type="checkbox" id="checkAll"></th>
-                                            <th data-switchable="false"></th>
-                                            <th data-switchable="false" data-sortable="true">#</th>
-                                            <th data-sortable="true">會員編號
+                                            <th><input type="checkbox" id="checkAll"></th>
+                                            <th></th>
+                                            <th>#</th>
+                                            <th>會員編號
                                                 <!-- <a href="#" class="link-dark"><i class="fa-solid fa-angle-up"></i><i class="fa-solid fa-angle-down"></i></a> -->
                                             </th>
                                             <th>地點</th>
-                                            <th data-sortable="true">活動日期</th>
-                                            <th data-sortable="true">總人數</th>
-                                            <th data-sortable="true">活動時長(hr)</th>
+                                            <th>活動日期</th>
+                                            <th>總人數</th>
+                                            <th>活動時長(hr)</th>
                                             <th>難易度</th>
                                             <th>標題</th>
                                             <th>簡介</th>
                                             <th>內文</th>
                                             <th>影片連結</th>
-                                            <th data-sortable="true">建立時間</th>
-                                            <th data-switchable="false"><!--<i class="fa-solid fa-pen-to-square"></i>--></th>
+                                            <th>建立時間</th>
+                                            <th><!--<i class="fa-solid fa-pen-to-square"></i>--></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -217,7 +227,7 @@ if (empty($pageName)) {
                                                 <td class="text-end"><?= $r['max_groupsize'] ?></td>
                                                 <td class="text-end"><?= $r['event_period'] ?></td>
                                                 <td class="text-center"><?= isset($lvlList[$r['level_id']]) ? $lvlList[$r['level_id']] : $r['level_id'] ?></td>
-                                                <td><?= $r['title'] ?></td>
+                                                <td><?= highlightTerm($r['title'], $search) ?></td>
                                                 <td class="trunc-text"><?= $r['description'] ?></td>
                                                 <td class="trunc-text" data-toggle="tooltip" data-placement="top" title="<?= $r['content'] ?>"><?= $r['content'] ?></td>
                                                 <td><?= $r['video_url'] ?></td>
@@ -276,10 +286,7 @@ if (empty($pageName)) {
 
 <?php include './../package/packageDown.php' ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
-<script src="https://unpkg.com/bootstrap-table@1.22.2/dist/bootstrap-table.min.js"></script>
+
 <script>
     function delete_one(tour_id) {
         if (confirm(`是否要刪除編號為${tour_id}的資料?`)) {
