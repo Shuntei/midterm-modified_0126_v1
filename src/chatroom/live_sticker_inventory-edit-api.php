@@ -21,7 +21,7 @@ if (empty($sticker_inventory_id)) {
 $sql = "UPDATE `live_sticker_inventory` SET 
     `sticker_title`=?,
     `sticker_cost`=?,
-    `newPictureName`=?
+    `sticker_pic`=?
     WHERE sticker_inventory_id=? ";
 
 $stmt = $pdo->prepare($sql);
