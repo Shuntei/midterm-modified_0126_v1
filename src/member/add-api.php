@@ -22,7 +22,7 @@ if ($birthday === false) {
 }
 
 $passwordHash = password_hash($_POST['password'], PASSWORD_DEFAULT);
-$profilePic = empty($_POST['picture']) ? null : $_POST['picture'];
+$profilePic = empty($_POST['uploadedPicture']) ? null : $_POST['uploadedPicture'];
 
 $checkEmailSql = "SELECT `user_id` FROM `mb_user` WHERE `email` = ?";
 $checkEmailStmt = $pdo->prepare($checkEmailSql);
