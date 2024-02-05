@@ -11,7 +11,7 @@ if (empty($row)) {
 }
 ?>
 <?php include __DIR__ . '/parts-get-point/html-head.php' ?>
-<?php include ('./../package/packageUp.php') ?>
+<?php include('./../package/packageUp.php') ?>
 <?php include __DIR__ . '/parts-get-point/navbar.php' ?>
 <div class="container-fluid ">
   <div class="row d-flex justify-content-center mt-4">
@@ -37,7 +37,16 @@ if (empty($row)) {
             </div>
             <div class="mb-3">
               <label for="source" class="form-label">點數來源</label>
-              <input type="text" class="form-control" id="point_source" name="point_source" value="<?= $row['point_source'] ?>">
+              <select class="form-control" id="point_source" name="point_source">
+                <option value="選擇取得方式" selected disabled>選擇取得方式</option>
+                <option value="管理員撒錢">管理員撒錢</option>
+                <option value="幸運中獎">幸運中獎</option>
+                <option value="遊戲獲勝">遊戲獲勝</option>
+                <option value="點數回饋">點數回饋</option>
+                <option value="互動獎勵">互動獎勵</option>
+                <option value="刷頻懲罰">刷頻懲罰</option>
+                <option value="惡意攻擊">惡意攻擊</option>
+              </select>
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
@@ -73,7 +82,7 @@ if (empty($row)) {
     </div>
   </div>
 </div>
-<?php include ('./../package/packageDown.php') ?>
+<?php include('./../package/packageDown.php') ?>
 <?php include __DIR__ . '/parts-get-point/scripts.php' ?>
 <script>
   const {

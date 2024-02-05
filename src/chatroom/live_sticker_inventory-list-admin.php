@@ -50,11 +50,7 @@ if (isset($_GET['sort'])) {
 }
 
 $search = isset($_GET['searchbar']) ? $_GET['searchbar'] : "";
-$searching_sql = "WHERE sticker_title LIKE'%" . $search . "%'";
-
-if (empty($search)) {
-    $searching_sql = "";
-}
+$searching_sql = !empty($search) ? "WHERE sticker_title LIKE '%" . $search . "%'":"";
 
 if ($totalRows > 0) {
     $totalPages = ceil($totalRows / $perPage);
@@ -241,7 +237,7 @@ if (empty($pageName)) {
                 <ul class="pagination mt-2 mb-2">
                     <li class="page-item">
                         <a class="page-link" href="?page=<?= $page - 1 ?>">
-                            <i class="fa-solid fa-angle-left" href="?page"></i>
+                            <i class="fa-solid fa-angle-left"></i>
                         </a>
                     </li>
                     <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
@@ -283,7 +279,7 @@ if (empty($pageName)) {
         function changeUrl() {
             let sortValue = sort.value
             let searchbar = document.getElementById('searchbar').value
-            window.location.href = `live_sticker_inventory-list-admin.php?&sort=${sortValue}&searchbar=${searchbar}&submit=`
+            window.location.href = `live_sticker_inventory-list-admin.php?sort=${sortValue}&searchbar=${searchbar}&submit=`
         }
 
         sort.addEventListener('change', changeUrl);
@@ -292,10 +288,15 @@ if (empty($pageName)) {
         document.addEventListener('DOMContentLoaded', function() {
             const searchResult = new URLSearchParams(window.location.search);
             const getSearchResult = searchResult.get('searchbar');
+            const getSortValue = searchResult.get('sort');
 
             if (getSearchResult !== null) {
                 searchbar.value = decodeURIComponent(getSearchResult);
             }
+
+            if(getSortValue !==null){
+                    sort.value=getSortValue
+                }
         });
 
         let reset = document.querySelector('.reset')
