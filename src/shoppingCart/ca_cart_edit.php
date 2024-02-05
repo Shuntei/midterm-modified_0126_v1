@@ -95,70 +95,7 @@ if (empty($row)) {
 <?php include __DIR__ . '/../package/packageDown.php' ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
-  // const {
-  //   name: name_f,
-  //   email: email_f,
-  //   mobile: mobile_f,
-  // } = document.form1;
-
-  // function validateEmail(email) {
-  //   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  //   return re.test(email);
-  // }
-
-  // function validateMobile(mobile) {
-  //   var re = /^09\d{2}-?\d{3}-?\d{3}$/;
-  //   return re.test(mobile);
-  // }
-
-  // const sendForm = e => {
-  //   e.preventDefault();
-  //   name_f.style.border = '1px solid #CCC';
-  //   name_f.nextElementSibling.innerHTML = "";
-  //   email_f.style.border = '1px solid #CCC';
-  //   email_f.nextElementSibling.innerHTML = "";
-  //   mobile_f.style.border = '1px solid #CCC';
-  //   mobile_f.nextElementSibling.innerHTML = "";
-
-  //   // TODO: 資料送出之前, 要做檢查 (有沒有填寫, 格式對不對)
-  //   let isPass = true;
-
-  //   if(name_f.value.length < 2) {
-  //     // alert("請填寫正確的姓名");
-  //     isPass = false;
-  //     name_f.style.border = '1px solid red';
-  //     name_f.nextElementSibling.innerHTML = "請填寫正確的姓名";
-  //   }
-
-  //   if(email_f.value === '' || !validateEmail(email_f.value)) {
-  //     isPass = false;
-  //     email_f.style.border = '1px solid red';
-  //     email_f.nextElementSibling.innerHTML = "請填寫正確的 Email";
-  //   }
-
-  //   if(mobile_f.value === '' || !validateMobile(mobile_f.value)) {
-  //     isPass = false;
-  //     mobile_f.style.border = '1px solid red';
-  //     mobile_f.nextElementSibling.innerHTML = "請填寫正確的手機號碼";
-  //   }
-
-  //   if(isPass) {
-  //     //"沒有外觀"的表單
-  //     const fd = new FormData(document.form1);
-
-  //     fetch('add-api.php', {
-  //       method: 'POST',
-  //       body: fd,
-  //     }).then(r => r.json())
-  //     .then(result => {
-  //       console.log({result});
-  //       if(result.success) {
-  //         myModal.show();
-  //       }
-  //     }).catch(
-  //       e =>console.log(e)
-  //     );
-  //   }
+  
   document.getElementById('quantity').addEventListener('input', function() {
     const itemId = document.getElementById('item_id').value.trim();
     const quantity = this.value.trim();

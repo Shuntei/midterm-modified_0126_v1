@@ -339,7 +339,7 @@ $rows2 = $stmt2->fetchAll();
                                             </th>
                                             <th data-sortable="true">商品名稱</th>
                                             <th data-sortable="true">存貨</th>
-                                            <th data-sortable="true">種類id</th>
+                                            <th data-sortable="true">種類ＩＤ</th>
                                             <th data-sortable="true">商品描述</th>
                                             <th data-sortable="true">單價</th>
                                             <th>商品圖片 </th>
@@ -485,7 +485,7 @@ $rows2 = $stmt2->fetchAll();
                                         <tr>
                                             <th><i class="fa-solid fa-trash-can"></i></th>
 
-                                            <th data-sortable="true">類別id</th>
+                                            <th data-sortable="true">類別ＩＤ</th>
                                             <th data-sortable="true">類別名稱</th>
                                             <th><i class="fa-solid fa-pen-to-square"></i></th>
                                         </tr>

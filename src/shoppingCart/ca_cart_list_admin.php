@@ -225,13 +225,13 @@ $rows = $stmt->fetchAll();
                                     <thead>
                                         <tr>
                                             <th><i class="fa-solid fa-trash-can"></i></th>
-                                            <th> cart_id</th>
-                                            <th>使用者id</th>
-                                            <th>商品id</th>
-                                            <th>商品名稱</th>
-                                            <th>數量</th>
-                                            <th>單價</th>
-                                            <th>總價</th>
+                                            <th data-sortable="true"> 購物車ＩＤ</th>
+                                            <th data-sortable="true">使用者ＩＤ</th>
+                                            <th data-sortable="true">商品ＩＤ</th>
+                                            <th data-sortable="true">商品名稱</th>
+                                            <th data-sortable="true">數量</th>
+                                            <th data-sortable="true">單價</th>
+                                            <th data-sortable="true">總價</th>
                                             <th><i class="fa-solid fa-pen-to-square"></i></th>
                                         </tr>
                                     </thead>
