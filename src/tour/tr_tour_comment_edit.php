@@ -31,9 +31,6 @@ if (empty($row)) {
                     <li class="nav-item">
                         <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./tr_tour_comment_list_admin.php">列表</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./tr_tour_comment_add.php">新增</a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -106,54 +103,6 @@ if (empty($row)) {
 <?php include './../package/packageDown.php' ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
-    // const {
-    //     name: name_f,
-    //     email: email_f,
-    //     event_date: event_date_f,
-    // } = document.form1;
-
-    // function validateEmail(email) {
-    //     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    //     return re.test(email);
-    // }
-
-    // function validateevent_date(event_date) {
-    //     var re = /^09\d{2}-?\d{3}-?\d{3}$/;
-    //     return re.test(event_date);
-    // }
-
-
-    // const sendForm = e => {
-    //     e.preventDefault();
-    //     name_f.style.border = '1px solid #CCC';
-    //     name_f.nextElementSibling.innerHTML = "";
-    //     email_f.style.border = '1px solid #CCC';
-    //     email_f.nextElementSibling.innerHTML = "";
-    //     event_date_f.style.border = '1px solid #CCC';
-    //     event_date_f.nextElementSibling.innerHTML = "";
-
-    // TODO:資料送出之前,檢查(有沒有填寫,格式對不對)
-    // let isPass = true; // 表單有沒有通過檢查
-
-    // if (name_f.value.length < 2) {
-    //     // alert("請填寫正確姓名");
-    //     isPass = false;
-    //     name_f.style.border = '1px solid red';
-    //     name_f.nextElementSibling.innerHTML = "請填寫正確姓名";
-    // }
-
-    // if (email_f.value && !validateEmail(email_f.value)) {
-    //     isPass = false;
-    //     email_f.style.border = '1px solid red';
-    //     email_f.nextElementSibling.innerHTML = "請填寫正確Email";
-    // }
-
-    // if (event_date_f.value && !validateevent_date(event_date_f.value)) {
-    //     isPass = false;
-    //     event_date_f.style.border = '1px solid red';
-    //     event_date_f.nextElementSibling.innerHTML = "請填寫正確日期";
-    // }
-
     const sendForm = e => {
         e.preventDefault();
         // 沒有外觀的表單

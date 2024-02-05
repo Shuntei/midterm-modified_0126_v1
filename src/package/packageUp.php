@@ -10,26 +10,43 @@
         <a class="navbar-brand brand-logo" href="../index_.php">
           <img src="../assets/images/ruined.png" alt="logo" />
         </a>
-
       </div>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-top">
       <ul class="navbar-nav">
         <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-          <h1 class="welcome-text">Why are we still here? Just to suffer? <span class="text-black fw-bold"></span></h1>
+          <h1 class="welcome-text"><?= isset($_SESSION['admin']['userName']) ? $_SESSION['admin']['userName'] : 'Hello' ?><span class="text-black fw-bold"></span></h1>
           <h3 class="welcome-sub-text"></h3>
         </li>
       </ul>
       <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas">
         <span class="mdi mdi-menu"></span>
       </button>
+      <?php if(isset($_SESSION['admin']) || isset($_SESSION['moderator'])) : ?>
+      <div class="ms-auto align-items-center d-flex logout-btn">
+        <a href="logout.php" class="logout-link">Logout</a>
+      </div>
+      <?php endif; ?>
     </div>
+
   </nav>
   <!-- partial -->
   <div class="container-fluid page-body-wrapper">
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
       <ul class="nav">
         <li class="nav-item nav-category">Forms and Datas</li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="collapse" href="#account-key" aria-expanded="false" aria-controls="account-key">
+            <i class="menu-icon mdi mdi-account-key"></i>
+            <span class="menu-title">Settings</span>
+            <i class="menu-arrow"></i>
+          </a>
+          <div class="collapse" id="account-key">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item"><a class="nav-link" href="/midterm/src/settings/settings.php">Admin Settings</a></li>
+            </ul>
+          </div>
+        </li>
         <li class="nav-item">
           <a class="nav-link" data-bs-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
             <i class="menu-icon mdi mdi-card-text-outline"></i>
@@ -38,12 +55,7 @@
           </a>
           <div class="collapse" id="form-elements">
             <ul class="nav flex-column sub-menu">
-
               <li class="nav-item"><a class="nav-link" href="/midterm/src/member/member.php">User</a></li>
-
-            </ul>
-            <ul class="nav flex-column sub-menu">
-              <li class="nav-item"><a class="nav-link" href="../pages/forms/basic_elements.html">UserPermission</a></li>
             </ul>
           </div>
         </li>
@@ -55,8 +67,8 @@
           </a>
           <div class="collapse" id="charts">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="/midterm/src/socialNetwork/public-board.php">看板分類</a></li>
-              <li class="nav-item"> <a class="nav-link" href="/midterm/src/socialNetwork/posts-list-no-admin.php">帖子</a></li>
+              <li class="nav-item"> <a class="nav-link" href="/midterm/src/socialNetwork/posts-list-no-admin.php">論壇</a></li>
+              <li class="nav-item"> <a class="nav-link" href="/midterm/src/socialNetwork/friends.php">好友</a></li>
             </ul>
           </div>
         </li>

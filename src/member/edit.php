@@ -1,4 +1,6 @@
 <?php
+
+require './admin-required.php';
 require "./parts/db_connect_midterm.php";
 include "./parts/html-head.php";
 include "./../package/packageUp.php";
@@ -62,8 +64,27 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
     button {
         padding-block: 0;
     }
+
+    .breadcrumb {
+        border: none;
+        background-color: #F4F5F7;
+        margin: 20px 0 0 20px ;
+        border-radius: 10px;
+    }
+
+    .breadcrumb .breadcrumb-item {
+        font-size: 16px;
+    }
 </style>
 
+<div class="d-flex position-absolute">
+    <nav aria-label="breadcrumb" class="border-none">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="member.php"  class="text-decoration-none fw-bold text-dark">User List</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Edit</li>
+      </ol>
+    </nav>
+</div>
 <div class="container d-flex justify-content-center">
     <div class="container col-12 col-md-6 mt-4">
         <div class="col-md-12 col-12 grid-margin stretch-card">

@@ -1,14 +1,40 @@
 <?php require __DIR__ . '/parts/db_connect_midterm.php';
 $pageName = 'add';
 $title = '新增';
-
-
-
-
 ?>
+
 <?php include __DIR__ . '/parts/html-head.php' ?>
 <?php include('./../package/packageUp.php') ?>
-<?php include __DIR__ . '/parts/navbar.php' ?>
+
+<?php
+if (empty($pageName)) {
+  $pageName = '';
+}
+?>
+
+<div class="container-fluid">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./live_sticker_inventory-list-admin.php">列表</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./live_sticker_inventory-add.php">新增</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <?= $pageName == 'edit' ? 'active' : '' ?>" href="./live_sticker_inventory-edit.php">編輯</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+
 <style>
   form .mb-3 .form-text {
     color: red;
@@ -34,11 +60,13 @@ $title = '新增';
             </div>
             <div class="mb-3">
               <label for="text" class="form-label">上傳圖片</label>
+              <input type="text" name="newPictureName" id="newPictureName">
               <input type="text" class="form-control" id="sticker_pic" name="sticker_pic" placeholder="輸入檔名＋副檔名，例 tux_cat.jpeg">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
               <input type="file" name="sticker" id="sticker" onchange="uploadFile()" accept="image/*">
+              <img src="" id="displayPhoto">
             </div>
             <button type="submit" class="btn btn-primary">新增</button>
           </form>
@@ -145,9 +173,12 @@ $title = '新增';
       .then((r) => r.json())
       .then((data) => {
         if (data.success) {
-          myimg.src = "/imgs/" + data.file;
+          let displayPhoto = document.getElementById('displayPhoto')
+          newPictureName.value = data.file;
+          displayPhoto.src = "/imgs/" + data.file;
         }
-      });
+      })
+      .catch(e => console.log(e));
   }
 
   // 抓圖片結束

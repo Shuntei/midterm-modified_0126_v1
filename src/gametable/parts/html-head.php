@@ -27,6 +27,17 @@
     <link rel="stylesheet" href="../assets/css/vertical-layout-light/style.css">
     <!-- endinject -->
     <link rel="shortcut icon" href="../assets/images/favicon.png" />
+    <script async src="https://ga.jspm.io/npm:es-module-shims@1.7.1/dist/es-module-shims.js"></script>
+    <script type="importmap">
+        {
+          "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@^0.160.0/build/three.module.min.js"
+          }
+        }
+        </script>
+        <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer/dist/model-viewer-module.min.js"></script>
+  
+<script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer-effects/dist/model-viewer-effects.min.js"></script>
     <style>
     .navbar-nav .nav-link.active {
         background-color: rgb(13, 110, 253);
@@ -37,11 +48,11 @@
     form .mb-3 .form-text {
       color: red;
     }
-    .illo {
-      display: block;
-      margin: 20px auto;
-      background: #FDB;
-      cursor: move;
+
+    model-viewer{
+      align-content: center;
+         width:400px;
+         height:400px;
     }
     </style>
 </head>

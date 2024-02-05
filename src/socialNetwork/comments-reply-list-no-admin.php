@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/parts/db_connect.php';
-$pageName = 'list';
-$title = 'comments_reply';
+$pageName = '留言回覆';
+$title = '留言回覆';
 
 $perPage = 20;
 
@@ -36,53 +36,62 @@ if ($totalRows > 0) {
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
 <?php include __DIR__ . '/../package/packageUp.php' ?>
-<?php include __DIR__ . '/parts/navbar.php' ?>
+<!-- <?php include __DIR__ . '/parts/navbar.php' ?> -->
 
-<div class="container-fluid overflow-auto">
-    <div class="row">
+<div class="container-fluid overflow-auto px-5" style="background-color: #6C757D;">
+    <div class="row pb-5">
         <div class="col">
-            <!-- <?= "$totalRows, $totalPages" ?> -->
+            <h3 class="my-2 text-center fw-bold mt-4">Comment Replies</h3>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb border-0 ps-0">
+                    <li class="breadcrumb-item"><a href="./public-board.php" class="text-decoration-none" style="color:#000">Public Boards</a></li>
+                    <li class="mx-3" style="color:#000">&gt;</li>
+                    <li class="breadcrumb-item"><a href="./posts-list-no-admin.php" class="text-decoration-none" style="color:#000">Posts &amp; Comments</a></li>
+                    <li class="mx-3" style="color:#000">&gt;</li>
+                    <li class="breadcrumb-item active text-white" aria-current="page">Comment Replies</li>
+                </ol>
+            </nav>
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a class="page-link" href="?page=<?= 1 ?>">
+                        <a class="page-link text-dark" href="?page=<?= 1 ?>">
                             <i class="fa-solid fa-angles-left"></i>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page=<?= $page - 1 ?>">
+                        <a class="page-link text-dark" href="?page=<?= $page - 1 ?>">
                             <i class="fa-solid fa-angle-left" href="?page"></i>
                         </a>
                     </li>
                     <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
                         if ($i >= 1 and $i <= $totalPages) : ?>
                             <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                                <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                                <a class="page-link text-dark" href="?page=<?= $i ?>"><?= $i ?></a>
                             </li>
                     <?php endif;
                     endfor; ?>
 
                     <li class="page-item">
-                        <a class="page-link" href="?page=<?= $page + 1 ?>">
+                        <a class="page-link text-dark" href="?page=<?= $page + 1 ?>">
                             <i class="fa-solid fa-angle-right"></i>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page=<?= $totalPages ?>">
+                        <a class="page-link text-dark" href="?page=<?= $totalPages ?>">
                             <i class="fa-solid fa-angles-right"></i>
                         </a>
                     </li>
                 </ul>
             </nav>
-            <table class="table table-bordered table-striped">
+            <table class="table table-light table-hover">
                 <thead>
-                    <tr>
-                        <th>cr_id</th>
+                    <tr class="table-dark">
+                        <th style="border-radius: 10px 0 0 0">cr_id</th>
                         <th>user_id</th>
                         <th>post_id</th>
-                        <th>content</th>
+                        <th class="text-center">content</th>
                         <th>parent_id</th>
-                        <th>comment_timestamp</th>
+                        <th style="border-radius: 0 10px 0 0">comment_timestamp</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -104,10 +113,6 @@ if ($totalRows > 0) {
             </table>
         </div>
     </div>
-    <!-- <prev><?php
-                print_r($stmt->fetch());
-                print_r($stmt->fetch());
-                ?></prev> -->
 </div>
 
 <?php include __DIR__ . '/parts/scripts.php' ?>

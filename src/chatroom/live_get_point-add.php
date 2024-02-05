@@ -4,7 +4,31 @@ $title = '新增';
 ?>
 <?php include __DIR__ . '/parts-get-point/html-head.php' ?>
 <?php include('./../package/packageUp.php') ?>
-<?php include __DIR__ . '/parts-get-point/navbar.php' ?>
+<?php
+
+if (empty($pageName)) {
+  $pageName = '';
+}
+?>
+<div class="container-fluid">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./live_get_point-list-admin.php">列表</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./live_get_point-add.php">新增</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
 <style>
   form .mb-3 .form-text {
     color: red;
@@ -32,10 +56,11 @@ $title = '新增';
               <label for="source" class="form-label">點數來源</label>
               <select class="form-control" id="point_source" name="point_source">
                 <option value="選擇取得方式" selected disabled>選擇取得方式</option>
-                <option value="中獎">幸運中獎</option>
+                <option value="管理員撒錢">管理員撒錢</option>
+                <option value="幸運中獎">幸運中獎</option>
                 <option value="遊戲獲勝">遊戲獲勝</option>
-                <option value="打賞回饋">點數回饋</option>
-                <option value="人氣獎勵">互動獎勵</option>
+                <option value="點數回饋">點數回饋</option>
+                <option value="互動獎勵">互動獎勵</option>
                 <option value="刷頻懲罰">刷頻懲罰</option>
                 <option value="惡意攻擊">惡意攻擊</option>
               </select>

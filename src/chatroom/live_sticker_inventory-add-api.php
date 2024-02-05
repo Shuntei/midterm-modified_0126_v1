@@ -15,7 +15,7 @@ try {
     $stmt->execute([
         $_POST['sticker_title'],
         $_POST['sticker_cost'],
-        $_POST['sticker_pic'],
+        $_POST['newPictureName'],
     ]);
 } catch (PDOException $e) {
     $output['error'] = 'SQL failed : ' . $e->getMessage();
