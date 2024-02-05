@@ -29,7 +29,7 @@ if ($totalRows > 0) {
     header('Location: ?page=' . $totalPages);
     exit;
   }
-  $sql = sprintf("SELECT * FROM gm_skin ORDER BY skin_id ASC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
+  $sql = sprintf("SELECT * FROM gm_skin ORDER BY skin_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
   $stmt = $pdo->query($sql);
   $rows = $stmt->fetchAll();
 }
@@ -52,7 +52,6 @@ if (empty($pageName)) {
   <div class="row">
     <div class="col-sm-12">
       <div class="home-tab">
-        <!-- page change btn start -->
         <div class="d-sm-flex align-items-center justify-content-between border-bottom mb-5">
           <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
@@ -78,14 +77,13 @@ if (empty($pageName)) {
           </ul>
           <div>
             <div class="btn-wrapper">
-              <a href="#" class="btn btn-otline-dark align-items-center"><i class="icon-share"></i> Share</a>
+              <a href="#" class="btn btn-otline-dark align-items-center"id="share-btn"name="share-btn"><i class="icon-share"></i> Share</a>
 
               <a href="gm_skin_add.php" class="btn btn-primary text-white me-0"><i class="mdi mdi-plus fw-bold"></i>
                 Add</a>
             </div>
           </div>
         </div>
-        <!-- change page btn end -->
 
         <!-- get coupon table start -->
         <div class="col-12 grid-margin stretch-card" id="user_achieved_id">
@@ -100,14 +98,12 @@ if (empty($pageName)) {
                   <thead>
                     <tr>
                       <th><i class="fa-solid fa-trash-can"></i></th>
-                      <!-- <th>#</th> -->
                       <th>Skin ID</th>
                       <th>Skin Name</th>
                       <th>Skin Model ID</th>
                       <th>Role</th>
                       <th>Upload File</th>
                       <th>Last Update</th>
-                      <!-- <th>地址</th> -->
                       <th><i class="fa-solid fa-pen-to-square"></i></th>
                     </tr>
                   </thead>
@@ -134,12 +130,36 @@ if (empty($pageName)) {
                         </td>
                         <td>
                           <?= $r['file'] ?>
+                          <!-- Button trigger modal -->
+                          <button type="button" class="btn btn-inverse-primary btn-rounded btn-icon"
+                            data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i
+                              class="mdi mdi-eye"></i>View</button>
+
+                          <!-- Modal -->
+                          <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <canvas class="illo" width="300" height="300"></canvas>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </td>
                         <td>
                           <?= $r['skin_last_update'] ?>
                         </td>
                         <td>
-                          <a href="edit.php?gm_skin_id=<?= $r['skin_id'] ?>">
+                          <a href="gm_skin_edit.php?skin_id=<?= $r['skin_id'] ?>">
                             <i class="mdi mdi-lead-pencil"></i>
                           </a>
                         </td>
@@ -202,7 +222,41 @@ if (empty($pageName)) {
               location.href = `gm_skin_delete.php?skin_id=${skin_id}`;
             }
           }
-
         </script>
+        
 
         <?php include __DIR__ . '/parts/html-foot.php' ?>
+
+        <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const shareBtn = document.getElementById('share-btn');
+
+        shareBtn.addEventListener('click', function () {
+            // 獲取當前頁面URL
+            const currentURL = window.location.href;
+
+            // 建立臨時textarea元素用存放URL
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = currentURL;
+
+            // 將textarea加到DOM
+            document.body.appendChild(tempTextArea);
+
+            // 選中textarea的内容
+            tempTextArea.select();
+            tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+            try {
+                document.execCommand('copy');
+                alert('URL已複製');
+            } catch (err) {
+                console.error('複製失敗', err);
+            }
+
+            // 移除textarea
+            document.body.removeChild(tempTextArea);
+        });
+    });
+</script>
+
+<?php include __DIR__ . '/parts/html-foot.php' ?>

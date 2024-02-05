@@ -21,4 +21,7 @@
   <script src="../assets/js/dashboard.js"></script>
   <script src="../assets/js/proBanner.js"></script>
   <!-- <script src="../../assets/js/Chart.roundedBarCharts.js"></script> -->
+  <!-- for 3js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- for 3js -->
   <!-- End custom js for this page-->

@@ -4,7 +4,7 @@ require __DIR__ . '/parts-get-point/db_connect_midterm.php';
 $pageName = 'list';
 $title = '列表';
 
-$perPage = 20;
+$perPage = 15;
 
 $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 if ($page < 1) {
@@ -23,14 +23,6 @@ $rows = [];
 if (isset($_GET['sort'])) {
     $selectedSort = $_GET["sort"];
     switch ($selectedSort) {
-        case 'user_ascend':
-            $sortColumn = "user_id";
-            $sortDisplay = "ASC";
-            break;
-        case 'user_descend':
-            $sortColumn = "user_id";
-            $sortDisplay = "DESC";
-            break;
         case 'time_descend':
             $sortColumn = "date_get_point";
             $sortDisplay = 'DESC';
@@ -47,22 +39,33 @@ if (isset($_GET['sort'])) {
             $sortColumn = "received_point";
             $sortDisplay = 'ASC';
             break;
-
-        default:
+        case 'id_ascend':
             $sortColumn = "get_point_id";
             $sortDisplay = 'ASC';
+            break;
+        case 'id_descend':
+            $sortColumn = "get_point_id";
+            $sortDisplay = 'DESC';
+            break;
+        default:
+            $sortColumn = "get_point_id";
+            $sortDisplay = 'DESC';
             break;
     }
 } else {
     $sortColumn = "get_point_id";
-    $sortDisplay = 'ASC';
+    $sortDisplay = 'DESC';
 }
 
 $search = isset($_GET['searchbar']) ? $_GET['searchbar'] : "";
-$searching_sql = "WHERE point_source LIKE'%" . $search . "%'";
 
-if (empty($search)) {
-    $searching_sql = "";
+$searchbar_id = isset($_GET['searchbar_id']) ? $_GET['searchbar_id'] : "";
+$searchingid_sql = !empty($searchbar_id) ? "WHERE user_id LIKE '%" . $searchbar_id . "%'" : "";
+
+if (empty($searchingid_sql)) {
+    $searching_sql = !empty($search) ? "WHERE point_source LIKE '%" . $search . "%'" : "";
+} else {
+    $searching_sql = !empty($search) ? "AND point_source LIKE '%" . $search . "%'" : "";
 }
 
 if ($totalRows > 0) {
@@ -72,7 +75,7 @@ if ($totalRows > 0) {
         header('Location: ?page=' . $totalPages);
         exit;
     }
-    $sql = sprintf("SELECT * FROM live_get_point %s ORDER BY %s %s LIMIT %s, %s", $searching_sql, $sortColumn, $sortDisplay, ($page - 1) * $perPage, $perPage);
+    $sql = sprintf("SELECT * FROM live_get_point %s %s ORDER BY %s %s  LIMIT %s %s", $searchingid_sql, $searching_sql, $sortColumn, $sortDisplay, ($page - 1) * $perPage, $perPage);
     $stmt = $pdo->query($sql);
     $rows = $stmt->fetchAll();
 }
@@ -96,16 +99,18 @@ if (empty($pageName)) {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./live_get_point-list-admin.php">列表</a>
+                        <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./live_get_point-add.php">列表</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./live_get_point-add.php">新增</a>
                     </li>
+                </ul>
+                <ul class="navbar-nav d-flex justify-content-end mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <p class="clock">現在 00:00:00</p>
+                        <p class="nav-link clock me-3 fs-5">⏰ 0:00:00 PM</p>
                     </li>
                     <li class="nav-item">
-                        <p class="timePassed">閒置 00:00</p>
+                        <p class="nav-link timePassed fs-5">😴 00:00</p>
                     </li>
                 </ul>
                 <!-- <ul class="navbar-nav mb-2 mb-lg-0">
@@ -141,52 +146,46 @@ if (empty($pageName)) {
     ul.li distance {
         line-height: 100%;
     }
+
+    .outline {
+        border: 1px solid hsl(0, 0%, 0%, 0.2) !important;
+        padding: 3px 5px;
+    }
+
+    .reset {
+        transition: background-color 0.5 ease;
+    }
+
+    .reset:hover {
+        background-color: red;
+        color: white;
+    }
 </style>
 
 <div class="container-fluid">
     <div class="row">
         <!-- 功能欄位在這裡 -->
         <div class="col">
-            <!-- <?= "$totalRows, $totalPages" ?> -->
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" href="?page=<?= $page - 1 ?>">
-                            <i class="fa-solid fa-angle-left" href="?page"></i>
-                        </a>
-                    </li>
-                    <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
-                        if ($i >= 1 and $i <= $totalPages) : ?>
-                            <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                                <a class="page-link" href="?page=<?= $i ?>">
-                                    <?= $i ?>
-                                </a>
-                            </li>
-                    <?php endif;
-                    endfor; ?>
+            <form method="GET" class="d-flex justify-content-center my-3">
+                <input type="text" id="searchbar_id" name="searchbar_id" class="searchbar distance ps-2 me-3 page-link border" type="search" placeholder="搜尋用戶ID">
 
-                    <li class="page-item">
-                        <a class="page-link" href="?page=<?= $page + 1 ?>">
-                            <i class="fa-solid fa-angle-right"></i>
-                        </a>
-                    </li>
-                    <form method="GET">
-                        <input type="text" id="searchbar" name="searchbar" class="searchbar distance" placeholder="輸入關鍵字">
-                        <select name="sort" id="sort">
-                            <option value="" selected disabled>誰排在前面？</option>
-                            <option value="point_descend">大點數</option>
-                            <option value="point_ascend">小點數</option>
-                            <option value="time_descend">最新</option>
-                            <option value="time_ascend">最舊</option>
-                            <option value="user_descend">大ID</option>
-                            <option value="user_ascend">小ID</option>
-                        </select>
-                        <button type="button" class="reset">重置</button>
-                    </form>
-                </ul>
-                <!-- 功能欄位結束了 -->
+                <input type="text" id="searchbar" name="searchbar" class="searchbar distance ps-2 me-3 page-link border" type="search" placeholder="搜尋點數來源">
+                
+                <select name="sort" id="sort" class="me-3 page-link border">
+                    <option value="" selected disabled>誰排在前面？</option>
+                    <option value="id_descend">最新資料</option>
+                    <option value="id_ascend">最舊資料</option>
+                    <option value="point_descend">點數大👉小</option>
+                    <option value="point_ascend">點數小👉大</option>
+                    <option value="time_descend">時間近👉遠</option>
+                    <option value="time_ascend">時間遠👉近</option>
+                </select>
+                <button type="button" class="reset me-3 page-link border border-light outline">重置</button>
+            </form>
+            </ul>
+            <!-- 功能欄位結束了 -->
             </nav>
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped text-center">
                 <thead>
                     <tr>
                         <th><i class="fa-solid fa-trash-can"></i></th>
@@ -234,85 +233,122 @@ if (empty($pageName)) {
             </table>
         </div>
     </div>
-    <!-- <prev><?php
-                print_r($stmt->fetch());
-                print_r($stmt->fetch());
-                ?></prev> -->
-</div>
-<?php include('./../package/packageDown.php') ?>
-<?php include __DIR__ . '/parts-get-point/scripts.php' ?>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- 功能欄位在這裡 -->
+            <div class="col d-flex justify-content-center">
+                <!-- <?= "$totalRows, $totalPages" ?> -->
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination mt-2 mb-2">
+                        <li class="page-item">
+                            <a class="page-link"  href="?page=<?= $page - 1 ?>&sort=<?= $sortColumn ?>&searchbar=<?= $search ?>&searchbar_id=<?= $searchbar_id ?>&submit=">
+                                <i class="fa-solid fa-angle-left"></i>
+                            </a>
+                        </li>
+                        <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
+                            if ($i >= 1 and $i <= $totalPages) : ?>
+                                <li class="page-item <?= $i == $page ? 'active' : '' ?>">
+                                    <a class="page-link" href="?page=<?= $i ?>&sort=<?= $sortColumn ?>&searchbar=<?= $search ?>&searchbar_id=<?= $searchbar_id ?>&submit=">
+                                        <?= $i ?>
+                                    </a>
+                                </li>
+                        <?php endif;
+                        endfor; ?>
+                        <li class="page-item">
+                            <a class="page-link" href="?page=<?= $page + 1 ?>&sort=<?= $sortColumn ?>&searchbar=<?= $search ?>&searchbar_id=<?= $searchbar_id ?>&submit=">
+                                <i class="fa-solid fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <!-- <prev><?php
+                        print_r($stmt->fetch());
+                        print_r($stmt->fetch());
+                        ?></prev> -->
+        </div>
+        <?php include('./../package/packageDown.php') ?>
+        <?php include __DIR__ . '/parts-get-point/scripts.php' ?>
 
-<script>
-    function delete_one(
-        get_point_id) {
-        if (confirm(`是否要刪除編號為${get_point_id}的資料?`)) {
-            location.href = `live_get_point-delete.php?get_point_id=${get_point_id}`;
-        }
-    }
+        <script>
+            function delete_one(
+                get_point_id) {
+                if (confirm(`是否要刪除編號為${get_point_id}的資料?`)) {
+                    location.href = `live_get_point-delete.php?get_point_id=${get_point_id}`;
+                }
+            }
 
-    // 排序＆搜尋系統開始
-    let sort = document.getElementById('sort')
-    let submit = document.getElementById('submit')
+            // 排序＆搜尋系統開始
+            let sort = document.getElementById('sort')
+            let submit = document.getElementById('submit')
 
-    function changeUrl() {
-        let sortValue = sort.value
-        let searchbar = document.getElementById('searchbar').value
-        window.location.href = `live_get_point-list-admin.php?&sort=${sortValue}&searchbar=${searchbar}&submit=`
-    }
+            function changeUrl() {
+                let currentPage = document.getElementById('currentPage').getAttribute('data-page');
+                let sortValue = sort.value
+                let searchbar = document.getElementById('searchbar').value
+                let searchbar_id = document.getElementById('searchbar_id').value
+                window.location.href = `live_get_point-list-admin.php?page=${currentPage}&sort=${sortValue}&searchbar=${searchbar}&searchbar_id=${searchbar_id}&submit=`
+            }
 
-    sort.addEventListener('change', changeUrl);
-    searchbar.addEventListener("change", changeUrl)
+            sort.addEventListener('change', changeUrl);
+            searchbar.addEventListener("change", changeUrl)
+            searchbar_id.addEventListener("change", changeUrl)
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchResult = new URLSearchParams(window.location.search);
-        const getSearchResult = searchResult.get('searchbar');
 
-        if (getSearchResult !== null) {
-            searchbar.value = decodeURIComponent(getSearchResult);
-        }
-    });
+            document.addEventListener('DOMContentLoaded', function() {
+                const searchResult = new URLSearchParams(window.location.search);
+                const getSearchResult = searchResult.get('searchbar');
+                const getSearchResult_id = searchResult.get('searchbar_id');
 
-    let reset = document.querySelector('.reset')
-    reset.addEventListener("click", event => {
-        window.location.href = `live_get_point-list-admin.php`
-    })
-    // 排序＆搜尋系統結束
+                if (getSearchResult !== null) {
+                    searchbar.value = decodeURIComponent(getSearchResult);
+                }
+                if (getSearchResult_id !== null) {
+                    searchbar_id.value = decodeURIComponent(getSearchResult_id);
+                }
+            });
 
-    // SideProject 計時器開始
-    let clock = document.querySelector('.clock')
-    let nowTime = () => {
-        let date = new Date();
-        return date.toLocaleTimeString()
-    }
+            let reset = document.querySelector('.reset')
+            reset.addEventListener("click", event => {
+                window.location.href = `live_get_point-list-admin.php`
+            })
+            // 排序＆搜尋系統結束
 
-    setInterval(() => {
-        clock.innerHTML = `現在 ${nowTime()}`
-    }, 1000)
+            // SideProject 計時器開始
+            let clock = document.querySelector('.clock')
+            let nowTime = () => {
+                let date = new Date();
+                return date.toLocaleTimeString()
+            }
 
-    let startTime = 0
-    let elapsedTime = 0
-    let timePassed = document.querySelector('.timePassed')
+            setInterval(() => {
+                clock.innerHTML = `⏰ ${nowTime()}`
+            }, 1000)
 
-    function timer() {
-        startTime = Date.now() - elapsedTime
-        setInterval(update, 1000)
-    }
+            let startTime = 0
+            let elapsedTime = 0
+            let timePassed = document.querySelector('.timePassed')
 
-    function update() {
-        let currentTime = Date.now();
-        elapsedTime = currentTime - startTime;
+            function timer() {
+                startTime = Date.now() - elapsedTime
+                setInterval(update, 1000)
+            }
 
-        let minutes = Math.floor(elapsedTime / (1000 * 60) % 60)
-        let secs = Math.floor(elapsedTime / 1000 % 60)
+            function update() {
+                let currentTime = Date.now();
+                elapsedTime = currentTime - startTime;
 
-        minutes = String(minutes).padStart(2, "0");
-        secs = String(secs).padStart(2, "0");
+                let minutes = Math.floor(elapsedTime / (1000 * 60) % 60)
+                let secs = Math.floor(elapsedTime / 1000 % 60)
 
-        timePassed.innerHTML = `閒置 ${minutes}:${secs}`
-    }
+                minutes = String(minutes).padStart(2, "0");
+                secs = String(secs).padStart(2, "0");
 
-    timer()
-    // SideProject 計時器結束
-</script>
+                timePassed.innerHTML = `😴 ${minutes}:${secs}`
+            }
 
-<?php include __DIR__ . '/parts-get-point/html-foot.php' ?>
+            timer()
+            // SideProject 計時器結束
+        </script>
+
+        <?php include __DIR__ . '/parts-get-point/html-foot.php' ?>

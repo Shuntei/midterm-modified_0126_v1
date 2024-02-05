@@ -18,7 +18,7 @@ $title = '新增';
         <div class="card-body">
           <h4 class="card-title">新增</h4>
           <p class="card-description">Basic form layout</p>
-          <form name="form1" method="post" onsubmit="sendForm(event)">
+          <form action="gm_skin_add_api.php"  name="form1" enctype="multipart/form-data" method="post" onsubmit="sendForm(event)">
             <div class="mb-3">
               <label for="skin_id" class="form-label">Skin ID</label>
               <input type="text" class="form-control" id="skin_id" name="skin_id" placeholder="Int">
@@ -42,7 +42,7 @@ $title = '新增';
             </div>
             <div class="mb-3">
               <label for="upload_file" class="form-label">Upload Model</label>
-              <input type="file" class="form-control" id="upload_file" placeholder=".gltf" name="upload_file">
+              <input type="file" class="form-control" id="upload_file" name="upload_file" placeholder=".gltf" name="file" accept=".gltf">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">

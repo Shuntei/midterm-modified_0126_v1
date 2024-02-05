@@ -1,5 +1,6 @@
 <?php
 
+
 require __DIR__ . '/parts/db_connect_midterm.php';
 $pageName = 'list';
 $title = '列表';

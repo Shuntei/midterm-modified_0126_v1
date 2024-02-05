@@ -12,7 +12,8 @@
     // TODO: 資料輸入之前, 要做檢查
     # filter_var('bob@example.com', FILTER_VALIDATE_EMAIL);    
     
-    $coupon_id = isset($_POST['coupon_id']) ? intval($_POST['coupon_id']) : 0;
+    $coupon_id = isset($_POST['coupon_id']) ? $_POST['coupon_id'] : 0;
+
     if(empty($coupon_id)) {
         $output['error'] = '沒有資料編號';
         $output['code'] = 401;
@@ -20,29 +21,28 @@
         exit;
     }
 
-    $birthday = empty($_POST['birthday']) ? null : $_POST['birthday'];
-    $birthday = strtotime($birthday); #轉換為timestamp
-    if($birthday===false) {
-        $birthday = null;
-    }else {
-        $birthday = date('Y-m-d', $birthday);
-    }
+    // $birthday = empty($_POST['birthday']) ? null : $_POST['birthday'];
+    // $birthday = strtotime($birthday); #轉換為timestamp
+    // if($birthday===false) {
+    //     $birthday = null;
+    // }else {
+    //     $birthday = date('Y-m-d', $birthday);
+    // }
 
 
     $sql = "UPDATE `gm_coupon` SET 
-    `coupon_id`=?,
     `coupon_model_id`=?,
     `denomination`=?,
-    `coupon_name`=?,
+    `coupon_name`=?
     WHERE coupon_id=? ";
 
     $stmt = $pdo->prepare($sql);
     try{
         $stmt->execute([
-            $_POST['coupon_id'],
             $_POST['coupon_model_id'],
             $_POST['denomination'],
             $_POST['coupon_name'],
+            $coupon_id,
         ]);
     }catch(PDOException $e) {
         $output['error'] = 'SQL failed : ' . $e->getMessage();

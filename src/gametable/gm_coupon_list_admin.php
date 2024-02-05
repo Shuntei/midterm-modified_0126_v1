@@ -53,27 +53,27 @@ if (empty($pageName)) {
                 <div class="home-tab">
                   <!-- page change btn start -->
                   <div class="d-sm-flex align-items-center justify-content-between border-bottom mb-5">
-                  <ul class="nav nav-tabs" role="tablist">
-                    <li class="nav-item">
-                      <a class="nav-link active ps-0" id="profile-tab" aria-current="page" href="#" role="tab" aria-selected="true">Coupon</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="home-tab" href="gm_user_getcoupon_list_admin.php" role="tab" aria-selected="overview">User Get Coupon</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="contact-tab" href="gm_user_achieved_list_admin.php" role="tab" aria-selected="overview">User Achieved</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" id="more-tab" href="gm_mission_list_admin.php" role="tab" aria-selected="overview">Mission</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link border-0" id="more-tab" href="gm_skin_list_admin.php" role="tab" aria-selected="overview">Skin</a>
-                    </li>
-                  </ul>
+                    <ul class="nav nav-tabs" role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active ps-0" id="profile-tab" aria-current="page" href="#" role="tab" aria-selected="true">Coupon</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="home-tab" href="gm_user_getcoupon_list_admin.php" role="tab" aria-selected="overview">User Get Coupon</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="contact-tab" href="gm_user_achieved_list_admin.php" role="tab" aria-selected="overview">User Achieved</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" id="more-tab" href="gm_mission_list_admin.php" role="tab" aria-selected="overview">Mission</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link border-0" id="more-tab" href="gm_skin_list_admin.php" role="tab" aria-selected="overview">Skin</a>
+                      </li>
+                    </ul>
                   <div>
                     <div class="btn-wrapper">
-                      <a href="#" class="btn btn-otline-dark align-items-center"><i class="icon-share"></i> Share</a>
-                      <a href="#" class="btn btn-otline-dark align-items-center"><i class="icon-download"></i> Export</a>
+                      <a href="#" class="btn btn-otline-dark align-items-center"id="share-btn"name="share-btn"><i class="icon-share"></i> Share</a>
+                      <!-- <a href="#" class="btn btn-otline-dark align-items-center"><i class="icon-download"></i> Export</a> -->
                       <!-- <a href="#" class="btn btn-otline-dark"><i class="icon-printer"></i> Print</a> -->
                       <a href="gm_coupon_add.php" class="btn btn-primary text-white me-0"><i class="mdi mdi-plus fw-bold"></i> Add</a>
                     </div>
@@ -173,6 +173,40 @@ if (empty($pageName)) {
             location.href = `gm_coupon_delete.php?coupon_id=${coupon_id}`;
         }
     }
+</script>
+
+<?php include __DIR__ . '/parts/html-foot.php' ?>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const shareBtn = document.getElementById('share-btn');
+
+        shareBtn.addEventListener('click', function () {
+            // 獲取當前頁面URL
+            const currentURL = window.location.href;
+
+            // 建立臨時textarea元素用存放URL
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = currentURL;
+
+            // 將textarea加到DOM
+            document.body.appendChild(tempTextArea);
+
+            // 選中textarea的内容
+            tempTextArea.select();
+            tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+            try {
+                document.execCommand('copy');
+                alert('URL已複製');
+            } catch (err) {
+                console.error('複製失敗', err);
+            }
+
+            // 移除textarea
+            document.body.removeChild(tempTextArea);
+        });
+    });
 </script>
 
 <?php include __DIR__ . '/parts/html-foot.php' ?>

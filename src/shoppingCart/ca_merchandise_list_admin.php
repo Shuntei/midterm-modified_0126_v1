@@ -101,6 +101,7 @@ $rows2 = $stmt2->fetchAll();
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
 <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css">
 
+
 <div class="container-scroller">
     <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-top flex-row fixed-top">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
@@ -250,6 +251,7 @@ $rows2 = $stmt2->fetchAll();
                                 </p>
                                 <div class="container-fluid">
                                     <!--
+
                         <nav class="navbar navbar-expand-lg bg-light rounded">
                             <div class="container-fluid ">
 
@@ -337,6 +339,7 @@ $rows2 = $stmt2->fetchAll();
                                             <th data-sortable="true" data-search-highlight-formatter="customSearchFormatter">#
                                                 <!-- <a href="ca_merchandise_list_admin.php?sort=item_id_desc"><i class="fa fa-arrow-down"></i></a>
                                     <a href="ca_merchandise_list_admin.php?sort=item_id_asc"><i class="fa fa-arrow-up"></i></a> -->
+
                                             </th>
                                             <th data-sortable="true" data-search-highlight-formatter="customSearchFormatter">商品名稱</th>
                                             <th data-sortable="true" data-search-highlight-formatter="customSearchFormatter">存貨</th>
@@ -379,6 +382,7 @@ $rows2 = $stmt2->fetchAll();
                             </div>
                         </div>
                     </div>
+
                 </div>
                 <!-- <prev><?php
                             print_r($stmt->fetch());
@@ -401,6 +405,7 @@ $rows2 = $stmt2->fetchAll();
                                 </p>
                                 <div class="container-fluid">
                                     <!--
+
                         <nav class="navbar navbar-expand-lg bg-light rounded">
                             <div class="container-fluid ">
 
@@ -480,6 +485,7 @@ $rows2 = $stmt2->fetchAll();
                             </div>
                         </nav>
             -->
+
                                 </div>
                                 <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true" data-search-highlight="true">
                                     <thead>
@@ -521,6 +527,7 @@ $rows2 = $stmt2->fetchAll();
                             print_r($stmt->fetch());
                             ?></prev> -->
             </div>
+
             <?php include __DIR__ . '/../package/packageDown.php' ?>
             <?php include __DIR__ . '/parts/scripts.php' ?>
 
@@ -601,3 +608,4 @@ $rows2 = $stmt2->fetchAll();
             </script>
 
             <?php include __DIR__ . '/parts/html-foot.php' ?>
+
