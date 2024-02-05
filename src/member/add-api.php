@@ -1,5 +1,6 @@
 <?php
 
+require './admin-required.php';
 header('Content-Type: application/json');
 require __DIR__ . "/parts/db_connect_midterm.php";
 

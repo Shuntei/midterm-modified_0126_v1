@@ -36,3 +36,28 @@
 button {
   padding-block: 0;
 }
+
+.logout-link {
+  color: black;
+  font-weight: normal;
+  transition: font-weight 0.3s ease; 
+  text-decoration: none;
+}
+
+.logout-link:hover {
+  font-weight: bold;
+}
+
+.logout-btn {
+  /* padding: 20px 40px; */
+  background-color: transparent;
+}
+
+/* .logout-btn:hover {
+  background-color: #484848;
+  transition: color 3s ease;
+  color: white;
+  padding: 20px 40px;
+  border-radius: 10px;
+} */
+

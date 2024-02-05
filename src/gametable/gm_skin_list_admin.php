@@ -46,6 +46,9 @@ if (empty($pageName)) {
 }
 ?>
 
+<!-- Import the component -->
+<script type="module" src="https:unpack.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<model-viewer src="/3dmodel/945b2683c15a874280229e320bad7f045aa87ebf.fbx" camera-controls></model-viewer>
 <!-- partial -->
 
 <div class="container-fluid content-wrapper">
@@ -141,15 +144,25 @@ if (empty($pageName)) {
                             <div class="modal-dialog">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                                  <h5 class="modal-title" id="staticBackdropLabel">Drag to rotate</h5>
                                   <button type="button" class="btn-close" data-bs-dismiss="modal"
                                     aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                  <canvas class="illo" width="300" height="300"></canvas>
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <!-- <model-viewer autoplay ar camera-controls touch-action="pan-y" src="./3dmodel/Shine_Sprite.gltf" scale="0.01 0.01 0.01">
+                                    <effect-composer>
+                                      <pixelate-effect></pixelate-effect>
+                                    </effect-composer>
+                                  </model-viewer> -->
+
+                                  <model-viewer src="./3dmodel/Shine_Sprite.gltf" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce" poster="poster.webp" shadow-intensity="0.94" exposure="1" shadow-softness="0.75" min-camera-orbit="auto auto 7.159m" min-field-of-view="30deg">
+                                   <div class="progress-bar hide" slot="progress-bar">
+                                        <div class="update-bar"></div>
+                                    </div>
+                                    <button slot="ar-button" id="ar-button">
+                                        View in your space
+                                    </button>
+                                  </model-viewer>
                                 </div>
                               </div>
                             </div>

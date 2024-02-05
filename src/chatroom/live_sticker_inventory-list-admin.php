@@ -50,6 +50,7 @@ if (isset($_GET['sort'])) {
 }
 
 $search = isset($_GET['searchbar']) ? $_GET['searchbar'] : "";
+
 $searching_sql = !empty($search) ? "WHERE sticker_title LIKE '%" . $search . "%'" : "";
 
 if ($totalRows > 0) {
@@ -273,9 +274,11 @@ if (empty($pageName)) {
                 searchbar.value = decodeURIComponent(getSearchResult);
             }
 
+
             if (getSortValue !== null) {
                 sort.value = getSortValue
             }
+
         });
 
         let reset = document.querySelector('.reset')
