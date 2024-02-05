@@ -77,7 +77,6 @@ if (empty($pageName)) {
       </div>
     </div>
   </div>
-
 </div>
 
 <!-- Modal -->
@@ -89,8 +88,7 @@ if (empty($pageName)) {
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <div class="alert alert-success" role="alert">
-          請問要繼續新增嗎？
+        <div class="alert alert-success inputDisplay" role="alert">請問繼續新增嗎？
         </div>
       </div>
       <div class="modal-footer">

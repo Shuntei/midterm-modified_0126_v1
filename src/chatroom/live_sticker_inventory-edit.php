@@ -55,7 +55,7 @@ if (empty($row)) {
             <div class="mb-3">
               <label for="text" class="form-label">更新圖片</label>
               <input type="text" name="newPictureName" id="newPictureName" hidden><br>
-              <input type="file" name="sticker" id="sticker"  accept="image/*">
+              <input type="file" name="sticker" id="sticker" accept="image/*">
               <div class="form-text"></div>
               <div class="photo">
                 <img id="displayPhoto" src="./imgs/<?= $row['sticker_pic'] ?>" class="photo" alt="picture">

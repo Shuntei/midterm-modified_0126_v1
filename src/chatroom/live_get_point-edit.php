@@ -82,6 +82,7 @@ if (empty($row)) {
     </div>
   </div>
 </div>
+
 <?php include('./../package/packageDown.php') ?>
 <?php include __DIR__ . '/parts-get-point/scripts.php' ?>
 <script>
