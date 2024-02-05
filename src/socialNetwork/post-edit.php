@@ -41,22 +41,25 @@ if (empty($row)) {
             </div>
             <div class="mb-3">
               <label for="image_url" class="form-label text-light">image_url</label>
-              <!-- <input type="text" class="form-control" id="image_url" name="image_url" value="<?= $row['image_url'] ?>"> -->
+              <input type="text" class="form-control" id="image_url" name="image_url" value="<?= $row['image_url'] ?>">
               <!-- 修改圖片 -->
-              <div style="cursor: pointer;" onclick="document.form1.picture.click()" class="text-light">點選上傳圖片</div>
+              <div style="cursor: pointer;" onclick="document.form1.picture.click()" class="text-light mt-3">Upload_an_image</div>
               <input type="file" id="picture" name="picture" onchange="uploadFile()" class="bg-light rounded" value="<?= $row['image_url'] ?>" />
-              <div style="width: 300px">
-                <input type="text" name="newPictureName" id='newPictureName' hidden>
-                <img src="./upload-photos/<?= $r['image_url'] ?>" alt="" id="image_url" width="100%" />
+              <div class="mt-3">
+                <input type="text" name="newPictureName" id='newPictureName' value="<?= $row['image_url'] ?>" hidden>
+                <span class="text-light">Current image:</span>
+                <img src="./upload-photos/<?= $row['image_url'] ?>" alt="" id="image_url" width="100%" />
+                <span class="text-light">New image:</span>
+                <img src="" alt="" id="image_url_new" width="100%" />
               </div>
               <!-- 修改圖片 -->
               <div class="form-text"></div>
             </div>
-            <div class="mb-3">
+            <!-- <div class="mb-3">
               <label for="video_url" class="form-label text-light">video_url</label>
               <input type="text" class="form-control" id="video_url" name="video_url" value="<?= $row['video_url'] ?>">
               <div class="form-text"></div>
-            </div>
+            </div> -->
             <div class="mb-3">
               <label for="location" class="form-label text-light">location</label>
               <textarea type="text" id="location" name="location" style="border: 1px solid #dee2e6;border-radius: 4px; width: 100%;padding: 14px 22px"><?= $row['location'] ?></textarea>
@@ -191,7 +194,7 @@ if (empty($row)) {
           const newPictureName = document.getElementById('newPictureName')
           newPictureName.value = data.file;
           // 即時預覽圖片
-          image_url.src = "./upload-photos/" + data.file;
+          image_url_new.src = "./upload-photos/" + data.file;
         }
       });
   }
