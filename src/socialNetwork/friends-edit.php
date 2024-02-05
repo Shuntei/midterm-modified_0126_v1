@@ -10,7 +10,7 @@ if (empty($row)) {
   exit; #結束php程式
 }
 
-$sql_status = "SELECT status FROM sn_friends";
+$sql_status = "SELECT DISTINCT status FROM sn_friends";
 $stmt = $pdo->query($sql_status);
 $rows = $stmt->fetchAll();
 ?>

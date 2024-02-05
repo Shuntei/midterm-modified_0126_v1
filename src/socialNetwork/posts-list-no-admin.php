@@ -145,9 +145,9 @@ function highlightSearchTerm($content, $searchTerm)
                                     <!-- 測試 -->
                                     <label for="inputOptions" style="white-space:nowrap" class="me-2"><i class="fa-solid fa-filter fs-5 pt-1"></i></label>
                                     <select id="inputOptions" name="search_type" class="form-select form-select-sm me-2 search-custom focus-ring focus-ring-light" style="height: 32px">
-                                        <option value="content">content</option>
-                                        <option value="location">location</option>
-                                        <option value="board_id">border id</option>
+                                        <option value="content">content (posts)</option>
+                                        <option value="location">location (posts)</option>
+                                        <option value="board_id">border id (posts)</option>
                                     </select>
                                     <input type="date" name="start_date" value="<?= $startDate ?>" class="form-control me-2 px-1 search-custom" id="startDate">
                                     <input type="date" name="end_date" value="<?= $endDate ?>" class="form-control me-2 px-1 search-custom" id="endDate">
@@ -225,10 +225,10 @@ function highlightSearchTerm($content, $searchTerm)
                                                 <div class="modal-body">
                                                     <?php foreach ($row_cm as $r_cm) : ?>
                                                         <?php if ($r['post_id'] === $r_cm['post_id']) : ?>
-                                                            <?= $r_cm['content'] . "post id: " . $r_cm['post_id'] . "<br>"; ?>
+                                                            <span class="fs-6 fw-bold" style="white-space:normal;"><?= $r_cm['content'] . "(post id: " . $r_cm['post_id'] . ")" . "<br>"; ?></span>
                                                             <!-- 用api寫 -->
                                                             <button onclick="checkReply(<?= $r_cm['comment_id'] ?>)" style="margin-top: 5px" class="border-0 rounded px-2 py-1">查看回覆</button>
-                                                            <?= "comment id: " . $r_cm['comment_id'] ?>
+                                                            <?= "(comment id: " . $r_cm['comment_id'] . ")" ?>
                                                             <div id='showReply<?= $r_cm['comment_id'] ?>' style="margin-top: 5px;white-space: normal;"></div>
                                                             <!-- api結束 -->
                                                         <?php endif; ?>
@@ -244,7 +244,7 @@ function highlightSearchTerm($content, $searchTerm)
                                     </div>
                                     <!-- model -->
                                 </td>
-                                <td><?= $r['image_url'] ?></td>
+                                <td><img src="./upload-photos/<?= $r['image_url'] ?>" alt="" width="50" height="50"></td>
                                 <td><?= $r['video_url'] ?></td>
                                 <td><?= $r['location'] ?></td>
                                 <td><?= $r['tagged_users'] ?></td>

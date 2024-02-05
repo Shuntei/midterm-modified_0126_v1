@@ -38,6 +38,7 @@ $title = '發文';
               <input type="file" id="picture" name="picture" onchange="uploadFile()" class="bg-light rounded" />
               <!-- </form> -->
               <div style="width: 300px">
+                <input type="text" name="newPictureName" id='newPictureName' hidden>
                 <img src="" alt="" id="image_url" name="image_url" width="100%" />
               </div>
             </div>
@@ -96,11 +97,11 @@ $title = '發文';
 </div>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
-  const goBack = () => {
-    setTimeout(() => {
-      location.href = "posts-list-no-admin.php";
-    }, 2000);
-  }
+  // const goBack = () => {
+  //   setTimeout(() => {
+  //     location.href = "posts-list-no-admin.php";
+  //   }, 2000);
+  // }
 
   const {
     post_id: post_id_f,
@@ -183,7 +184,10 @@ $title = '發文';
       .then((r) => r.json())
       .then((data) => {
         if (data.success) {
-          // let image_url = document.getElementById('image_url');
+          // 將回傳的檔名放進Form1 送進資料庫
+          const newPictureName = document.getElementById('newPictureName')
+          newPictureName.value=data.file;
+          // 即時預覽圖片
           image_url.src = "./upload-photos/" + data.file;
         }
       });
