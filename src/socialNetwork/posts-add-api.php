@@ -44,7 +44,6 @@
         $_POST['user_id'],
         $_POST['content'],
         $_POST['newPictureName'],
-        // $image_url, // 使用處理過的圖片檔名
         $_POST['video_url'],
         $_POST['location'],
         $_POST['tagged_users'],

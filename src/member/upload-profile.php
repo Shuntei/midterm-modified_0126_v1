@@ -1,6 +1,7 @@
 <?php 
 
-$dir = "/midterm/src/assets/images/member/";
+// $dir = "/midterm/src/assets/images/member/";
+$dir = "../assets/images/member/";
 header('Content-Type: application/json');
 
 $exts = [

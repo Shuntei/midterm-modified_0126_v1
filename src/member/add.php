@@ -74,7 +74,7 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
                             <img src="../assets/images/member/default-profile.jpeg" class="img-thumbnail rounded-circle position-relative" alt="">
                         </div>
                         <input type="file" id="pictureInput" name="picture" class="d-none">
-                        <input type="hidden" name="uploadedPicture" id="uploadedPictire" value="">
+                        <input type="text" name="uploadedPicture" id="uploadedPicture" value="">
                         <div class="form-group row align-items-start">
                             <label for="name" class="col-sm-3 col-form-label">Name</label>
                             <div class="col-sm-9 mt-2">
