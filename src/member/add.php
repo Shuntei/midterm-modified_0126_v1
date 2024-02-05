@@ -71,10 +71,10 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
                             <div class="bg-secondary cameraIcon img-thumbnail rounded-circle">
                                 <i class="bi bi-camera fw-bold"></i>
                             </div>
-                            <img src="../assets/images/member/default-profile.jpeg" class="img-thumbnail rounded-circle position-relative" alt="">
+                            <img id="userProfilePic" src="../assets/images/member/default-profile.jpeg" class="img-thumbnail rounded-circle position-relative" alt="">
                         </div>
                         <input type="file" id="pictureInput" name="picture" class="d-none">
-                        <input type="text" name="uploadedPicture" id="uploadedPicture" value="">
+                        <input type="text" name="uploadedPicture" id="uploadedPicture" value="" hidden>
                         <div class="form-group row align-items-start">
                             <label for="name" class="col-sm-3 col-form-label">Name</label>
                             <div class="col-sm-9 mt-2">
@@ -207,6 +207,8 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
             .then(data => {
                 if (data.success) {
                     document.querySelector('#uploadedPicture').value = data.file;
+                    const profilePic = document.querySelector('#userProfilePic')
+                    profilePic.src = `../assests/images/member/${data.file}`
                 }
             })
     }
