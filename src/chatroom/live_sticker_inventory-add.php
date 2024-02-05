@@ -136,7 +136,7 @@ $title = '新增';
   function uploadFile() {
     const fd = new FormData(document.form1);
 
-    fetch("./live-upload-avatar.php", {
+    fetch("live-upload-avatar.php", {
 
         method: "POST",
         body: fd, // enctype="multipart/form-data"
@@ -145,7 +145,7 @@ $title = '新增';
       .then((r) => r.json())
       .then((data) => {
         if (data.success) {
-          myimg.src = "./imgs/" + data.file;
+          myimg.src = "/imgs/" + data.file;
         }
       });
   }

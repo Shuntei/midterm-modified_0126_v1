@@ -3,7 +3,7 @@ $pageName = 'add';
 $title = '新增';
 ?>
 <?php include __DIR__ . '/parts-get-point/html-head.php' ?>
-<?php include ('./../package/packageUp.php') ?>
+<?php include('./../package/packageUp.php') ?>
 <?php include __DIR__ . '/parts-get-point/navbar.php' ?>
 <style>
   form .mb-3 .form-text {
@@ -30,7 +30,15 @@ $title = '新增';
             </div>
             <div class="mb-3">
               <label for="source" class="form-label">點數來源</label>
-              <input type="text" class="form-control" id="point_source" name="point_source">
+              <select class="form-control" id="point_source" name="point_source">
+                <option value="選擇取得方式" selected disabled>選擇取得方式</option>
+                <option value="中獎">幸運中獎</option>
+                <option value="遊戲獲勝">遊戲獲勝</option>
+                <option value="打賞回饋">點數回饋</option>
+                <option value="人氣獎勵">互動獎勵</option>
+                <option value="刷頻懲罰">刷頻懲罰</option>
+                <option value="惡意攻擊">惡意攻擊</option>
+              </select>
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
@@ -67,7 +75,7 @@ $title = '新增';
     </div>
   </div>
 </div>
-<?php include ('./../package/packageDown.php') ?>
+<?php include('./../package/packageDown.php') ?>
 <?php include __DIR__ . '/parts-get-point/scripts.php' ?>
 <script>
   const {
