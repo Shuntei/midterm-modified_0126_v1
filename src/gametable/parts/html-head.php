@@ -51,8 +51,8 @@
 
     model-viewer{
       align-content: center;
-         width:300px;
-         height:250px;
+         width:400px;
+         height:400px;
     }
     </style>
 </head>
