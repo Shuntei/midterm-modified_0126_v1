@@ -35,8 +35,15 @@ if (empty($row)) {
             </div>
             <input type="hidden" name="cart_id" value="<?= $row['cart_id'] ?>">
             <div class="mb-3">
+              <label for="user_id" class="form-label">使用者id</label>
+              <input type="text" class="form-control" id="user_id" name="user_id" value="<?= $row['user_id'] ?>">
+              <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
               <label for="item_id" class="form-label">商品id</label>
               <input type="text" class="form-control" id="item_id" name="item_id" value="<?= htmlentities($row['item_id']) ?>">
+              <span id="itemNameDisplay"></span>
+              <span id="unitPriceDisplay"></span>
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
@@ -45,13 +52,8 @@ if (empty($row)) {
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="user_id" class="form-label">使用者id</label>
-              <input type="text" class="form-control" id="user_id" name="user_id" value="<?= $row['user_id'] ?>">
-              <div class="form-text"></div>
-            </div>
-            <div class="mb-3">
-              <label for="unit_price" class="form-label">unit_price</label>
-              <input type="text" class="form-control" id="unit_price" name="unit_price" value="<?= $row['unit_price'] ?>">
+              <label  class="form-label">總價</label>
+              <span id="totalPriceDisplay"></span>
               <div class="form-text"></div>
             </div>
 
@@ -157,7 +159,70 @@ if (empty($row)) {
   //       e =>console.log(e)
   //     );
   //   }
-  // }
+  document.getElementById('quantity').addEventListener('input', function() {
+    const itemId = document.getElementById('item_id').value.trim();
+    const quantity = this.value.trim();
+
+    if (itemId !== '' && quantity !== '') {
+        fetch(`get_total_price.php?item_id=${itemId}&quantity=${quantity}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('totalPriceDisplay').textContent = `總價: ${data.total_price}`;
+                } else {
+                    document.getElementById('totalPriceDisplay').textContent = '計算失敗';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching total price:', error);
+            });
+    } else {
+        document.getElementById('totalPriceDisplay').textContent = '';
+    }
+});
+
+  document.getElementById('item_id').addEventListener('input', function() {
+    const itemId = this.value.trim();
+
+    if (itemId !== '') {
+        fetch(`get_item_name.php?item_id=${itemId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('itemNameDisplay').textContent = `商品名稱: ${data.item_name}`;
+                } else {
+                    document.getElementById('itemNameDisplay').textContent = '查詢失敗';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching item name:', error);
+            });
+    } else {
+        document.getElementById('itemNameDisplay').textContent = '';
+    }
+});
+
+document.getElementById('item_id').addEventListener('input', function() {
+    const itemId = this.value;
+
+    if (itemId.trim() !== '') {
+        fetch(`get_unit_price.php?item_id=${itemId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('unitPriceDisplay').textContent = `單價: ${data.unit_price}`;
+                } else {
+                    document.getElementById('unitPriceDisplay').textContent = '找不到商品';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching unit price:', error);
+            });
+    } else {
+        document.getElementById('unitPriceDisplay').textContent = '';
+    }
+});
+
   const sendForm = e => {
     e.preventDefault();
     const fd = new FormData(document.form1);

@@ -5,8 +5,12 @@ $pageName = 'list';
 $title = '列表';
 
 
+$sql = sprintf("SELECT ca_cart.cart_id, ca_cart.user_id, ca_cart.item_id, ca_cart.quantity, ca_merchandise.item_name, ca_merchandise.unit_price ,(ca_cart.quantity * ca_merchandise.unit_price) AS total_price
+                FROM ca_cart 
+                LEFT JOIN ca_merchandise ON ca_cart.item_id = ca_merchandise.item_id 
+                ORDER BY ca_cart.cart_id DESC ");
 
-$sql = sprintf("SELECT * FROM ca_cart ORDER BY cart_id DESC ");
+// $sql = sprintf("SELECT cart_id, user_id, item_id, quantity, ca_merchandise.item_name, ca_merchandise.unit_price FROM ca_cart LEFT JOIN ca_merchandise ON ca_cart.item_id = ca_merchandise.item_id ORDER BY cart_id DESC ");
 $stmt = $pdo->query($sql);
 $rows = $stmt->fetchAll();
 
@@ -221,12 +225,13 @@ $rows = $stmt->fetchAll();
                                     <thead>
                                         <tr>
                                             <th><i class="fa-solid fa-trash-can"></i></th>
-                                            <th> cart_id
-                                            </th>
+                                            <th> cart_id</th>
                                             <th>使用者id</th>
-                                            <th>物品id</th>
+                                            <th>商品id</th>
+                                            <th>商品名稱</th>
                                             <th>數量</th>
-                                            <th>金額</th>
+                                            <th>單價</th>
+                                            <th>總價</th>
                                             <th><i class="fa-solid fa-pen-to-square"></i></th>
                                         </tr>
                                     </thead>
@@ -241,8 +246,10 @@ $rows = $stmt->fetchAll();
                                                 <td><?= $r['cart_id'] ?></td>
                                                 <td><?= $r['user_id'] ?></td>
                                                 <td><?= $r['item_id'] ?></td>
+                                                <td><?= $r['item_name'] ?></td>
                                                 <td><?= $r['quantity'] ?></td>
                                                 <td><?= $r['unit_price'] ?></td>
+                                                <td><?= $r['total_price'] ?></td>
                                                 <!-- <td><?= htmlentities($r['address']) ?></td> -->
                                                 <!-- <td><?= strip_tags($r['address']) ?></td> -->
                                                 <td>
