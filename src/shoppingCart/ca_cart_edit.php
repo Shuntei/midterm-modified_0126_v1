@@ -22,8 +22,8 @@ if (empty($row)) {
   }
 </style>
 
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid mx-auto my-auto">
+  <div class="row justify-content-center">
     <div class="col-6">
       <div class="card">
         <div class="card-body">
@@ -35,27 +35,29 @@ if (empty($row)) {
             </div>
             <input type="hidden" name="cart_id" value="<?= $row['cart_id'] ?>">
             <div class="mb-3">
-              <label for="item_id" class="form-label">item_id</label>
-              <input type="text" class="form-control" id="item_id" name="item_id" value="<?= htmlentities($row['item_id']) ?>">
-              <div class="form-text"></div>
-            </div>
-            <div class="mb-3">
-              <label for="quantity" class="form-label">quantity</label>
-              <input type="text" class="form-control" id="quantity" name="quantity" value="<?= $row['quantity'] ?>">
-              <div class="form-text"></div>
-            </div>
-            <div class="mb-3">
-              <label for="user_id" class="form-label">user_id</label>
+              <label for="user_id" class="form-label">使用者id</label>
               <input type="text" class="form-control" id="user_id" name="user_id" value="<?= $row['user_id'] ?>">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="unit_price" class="form-label">unit_price</label>
-              <input type="text" class="form-control" id="unit_price" name="unit_price" value="<?= $row['unit_price'] ?>">
+              <label for="item_id" class="form-label">商品id</label>
+              <input type="text" class="form-control" id="item_id" name="item_id" value="<?= htmlentities($row['item_id']) ?>">
+              <span id="itemNameDisplay"></span>
+              <span id="unitPriceDisplay"></span>
+              <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+              <label for="quantity" class="form-label">數量</label>
+              <input type="text" class="form-control" id="quantity" name="quantity" value="<?= $row['quantity'] ?>">
+              <div class="form-text"></div>
+            </div>
+            <div class="mb-3">
+              <label  class="form-label">總價</label>
+              <span id="totalPriceDisplay"></span>
               <div class="form-text"></div>
             </div>
 
-            <button type="submit" class="btn btn-primary">修改</button>
+            <button type="submit" class="btn btn-outline-dark">修改</button>
           </form>
         </div>
       </div>
@@ -85,7 +87,7 @@ if (empty($row)) {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">繼續修改</button>
-        <a type="button" class="btn btn-primary" href="ca_cart_list_admin.php">到列表頁</a>
+        <a type="button" class="btn btn-dark" href="ca_cart_list_admin.php">到列表頁</a>
       </div>
     </div>
   </div>
@@ -93,71 +95,71 @@ if (empty($row)) {
 <?php include __DIR__ . '/../package/packageDown.php' ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
-  // const {
-  //   name: name_f,
-  //   email: email_f,
-  //   mobile: mobile_f,
-  // } = document.form1;
+  
+  document.getElementById('quantity').addEventListener('input', function() {
+    const itemId = document.getElementById('item_id').value.trim();
+    const quantity = this.value.trim();
 
-  // function validateEmail(email) {
-  //   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  //   return re.test(email);
-  // }
+    if (itemId !== '' && quantity !== '') {
+        fetch(`get_total_price.php?item_id=${itemId}&quantity=${quantity}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('totalPriceDisplay').textContent = `總價: ${data.total_price}`;
+                } else {
+                    document.getElementById('totalPriceDisplay').textContent = '計算失敗';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching total price:', error);
+            });
+    } else {
+        document.getElementById('totalPriceDisplay').textContent = '';
+    }
+});
 
-  // function validateMobile(mobile) {
-  //   var re = /^09\d{2}-?\d{3}-?\d{3}$/;
-  //   return re.test(mobile);
-  // }
+  document.getElementById('item_id').addEventListener('input', function() {
+    const itemId = this.value.trim();
 
-  // const sendForm = e => {
-  //   e.preventDefault();
-  //   name_f.style.border = '1px solid #CCC';
-  //   name_f.nextElementSibling.innerHTML = "";
-  //   email_f.style.border = '1px solid #CCC';
-  //   email_f.nextElementSibling.innerHTML = "";
-  //   mobile_f.style.border = '1px solid #CCC';
-  //   mobile_f.nextElementSibling.innerHTML = "";
+    if (itemId !== '') {
+        fetch(`get_item_name.php?item_id=${itemId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('itemNameDisplay').textContent = `商品名稱: ${data.item_name}`;
+                } else {
+                    document.getElementById('itemNameDisplay').textContent = '查詢失敗';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching item name:', error);
+            });
+    } else {
+        document.getElementById('itemNameDisplay').textContent = '';
+    }
+});
 
-  //   // TODO: 資料送出之前, 要做檢查 (有沒有填寫, 格式對不對)
-  //   let isPass = true;
+document.getElementById('item_id').addEventListener('input', function() {
+    const itemId = this.value;
 
-  //   if(name_f.value.length < 2) {
-  //     // alert("請填寫正確的姓名");
-  //     isPass = false;
-  //     name_f.style.border = '1px solid red';
-  //     name_f.nextElementSibling.innerHTML = "請填寫正確的姓名";
-  //   }
+    if (itemId.trim() !== '') {
+        fetch(`get_unit_price.php?item_id=${itemId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('unitPriceDisplay').textContent = `單價: ${data.unit_price}`;
+                } else {
+                    document.getElementById('unitPriceDisplay').textContent = '找不到商品';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching unit price:', error);
+            });
+    } else {
+        document.getElementById('unitPriceDisplay').textContent = '';
+    }
+});
 
-  //   if(email_f.value === '' || !validateEmail(email_f.value)) {
-  //     isPass = false;
-  //     email_f.style.border = '1px solid red';
-  //     email_f.nextElementSibling.innerHTML = "請填寫正確的 Email";
-  //   }
-
-  //   if(mobile_f.value === '' || !validateMobile(mobile_f.value)) {
-  //     isPass = false;
-  //     mobile_f.style.border = '1px solid red';
-  //     mobile_f.nextElementSibling.innerHTML = "請填寫正確的手機號碼";
-  //   }
-
-  //   if(isPass) {
-  //     //"沒有外觀"的表單
-  //     const fd = new FormData(document.form1);
-
-  //     fetch('add-api.php', {
-  //       method: 'POST',
-  //       body: fd,
-  //     }).then(r => r.json())
-  //     .then(result => {
-  //       console.log({result});
-  //       if(result.success) {
-  //         myModal.show();
-  //       }
-  //     }).catch(
-  //       e =>console.log(e)
-  //     );
-  //   }
-  // }
   const sendForm = e => {
     e.preventDefault();
     const fd = new FormData(document.form1);
@@ -178,6 +180,8 @@ if (empty($row)) {
       );
   }
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
+
+  
 </script>
 
 <?php include __DIR__ . '/parts/html-foot.php' ?>

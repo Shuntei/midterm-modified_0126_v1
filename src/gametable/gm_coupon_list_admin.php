@@ -72,8 +72,8 @@ if (empty($pageName)) {
                     </ul>
                   <div>
                     <div class="btn-wrapper">
-                      <a href="#" class="btn btn-otline-dark align-items-center"><i class="icon-share"></i> Share</a>
-                      <a href="#" class="btn btn-otline-dark align-items-center"><i class="icon-download"></i> Export</a>
+                      <a href="#" class="btn btn-otline-dark align-items-center"id="share-btn"name="share-btn"><i class="icon-share"></i> Share</a>
+                      <!-- <a href="#" class="btn btn-otline-dark align-items-center"><i class="icon-download"></i> Export</a> -->
                       <!-- <a href="#" class="btn btn-otline-dark"><i class="icon-printer"></i> Print</a> -->
                       <a href="gm_coupon_add.php" class="btn btn-primary text-white me-0"><i class="mdi mdi-plus fw-bold"></i> Add</a>
                     </div>
@@ -173,6 +173,40 @@ if (empty($pageName)) {
             location.href = `gm_coupon_delete.php?coupon_id=${coupon_id}`;
         }
     }
+</script>
+
+<?php include __DIR__ . '/parts/html-foot.php' ?>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const shareBtn = document.getElementById('share-btn');
+
+        shareBtn.addEventListener('click', function () {
+            // 獲取當前頁面URL
+            const currentURL = window.location.href;
+
+            // 建立臨時textarea元素用存放URL
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = currentURL;
+
+            // 將textarea加到DOM
+            document.body.appendChild(tempTextArea);
+
+            // 選中textarea的内容
+            tempTextArea.select();
+            tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+            try {
+                document.execCommand('copy');
+                alert('URL已複製');
+            } catch (err) {
+                console.error('複製失敗', err);
+            }
+
+            // 移除textarea
+            document.body.removeChild(tempTextArea);
+        });
+    });
 </script>
 
 <?php include __DIR__ . '/parts/html-foot.php' ?>

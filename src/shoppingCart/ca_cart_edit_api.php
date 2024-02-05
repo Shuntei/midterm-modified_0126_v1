@@ -30,19 +30,17 @@
 
 
     $sql = "UPDATE `ca_cart` SET 
-    `item_id`=?,
-    `quantity`=?,
     `user_id`=?,
-    `unit_price`=?
+    `item_id`=?,
+    `quantity`=?
     WHERE cart_id=? ";
 
     $stmt = $pdo->prepare($sql);
     try{
         $stmt->execute([
+            $_POST['user_id'],
             $_POST['item_id'],
             $_POST['quantity'],
-            $_POST['user_id'],
-            $_POST['unit_price'],
             $cart_id,
         ]);
     }catch(PDOException $e) {

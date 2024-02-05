@@ -42,7 +42,7 @@ $title = '新增';
             </div>
             <div class="mb-3">
               <label for="upload_file" class="form-label">Upload Model</label>
-              <input type="file" class="form-control" id="upload_file" placeholder=".gltf" name="file" accept=".gltf">
+              <input type="file" class="form-control" id="upload_file" name="upload_file" placeholder=".gltf" name="file" accept=".gltf">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">

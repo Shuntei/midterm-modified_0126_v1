@@ -12,11 +12,22 @@ if ($page < 1) {
     exit;
 }
 
-$t_sql = "SELECT COUNT(1) FROM gm_user_get_coupon";
+// 搜尋條件
+$searchCondition = '';
+if (isset($_GET['search']) && !empty($_GET['search'])) {
+    $search = $_GET['search'];
+    $searchCondition = " WHERE user_id LIKE :search OR coupon_id LIKE :search";
+}
 
-// $t_stmt = $pdo->query($t_sql);
-// $row = $t_stmt->fetch(PDO::FETCH_NUM);
-$row = $pdo->query($t_sql)->fetch(PDO::FETCH_NUM);
+$t_sql = "SELECT COUNT(1) FROM gm_user_get_coupon" . $searchCondition;
+$stmt = $pdo->prepare($t_sql);
+
+if ($searchCondition) {
+    $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+}
+
+$stmt->execute();
+$row = $stmt->fetch(PDO::FETCH_NUM);
 
 $totalRows = $row[0];
 $totalPages = 0;
@@ -26,13 +37,19 @@ if ($totalRows > 0) {
     $totalPages = ceil($totalRows / $perPage);
 
     if ($page > $totalPages) {
-        header('Location: ?page=' . $totalPages);
+        header('Location: ?page=' . $totalPages . '&search=' . urlencode($search));
         exit;
     }
-    $sql = sprintf("SELECT * FROM gm_user_get_coupon ORDER BY user_get_coupon_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
-    $stmt = $pdo->query($sql);
-    $rows = $stmt->fetchAll();
-}
+  }
+  $sql = sprintf("SELECT * FROM gm_user_get_coupon %s ORDER BY user_get_coupon_id DESC LIMIT %s, %s", $searchCondition, ($page - 1) * $perPage, $perPage);
+  $stmt = $pdo->prepare($sql);
+  
+  if ($searchCondition) {
+      $stmt->bindValue(':search', '%' . $search . '%', PDO::PARAM_STR);
+  }
+  
+  $stmt->execute();
+  $rows = $stmt->fetchAll();
 
 // $stmt = $pdo->query("SELECT * FROM ca_merchandise LIMIT 0, 20");
 // $rows = $stmt->fetchAll();
@@ -73,7 +90,7 @@ if (empty($pageName)) {
                   </ul>
                   <div>
                     <div class="btn-wrapper">
-                      <a href="#" class="btn btn-otline-dark align-items-center"><i class="icon-share"></i> Share</a>
+                      <a href="#" class="btn btn-otline-dark align-items-center"id="share-btn"name="share-btn"><i class="icon-share"></i> Share</a>
                       
                       <a href="../../pages/tables/getCoupon-table.php" class="btn btn-primary text-white me-0"><i class="mdi mdi-plus fw-bold"></i> Add</a>
                     </div>
@@ -85,11 +102,20 @@ if (empty($pageName)) {
                 <div class="col-10 grid-margin stretch-card" id="user_get_coupon">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="card-title">User Get Coupon Table</h4>
-                      <p class="card-description">
-                        Add class <code>.table-hover</code>
-                      </p>
-                      
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                          <h4 class="card-title">User Get Coupon Table</h4>
+                          <p class="card-description">
+                            Add class <code>.table-hover</code>
+                          </p>
+                        </div>
+                        <div>
+                          <form class="search-form d-flex" action="gm_user_getcoupon_list_admin.php" method="get">
+                            <input type="text" name="search" id="search_byid" class="form-control" placeholder="Search User ID" aria-describedby="btn-gogo" value="<?= isset($_GET['search']) ? $_GET['search'] : "" ?>">
+                            <button type="submit" class="d-flex btn btn-inverse-primary btn-icon btn-fw align-items-center"id="btn-gogo"><i class="icon-search icon-lg"></i></button>
+                          </form>
+                        </div>
+                      </div>
                       <div class="table-responsive">
                         <table class="table table-hover mb-4">
                           <thead>
@@ -130,12 +156,12 @@ if (empty($pageName)) {
                       </div>
                       
                       <nav aria-label="Page navigation Basic example" role="group" class="flex-row my-3">
-                    <ul class="btn-group pagination d-flex justify-content-center">
-                        <li class="page-item">
-                            <a class="page-link btn btn-outline-primary" href="?page=<?= $page - 1 ?>">
-                                <i class="fa-solid fa-angle-left" href="?page"></i>
-                            </a>
-                        </li>
+                          <ul class="btn-group pagination d-flex justify-content-center">
+                            <li class="page-item">
+                                <a class="page-link btn btn-outline-primary" href="?page=<?= $page - 1 ?>">
+                                    <i class="fa-solid fa-angle-left" href="?page"></i>
+                                </a>
+                            </li>
                         <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
                             if ($i >= 1 and $i <= $totalPages) : ?>
                                 <li class="page-item <?= $i == $page ? 'active' : '' ?>">
@@ -181,6 +207,45 @@ if (empty($pageName)) {
             location.href = `gm_user_getcoupon_list_admin.php?user_get_coupon_id=${user_get_coupon_id}`;
         }
     }
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        let search_value = search_byid.value;
+        location.href = "gm_user_getcoupon_list_admin.php?search=" + search_value;
+    });
+</script>
+
+<?php include __DIR__ . '/parts/html-foot.php' ?>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const shareBtn = document.getElementById('share-btn');
+
+        shareBtn.addEventListener('click', function () {
+            // 獲取當前頁面URL
+            const currentURL = window.location.href;
+
+            // 建立臨時textarea元素用存放URL
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = currentURL;
+
+            // 將textarea加到DOM
+            document.body.appendChild(tempTextArea);
+
+            // 選中textarea的内容
+            tempTextArea.select();
+            tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+            try {
+                document.execCommand('copy');
+                alert('URL已複製');
+            } catch (err) {
+                console.error('複製失敗', err);
+            }
+
+            // 移除textarea
+            document.body.removeChild(tempTextArea);
+        });
+    });
 </script>
 
 <?php include __DIR__ . '/parts/html-foot.php' ?>

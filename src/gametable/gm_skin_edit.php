@@ -10,12 +10,8 @@ if (empty($row)) {
   exit; #結束php程式
 }
 ?>
-
-
 <?php include __DIR__ . '/parts/html-head.php' ?>
 <?php include './../package/packageUp.php' ?>
-
-
 <style>
   form .mb-3 .form-text {
     color: red;
@@ -29,7 +25,7 @@ if (empty($row)) {
         <div class="card-body">
           <h4 class="card-title">編輯</h4>
           <p class="card-description">Basic form layout</p>
-          <form name="form1" method="post" onsubmit="sendForm(event)">
+          <form name="form1" method="post" enctype="multipart/form-data" onsubmit="sendForm(event)">
             <div class="mb-3">
               <label class="form-label">Skin ID</label>
               <input type="text" class="form-control" disabled value="<?= $row['skin_id'] ?>">
@@ -50,14 +46,9 @@ if (empty($row)) {
               <input type="text" class="form-control" id="role" name="role" value="<?= $row['role'] ?>">
               <div class="form-text"></div>
             </div>
-            <!-- <div class="mb-3">
-              <label for="file" class="form-label">Upload model</label>
-              <input type="file" class="form-control" id="file" name="file" value="<?= $row['file'] ?>">
-              <div class="form-text"></div>
-            </div> -->
             <div class="mb-3">
               <label for="upload_file" class="form-label">Upload Model</label>
-              <input type="file" class="form-control" id="upload_file" value="<?= $row['file'] ?>" name="file">
+              <input type="file" class="form-control" id="upload_file" value="<?= $row['file'] ?>" name="upload_file">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
@@ -66,7 +57,7 @@ if (empty($row)) {
               <div class="form-text"></div>
             </div>
             <button type="submit" class="btn btn-primary text-white me-0" data-bs-toggle="modal"
-              data-bs-target="#exampleModal">修改</button>
+              data-bs-target="#exampleModal">確定修改</button>
           </form>
         </div>
       </div>
@@ -86,16 +77,16 @@ if (empty($row)) {
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">修改結果</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">編輯結果</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div class="alert alert-success" role="alert">
-          修改成功
+          編輯成功
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">繼續修改</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">繼續編輯</button>
         <a type="button" class="btn btn-primary text-white me-0" href="gm_skin_list_admin.php">回列表</a>
       </div>
     </div>
@@ -106,21 +97,21 @@ if (empty($row)) {
 <script>
 
 // # 檢查是否有檔案上傳
-if (!empty($_FILES['file'])) {
-    $file = $_FILES['file'];
-    $filename = $file['name'];
-    $filepath = __DIR__ . '/3dmodel/' . $filename;
+// if (!empty($_FILES['file'])) {
+//     $file = $_FILES['file'];
+//     $filename = $file['name'];
+//     $filepath = __DIR__ . '/3dmodel/' . $filename;
 
-    // # 將檔案移動到指定路徑
-    if (move_uploaded_file($file['tmp_name'], $filepath)) {
-        $output['file'] = $filename;  // 將檔案名稱存入資料庫
-        $output['success'] = true;
-    } else {
-        $output['error'] = '檔案移動失敗';
-    }
-} else {
-    $output['error'] = '沒有上傳的檔案';
-}
+//     // # 將檔案移動到指定路徑
+//     if (move_uploaded_file($file['tmp_name'], $filepath)) {
+//         $output['file'] = $filename;  // 將檔案名稱存入資料庫
+//         $output['success'] = true;
+//     } else {
+//         $output['error'] = '檔案移動失敗';
+//     }
+// } else {
+//     $output['error'] = '沒有上傳的檔案';
+// }
   // const {
   //   name: name_f,
   //   email: email_f,
@@ -167,8 +158,9 @@ if (!empty($_FILES['file'])) {
   //     mobile_f.style.border = '1px solid red';
   //     mobile_f.nextElementSibling.innerHTML = "請填寫正確的手機號碼";
   //   }
-
-    if(isPass) {
+    const sendForm = e => {
+    e.preventDefault();
+    // if(isPass) {
       //"沒有外觀"的表單
       const fd = new FormData(document.form1);
 
@@ -186,25 +178,25 @@ if (!empty($_FILES['file'])) {
       );
     }
 
-  const sendForm = e => {
-    e.preventDefault();
-    const fd = new FormData(document.form1);
+  // const sendForm = e => {
+  //   e.preventDefault();
+  //   const fd = new FormData(document.form1);
 
-    fetch('ca_merchandise_edit_api.php', {
-        method: 'POST',
-        body: fd,
-      }).then(r => r.json())
-      .then(result => {
-        console.log({
-          result
-        });
-        if (result.success) {
-          myModal.show();
-        }
-      }).catch(
-        e => console.log(e)
-      );
-  }
+  //   fetch('ca_merchandise_edit_api.php', {
+  //       method: 'POST',
+  //       body: fd,
+  //     }).then(r => r.json())
+  //     .then(result => {
+  //       console.log({
+  //         result
+  //       });
+  //       if (result.success) {
+  //         myModal.show();
+  //       }
+  //     }).catch(
+  //       e => console.log(e)
+  //     );
+  // }
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
 </script>
 
