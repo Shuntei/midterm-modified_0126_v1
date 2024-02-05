@@ -3,6 +3,14 @@ require __DIR__ . '/parts/db_connect_midterm.php';
 $pageName = 'edit';
 $title = '編輯';
 
+// Fetch ruin_name values from tr_location table
+$ruinNameList = [];
+$sql = "SELECT ruin_id, ruin_name FROM tr_location";
+$stmt = $pdo->query($sql);
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $ruinNameList[$row['ruin_id']] = $row['ruin_name'];
+}
+
 $tourid = isset($_GET['tour_id']) ? intval($_GET['tour_id']) : 0;
 $sql = "SELECT * FROM tr_tour WHERE tour_id=$tourid";
 
@@ -31,9 +39,6 @@ if (empty($row)) {
                     <li class="nav-item">
                         <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./tr_tour_list_admin.php">列表</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?= $pageName == 'add' ? 'active' : '' ?>" href="./tr_tour_add.php">新增</a>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -60,9 +65,16 @@ if (empty($row)) {
                         </div>
                         <div class="mb-3">
                             <label for="ruin_id" class="form-label">廢墟編號</label>
-                            <input type="text" class="form-control" id="ruin_id" name="ruin_id" value="<?= $row['ruin_id'] ?>">
+                            <select class="form-select" id="ruin_id" name="ruin_id" value="<?= $row['ruin_id'] ?>">
+                                <?php foreach ($ruinNameList as $id => $name) : ?>
+                                    <option value="<?= $id ?>" <?= $id == $row['ruin_id'] ? 'selected' : '' ?>>
+                                        <?= $name ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
                             <div class="form-text"></div>
                         </div>
+
                         <div class="mb-3">
                             <label for="event_date" class="form-label">活動日期</label>
                             <input type="date" class="form-control" id="event_date" name="event_date" value="<?= $row['event_date'] ?>">
@@ -101,14 +113,14 @@ if (empty($row)) {
                             <label for="description" class="form-label">簡介</label>
                             <br>
                             <textarea type="text" id="description" rows=5 name="description" style="border: 1px solid #dee2e6;
-                            border-radius: 4px; width: 100%;padding: 14px 22px; "><?= $row['description'] ; ?></textarea>
+                            border-radius: 4px; width: 100%;padding: 14px 22px; "><?= $row['description']; ?></textarea>
                             <div class="form-text"></div>
                         </div>
                         <div class="mb-3">
                             <label for="content" class="form-label">內文</label>
                             <br>
                             <textarea type="text" id="content" rows=5 name="content" style="border: 1px solid #dee2e6;
-                            border-radius: 4px; width: 100%;padding: 14px 22px; "><?= $row['content'] ; ?></textarea>
+                            border-radius: 4px; width: 100%;padding: 14px 22px; "><?= $row['content']; ?></textarea>
                             <div class="form-text"></div>
                         </div>
                         <button type="submit" class="btn btn-primary">修改</button>
