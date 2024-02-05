@@ -1,5 +1,5 @@
 <?php
-$dir = __DIR__ . './upload-photos/'; # 存放檔案的資料夾
+$dir = __DIR__ . '/upload-photos/'; # 存放檔案的資料夾
 
 $exts = [   # 檔案類型的篩選
   'image/jpeg' => '.jpg',
@@ -9,7 +9,8 @@ $exts = [   # 檔案類型的篩選
 
 $output = [
   'success' => false,
-  'file' => ''
+  'file' => '',
+  'data'=>$_FILES
 ]; # 輸出的格式
 
 # 確保有上傳檔案，並且有 avatar 欄位，並且沒有錯誤
