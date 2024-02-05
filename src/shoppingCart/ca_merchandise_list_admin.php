@@ -192,7 +192,7 @@ $rows2 = $stmt2->fetchAll();
                                 <div class="container-fluid">
 
                                 </div>
-                                <table id="table" class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true" data-search-highlight="true">
+                                <table id="table" class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true" data-search-highlight="true">
                                     <thead>
                                         <tr>
                                             <th><i class="fa-solid fa-trash-can"></i></th>
@@ -273,7 +273,7 @@ $rows2 = $stmt2->fetchAll();
                                 <div class="container-fluid">
 
                                 </div>
-                                <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true" data-search-highlight="true">
+                                <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true" data-search-highlight="true">
                                     <thead>
                                         <tr>
                                             <th><i class="fa-solid fa-trash-can"></i></th>
