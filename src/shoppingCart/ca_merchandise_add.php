@@ -42,13 +42,13 @@ $title = '新增';
                 </div>
 
                   <div class="mb-3">
-                    <div style="cursor: pointer;" onclick="document.form1.image_url.click()" class="">點選上傳圖片</div>
+                    <div style="cursor: pointer;" onclick="document.form1.product_img.click()" class="">點選上傳圖片</div>
                     <!-- <form name="uploadForm1" hidden> -->
                     <input type="file" id="picture" name="picture" onchange="uploadFile()" class="" />
                     <!-- </form> -->
                     <div style="width: 300px">
                       <input type="text" name="newPictureName" id='newPictureName' hidden>
-                      <img src="" alt="" id="image_url" name="image_url" width="100%" />
+                      <img src="" alt="" id="product_img" name="product_img" width="100%" />
                     </div>
                   </div>
                   
@@ -204,11 +204,11 @@ $title = '新增';
           const newPictureName = document.getElementById('newPictureName')
           newPictureName.value=data.file;
           // 即時預覽圖片
-          image_url.src = "./upload-photos/" + data.file;
+          product_img.src = "./upload-photos/" + data.file;
         }
       });
   }
-  
+
  const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
 
 
