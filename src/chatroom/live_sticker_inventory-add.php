@@ -60,11 +60,13 @@ if (empty($pageName)) {
             </div>
             <div class="mb-3">
               <label for="text" class="form-label">上傳圖片</label>
+              <input type="text" name="newPictureName" id="newPictureName">
               <input type="text" class="form-control" id="sticker_pic" name="sticker_pic" placeholder="輸入檔名＋副檔名，例 tux_cat.jpeg">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
               <input type="file" name="sticker" id="sticker" onchange="uploadFile()" accept="image/*">
+              <img src="" id="displayPhoto">
             </div>
             <button type="submit" class="btn btn-primary">新增</button>
           </form>
@@ -171,7 +173,9 @@ if (empty($pageName)) {
       .then((r) => r.json())
       .then((data) => {
         if (data.success) {
-          myimg.src = "/imgs/" + data.file;
+          let displayPhoto = document.getElementById('displayPhoto')
+          newPictureName.value = data.file;
+          displayPhoto.src = "/imgs/" + data.file;
         }
       })
       .catch(e => console.log(e));
