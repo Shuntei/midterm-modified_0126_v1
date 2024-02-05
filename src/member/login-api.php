@@ -17,7 +17,7 @@ if (empty($_POST['userName']) or empty($_POST['password'])) {
     exit;
 }
 
-$sql = "SELECT * from mb_team_member where user_name=?";
+$sql = "SELECT * from mb_team_member join mb_permission on fk_permission_id = permission_id where user_name=?";
 
 $stmt = $pdo->prepare($sql);
 
@@ -33,10 +33,34 @@ if (empty($row)) {
 $output['success'] = password_verify($_POST['password'], $row['password_hash']);
 
 if ($output['success']) {
-    $_SESSION['admin'] = [
+    $_SESSION['viewer'] = [
         'id' => $row['id'],
-        'userName' => $row['user_name']
+        'userName' => $row['user_name'],
+        'role' => $row['role']
     ];
+
+    if($row['role'] == 'admin'){
+        $_SESSION['admin'] = true;
+        $_SESSION['admin'] = [
+        'id' => $row['id'],
+        'userName' => $row['user_name'],
+        'role' => $row['role']
+    ];
+    } else if ($row['role'] == 'moderator'){
+        $_SESSION['moderator'] = true;
+        $_SESSION['moderator'] = [
+        'id' => $row['id'],
+        'userName' => $row['user_name'],
+        'role' => $row['role']
+        ];
+    } else if ($row['role'] == 'viewer') {
+        $_SESSION['viewer'] = true;
+        $_SESSION['viewer'] = [
+            'id' => $row['id'],
+            'userName' => $row['user_name'],
+            'role' => $row['role']
+        ];
+    }
 } else {
     $output['code'] = 3;
 }
