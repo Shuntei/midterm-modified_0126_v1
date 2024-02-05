@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/parts/db_connect.php';
-$pageName = 'list';
-$title = 'public-boards';
+$pageName = '看板';
+$title = '看板';
 
 $perPage = 20;
 
@@ -32,58 +32,66 @@ if ($totalRows > 0) {
     $stmt = $pdo->query($sql);
     $rows = $stmt->fetchAll();
 }
-
 ?>
 
 
 <?php include __DIR__ . '/parts/html-head.php' ?>
 <?php include __DIR__ . '/../package/packageUp.php' ?>
-<?php include __DIR__ . '/parts/navbar.php' ?>
+<!-- <?php include __DIR__ . '/parts/navbar.php' ?> -->
 
 
-<div class="container-fluid">
-    <div class="row">
-        <h3 class="my-2 text-center fw-bold">Public Boards</h3>
+<div class="container-fluid overflow-auto px-5" style="background-color: #6C757D;">
+    <div class="row mb-5">
+        <h3 class="my-2 text-center fw-bold mt-4">Public Boards</h3>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb border-0 ps-0">
+                <li class="breadcrumb-item active text-white" aria-current="page">Public Boards</li>
+                <li class="mx-3" style="color:#000">&gt;</li>
+                <li class="breadcrumb-item"><a href="./posts-list-no-admin.php" class="text-decoration-none" style="color:#000">Posts &amp; Comments</a></li>
+                <li class="mx-3" style="color:#000">&gt;</li>
+                <li class="breadcrumb-item"><a href="./comments-reply-list-no-admin.php" class="text-decoration-none" style="color:#000">Comment Replies</a></li>
+            </ol>
+        </nav>
         <div class="col">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item">
-                        <a class="page-link" href="?page=<?= 1 ?>">
+                        <a class="page-link text-dark" href="?page=<?= 1 ?>">
                             <i class="fa-solid fa-angles-left"></i>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page=<?= $page - 1 ?>">
+                        <a class="page-link text-dark" href="?page=<?= $page - 1 ?>">
                             <i class="fa-solid fa-angle-left" href="?page"></i>
                         </a>
                     </li>
                     <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
                         if ($i >= 1 and $i <= $totalPages) : ?>
                             <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                                <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
+                                <a class="page-link text-dark" href="?page=<?= $i ?>"><?= $i ?></a>
                             </li>
                     <?php endif;
                     endfor; ?>
 
                     <li class="page-item">
-                        <a class="page-link" href="?page=<?= $page + 1 ?>">
+                        <a class="page-link text-dark" href="?page=<?= $page + 1 ?>">
                             <i class="fa-solid fa-angle-right"></i>
                         </a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page=<?= $totalPages ?>">
+                        <a class="page-link text-dark" href="?page=<?= $totalPages ?>">
                             <i class="fa-solid fa-angles-right"></i>
                         </a>
                     </li>
                 </ul>
             </nav>
             <div id="boardContainer" class="col">
-                <table class="table table-bordered table-striped">
+                <table class="table table-light table-hover">
                     <thead>
-                        <tr>
-                            <th>board_id</th>
+                        <tr class="table-dark">
+                            <th style="border-radius: 10px 0 0 0">board_id</th>
                             <th>board_name</th>
-                            <th>description</th>
+                            <th style="border-radius: 0 10px 0 0">description</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -92,10 +100,10 @@ if ($totalRows > 0) {
                             <tr>
                                 <td style="color: #081031;"><?= $r['board_id'] ?></td>
                                 <td>
-                                <!-- <button>test</button> -->
-                                <a href="#postTableBody" onclick="chooseBoard(<?= $r['board_id'] ?>)" class="link-opacity-50-hover text-decoration-none">
+                                    <!-- <button>test</button> -->
+                                    <a href="#postTableBody" onclick="chooseBoard(<?= $r['board_id'] ?>)" class="link-opacity-50-hover text-decoration-none text-dark">
                                         <?= $r['board_name'] ?>
-                                </a>
+                                    </a>
                                 </td>
                                 <td style="color: #081031;"><?= $r['description'] ?></td>
                             </tr>
@@ -104,44 +112,44 @@ if ($totalRows > 0) {
                     </tbody>
                 </table>
             </div>
-            <h3 class="text-center fw-bold pt-3">Posts</h3>
+            <h3 class="my-4 text-center fw-bold">Posts</h3>
             <div id="postContainer" class="col">
-                <table class="table table-bordered table-striped mt-3">
+                <table class="table table-light table-hover">
                     <thead>
-                        <tr>
-                            <th>post_id</th>
+                        <tr class="table-dark">
+                            <th style="border-radius: 10px 0 0 0">post_id</th>
                             <th>board_id</th>
                             <th>content</th>
                             <th>image_url</th>
                             <th>video_url</th>
                             <th>location</th>
                             <th>tagged_users</th>
-                            <th>posts_timestamp</th>
+                            <th style="border-radius: 0 10px 0 0">posts_timestamp</th>
                         </tr>
                     </thead>
                     <tbody id="postTableBody">
                         <!-- 抓取相同board_id的post內容 -->
                         <?php
-                        $sql_board_post = "SELECT * FROM sn_posts JOIN sn_public_boards USING(board_id) WHERE board_id=10";
-                        $stmt = $pdo->query($sql_board_post);
-                        $row_board_post = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                        // echo json_encode($row_board_post);
-                        ?>
-                        <!-- 抓取結束 -->
-                        <?php foreach ($row_board_post as $r_posts) : ?>
-                            <tr>
-                                <td><?= $r_posts['post_id'] ?></td>
-                                <td><?= $r_posts['board_id'] ?></td>
-                                <td><?= $r_posts['content'] ?></td>
-                                <td><?= $r_posts['image_url'] ?></td>
-                                <td><?= $r_posts['video_url'] ?></td>
-                                <td><?= $r_posts['location'] ?></td>
-                                <td><?= $r_posts['tagged_users'] ?></td>
-                                <td><?= $r_posts['posts_timestamp'] ?></td>
-                            </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                            $sql_board_post = "SELECT * FROM sn_posts JOIN sn_public_boards USING(board_id) WHERE board_id=10";
+                            $stmt = $pdo->query($sql_board_post);
+                            $row_board_post = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                            // echo json_encode($row_board_post);
+                            ?>
+                            <!-- 抓取結束 -->
+                            <?php foreach ($row_board_post as $r_posts) : ?>
+                                <tr>
+                                    <td><?= $r_posts['post_id'] ?></td>
+                                    <td><?= $r_posts['board_id'] ?></td>
+                                    <td><?= $r_posts['content'] ?></td>
+                                    <td><?= $r_posts['image_url'] ?></td>
+                                    <td><?= $r_posts['video_url'] ?></td>
+                                    <td><?= $r_posts['location'] ?></td>
+                                    <td><?= $r_posts['tagged_users'] ?></td>
+                                    <td><?= $r_posts['posts_timestamp'] ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
             </div>
         </div>
     </div>
@@ -160,13 +168,13 @@ if ($totalRows > 0) {
         // 防止移動被取消
 
         fetch(`public-board-api.php?board_id=${boardId}`)
-        .then(response => response.json())
-        .then(posts => {
-            updatePostsTable(posts);
-        })
-        .catch(error => {
-            console.log('Error fetching posts:', error);
-        });
+            .then(response => response.json())
+            .then(posts => {
+                updatePostsTable(posts);
+            })
+            .catch(error => {
+                console.log('Error fetching posts:', error);
+            });
     }
 
     function updatePostsTable(posts) {

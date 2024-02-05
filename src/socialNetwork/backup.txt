@@ -1,0 +1,37 @@
+  <ul class="d-flex">
+                    <li>
+                        <nav class="navbar bg-light rounded pb-1">
+                            <div class="container-fluid">
+                                <form class="d-flex" method="POST" action="friends.php?">
+                                    <!-- 測試 -->
+                                    <label for="inputOptions" style="white-space:nowrap" class="me-2"><i class="fa-solid fa-filter fs-5 pt-1"></i></label>
+                                    <select id="inputOptions" name="search_type" class="form-select form-select-sm me-2 search-custom focus-ring focus-ring-light" style="height: 32px">
+                                        <!-- <option value="user_id">user_id</option>
+                                        <option value="status">status</option> -->
+                                        <option value="user_id" <?= ($selectedOption === 'user_id') ? 'selected' : '' ?>>user_id</option>
+                                        <option value="status" <?= ($selectedOption === 'status') ? 'selected' : '' ?>>status</option>
+                                    </select>
+                                    <button class="me-2 btn btn-outline-dark border-0 btn-sm"><i class="fa-solid fa-paper-plane"></i></button>
+                                    <?php if ($selectedOption === 'status') : ?>
+                                        <select name="search" class="form-select form-select-sm me-2 search-custom focus-ring focus-ring-light" style="height: 32px">
+                                            <?php foreach ($statusOptions as $option) : ?>
+                                                <option value="<?= $option ?>" <?= ($inputSearch === $option) ? 'selected' : '' ?>>
+                                                    <?= $option ?>
+                                                </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    <?php else : ?>
+                                        <input class="form-control search-custom me-1" type="search" name="search" placeholder="Search" value="<?= $inputSearch ?>" aria-label="Search">
+                                    <?php endif; ?>
+                                    <input type="date" name="start_date" value="<?= $startDate ?>" class="form-control me-2 px-1 search-custom" id="startDate">
+                                    <input type="date" name="end_date" value="<?= $endDate ?>" class="form-control me-2 px-1 search-custom" id="endDate">
+                                    <!-- <input class="form-control search-custom me-1" type="search" name="search" placeholder="Search" value="<?= $inputSearch ?>" aria-label="Search"> -->
+                                    <button class="btn btn-outline-dark btn-sm py-0 border-white" type="submit"><i class="fa-solid fa-magnifying-glass fs-5"></i></button>
+                                    <a href="friends-create.php" class="text-decoration-none fs-10 btn btn-outline-dark btn-sm border-white me-2"><i class="fa-solid fa-user-plus fs-5"></i></a>
+                                    <a href="friends.php" class="d-flex align-baseline align-self-center text-decoration-none mx-1">
+                                        <i class="fa-solid fa-arrow-rotate-right fs-5 page-link text-dark"></i></a>
+                                </form>
+                            </div>
+                        </nav>
+                    </li>
+                </ul>

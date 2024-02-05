@@ -273,8 +273,8 @@ $title = isset($title) ? $title . '-MFEE47_02' : 'MFEE47_02'
             </a>
             <div class="collapse" id="charts">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="./socialNetwork/public-board.php">看板分類</a></li>
-                <li class="nav-item"> <a class="nav-link" href="./socialNetwork/posts-list-no-admin.php">帖子</a></li>
+                <li class="nav-item"> <a class="nav-link" href="./socialNetwork/posts-list-no-admin.php">論壇</a></li>
+                <li class="nav-item"> <a class="nav-link" href="./socialNetwork/friends.php">好友</a></li>
               </ul>
             </div>
           </li>
