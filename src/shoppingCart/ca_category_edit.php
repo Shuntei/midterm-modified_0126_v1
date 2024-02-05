@@ -22,8 +22,8 @@ if (empty($row)) {
     }
 </style>
 
-<div class="container-fluid">
-    <div class="row">
+<div class="container-fluid mx-auto my-3">
+    <div class="row justify-content-center">
         <div class="col-6">
             <div class="card">
                 <div class="card-body">
@@ -45,7 +45,7 @@ if (empty($row)) {
                             <div class="form-text"></div>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">修改</button>
+                        <button type="submit" class="btn btn-outline-dark">修改</button>
                     </form>
                 </div>
             </div>
@@ -75,7 +75,7 @@ if (empty($row)) {
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">繼續修改</button>
-                <a type="button" class="btn btn-primary" href="ca_merchandise_list_admin.php">到列表頁</a>
+                <a type="button" class="btn btn-dark" href="ca_merchandise_list_admin.php">到列表頁</a>
             </div>
         </div>
     </div>

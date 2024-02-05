@@ -22,49 +22,57 @@ if (empty($row)) {
   }
 </style>
 
-<div class="container-fluid">
-  <div class="row">
+<div class="container-fluid mx-auto my-3">
+  <div class="row justify-content-center">
     <div class="col-6">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">編輯資料</h5>
           <form name="form1" method="post" onsubmit="sendForm(event)">
+          <div class="row">
+          <div class="col-6">
           <div class="mb-3">
               <label class="form-label">編號</label>
               <input type="text" class="form-control" disabled value="<?= $row['item_id'] ?>">
             </div>
             <input type="hidden" name="item_id" value="<?= $row['item_id'] ?>">
             <div class="mb-3">
-              <label for="item_name" class="form-label">item_name</label>
+              <label for="item_name" class="form-label">商品名稱</label>
               <input type="text" class="form-control" id="item_name" name="item_name" value="<?= htmlentities($row['item_name']) ?>">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="quantity" class="form-label">quantity</label>
+              <label for="quantity" class="form-label">存貨</label>
               <input type="text" class="form-control" id="quantity" name="quantity" value="<?= $row['quantity'] ?>">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="category_id" class="form-label">category_id</label>
+              <label for="category_id" class="form-label">商品種類ＩＤ</label>
               <input type="text" class="form-control" id="category_id" name="category_id" value="<?= $row['category_id'] ?>">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="unit_price" class="form-label">unit_price</label>
+              <label for="unit_price" class="form-label">單價</label>
               <input type="text" class="form-control" id="unit_price" name="unit_price" value="<?= $row['unit_price'] ?>">
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="product_img" class="form-label">product_img</label>
+              <label for="product_img" class="form-label">商品圖片</label>
               <input type="text" class="form-control" id="product_img" name="product_img" value="<?= $row['product_img'] ?>">
               <div class="form-text"></div>
             </div>
-            <div class="mb-3">
-              <label for="description" class="form-label">description</label>
-              <textarea type="text" class="form-control" id="description" name="description" cols="50" ><?= $row['description'] ?></textarea>
+            </div>
+            <div class="mb-3 col-6">
+              <label for="description" class="form-label">商品描述</label>
+              <textarea type="text" id="description" rows= 5 name="description"
+              style="border: 1px solid #dee2e6;
+              border-radius: 4px; width: 100%;padding: 14px 22px; "><?= $row['description'] ?></textarea>
               <div class="form-text"></div>
             </div>
-            <button type="submit" class="btn btn-primary">修改</button>
+            </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="submit" class="btn btn-outline-dark">修改</button>
+            </div>
           </form>
         </div>
       </div>
@@ -94,7 +102,7 @@ if (empty($row)) {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">繼續修改</button>
-        <a type="button" class="btn btn-primary" href="ca_merchandise_list_admin.php">到列表頁</a>
+        <a type="button" class="btn btn-dark" href="ca_merchandise_list_admin.php">到列表頁</a>
       </div>
     </div>
   </div>
