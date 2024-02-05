@@ -50,7 +50,7 @@ if (isset($_GET['sort'])) {
 }
 
 $search = isset($_GET['searchbar']) ? $_GET['searchbar'] : "";
-$searching_sql = !empty($search) ? "WHERE sticker_title LIKE '%" . $search . "%'":"";
+$searching_sql = !empty($search) ? "WHERE sticker_title LIKE '%" . $search . "%'" : "";
 
 if ($totalRows > 0) {
     $totalPages = ceil($totalRows / $perPage);
@@ -74,6 +74,7 @@ if (empty($pageName)) {
     $pageName = '';
 }
 ?>
+
 <div class="container-fluid">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
@@ -90,7 +91,6 @@ if (empty($pageName)) {
                     </li>
                 </ul>
                 <ul class="navbar-nav d-flex justify-content-end mb-2 mb-lg-0">
-
                     <li class="nav-item">
                         <p class="nav-link clock me-3 fs-5">⏰ 0:00:00 PM</p>
                     </li>
@@ -98,28 +98,9 @@ if (empty($pageName)) {
                         <p class="nav-link timePassed fs-5">😴 00:00</p>
                     </li>
                 </ul>
-                <!-- <ul class="navbar-nav mb-2 mb-lg-0">
-        <?php if (isset($_SESSION['admin'])) : ?>
-            <li class="nav-item">
-            <!-- <a class="nav-link">暱稱</a> -->
-                <a class="nav-link"><?= $_SESSION['admin']['nickname'] ?></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./logout.php">登出</a>
-                </li>
-            <?php else : ?>
-                <li class="nav-item">
-                    <a class="nav-link <?= $pageName == 'login' ? 'active' : '' ?>" href="./login.php">登入</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <?= $pageName == 'register' ? 'active' : '' ?>" href="./register.php">註冊</a>
-                </li>
-            <?php endif ?>
-            </ul> -->
             </div>
         </div>
     </nav>
-
 </div>
 <!-- Navbar End -->
 
@@ -166,8 +147,7 @@ if (empty($pageName)) {
         <!-- 功能欄位在這裡 -->
         <div class="col">
             <form method="GET" class="d-flex justify-content-center my-3">
-                <input type="text" id="searchbar" name="searchbar" class="searchbar distance ps-2 me-3 page-link border" type="search" placeholder="輸入關鍵字">
-
+                <input type="text" id="searchbar" name="searchbar" class="searchbar distance ps-2 me-3 page-link border" type="search" placeholder="搜尋貼圖">
                 <select name="sort" id="sort" class="me-3 page-link border">
                     <option value="" selected disabled>誰排在前面？</option>
                     <option value="id_descend">最新資料</option>
@@ -175,9 +155,7 @@ if (empty($pageName)) {
                     <option value="cost_ascend">金額小👉大</option>
                     <option value="cost_descend">金額大👉小</option>
                 </select>
-
                 <button type="button" class="reset me-3 page-link border border-light outline">重置</button>
-
             </form>
         </div>
         <!-- 功能欄位結束了 -->
@@ -185,12 +163,12 @@ if (empty($pageName)) {
         <table class="table table-bordered table-striped text-center">
             <thead>
                 <tr>
-                    <th><i class="fa-solid fa-trash-can"></i></th>
                     <th>#</th>
                     <th>貼圖名稱</th>
                     <th>貼圖費用</th>
                     <th>貼圖連結</th>
                     <th><i class="fa-solid fa-pen-to-square"></i></th>
+                    <th><i class="fa-solid fa-trash-can"></i></th>
                 </tr>
             </thead>
             <tbody>
@@ -264,6 +242,7 @@ if (empty($pageName)) {
 
     <?php include('./../package/packageDown.php') ?>
     <?php include __DIR__ . '/parts/scripts.php' ?>
+
     <script>
         function delete_one(
             sticker_inventory_id) {
@@ -294,9 +273,9 @@ if (empty($pageName)) {
                 searchbar.value = decodeURIComponent(getSearchResult);
             }
 
-            if(getSortValue !==null){
-                    sort.value=getSortValue
-                }
+            if (getSortValue !== null) {
+                sort.value = getSortValue
+            }
         });
 
         let reset = document.querySelector('.reset')
