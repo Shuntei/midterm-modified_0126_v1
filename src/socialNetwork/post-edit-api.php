@@ -43,7 +43,7 @@
         $stmt->execute([
             $_POST['user_id'],
             $_POST['content'],
-            $_POST['image_url'],
+            $_POST['newPictureName'],
             $_POST['video_url'],
             $_POST['location'],
             $_POST['tagged_users'],
