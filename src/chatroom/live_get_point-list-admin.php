@@ -23,14 +23,6 @@ $rows = [];
 if (isset($_GET['sort'])) {
     $selectedSort = $_GET["sort"];
     switch ($selectedSort) {
-        case 'user_ascend':
-            $sortColumn = "user_id";
-            $sortDisplay = "ASC";
-            break;
-        case 'user_descend':
-            $sortColumn = "user_id";
-            $sortDisplay = "DESC";
-            break;
         case 'time_descend':
             $sortColumn = "date_get_point";
             $sortDisplay = 'DESC';
@@ -47,22 +39,33 @@ if (isset($_GET['sort'])) {
             $sortColumn = "received_point";
             $sortDisplay = 'ASC';
             break;
-
-        default:
+        case 'id_ascend':
             $sortColumn = "get_point_id";
             $sortDisplay = 'ASC';
+            break;
+        case 'id_descend':
+            $sortColumn = "get_point_id";
+            $sortDisplay = 'DESC';
+            break;
+        default:
+            $sortColumn = "get_point_id";
+            $sortDisplay = 'DESC';
             break;
     }
 } else {
     $sortColumn = "get_point_id";
-    $sortDisplay = 'ASC';
+    $sortDisplay = 'DESC';
 }
 
 $search = isset($_GET['searchbar']) ? $_GET['searchbar'] : "";
-$searching_sql = "WHERE point_source LIKE'%" . $search . "%'";
 
-if (empty($search)) {
-    $searching_sql = "";
+$searchbar_id = isset($_GET['searchbar_id']) ? $_GET['searchbar_id'] : "";
+$searchingid_sql = !empty($searchbar_id) ? "WHERE user_id LIKE '%" . $searchbar_id . "%'" : "";
+
+if (empty($searchingid_sql)) {
+    $searching_sql = !empty($search) ? "WHERE point_source LIKE '%" . $search . "%'" : "";
+} else {
+    $searching_sql = !empty($search) ? "AND point_source LIKE '%" . $search . "%'" : "";
 }
 
 if ($totalRows > 0) {
@@ -72,7 +75,7 @@ if ($totalRows > 0) {
         header('Location: ?page=' . $totalPages);
         exit;
     }
-    $sql = sprintf("SELECT * FROM live_get_point %s ORDER BY %s %s LIMIT %s, %s", $searching_sql, $sortColumn, $sortDisplay, ($page - 1) * $perPage, $perPage);
+    $sql = sprintf("SELECT * FROM live_get_point %s %s ORDER BY %s %s  LIMIT %s %s", $searchingid_sql, $searching_sql, $sortColumn, $sortDisplay, ($page - 1) * $perPage, $perPage);
     $stmt = $pdo->query($sql);
     $rows = $stmt->fetchAll();
 }
@@ -147,7 +150,6 @@ if (empty($pageName)) {
     .outline {
         border: 1px solid hsl(0, 0%, 0%, 0.2) !important;
         padding: 3px 5px;
-
     }
 
     .reset {
@@ -165,15 +167,18 @@ if (empty($pageName)) {
         <!-- 功能欄位在這裡 -->
         <div class="col">
             <form method="GET" class="d-flex justify-content-center my-3">
-                <input type="text" id="searchbar" name="searchbar" class="searchbar distance ps-2 me-3 page-link border" type="search" placeholder="輸入關鍵字">
+                <input type="text" id="searchbar_id" name="searchbar_id" class="searchbar distance ps-2 me-3 page-link border" type="search" placeholder="搜尋用戶ID">
+
+                <input type="text" id="searchbar" name="searchbar" class="searchbar distance ps-2 me-3 page-link border" type="search" placeholder="搜尋點數來源">
+                
                 <select name="sort" id="sort" class="me-3 page-link border">
                     <option value="" selected disabled>誰排在前面？</option>
-                    <option value="point_descend">大點數</option>
-                    <option value="point_ascend">小點數</option>
-                    <option value="time_descend">最新</option>
-                    <option value="time_ascend">最舊</option>
-                    <option value="user_descend">大ID</option>
-                    <option value="user_ascend">小ID</option>
+                    <option value="id_descend">最新資料</option>
+                    <option value="id_ascend">最舊資料</option>
+                    <option value="point_descend">點數大👉小</option>
+                    <option value="point_ascend">點數小👉大</option>
+                    <option value="time_descend">時間近👉遠</option>
+                    <option value="time_ascend">時間遠👉近</option>
                 </select>
                 <button type="button" class="reset me-3 page-link border border-light outline">重置</button>
             </form>
@@ -236,25 +241,26 @@ if (empty($pageName)) {
                 <nav aria-label="Page navigation example">
                     <ul class="pagination mt-2 mb-2">
                         <li class="page-item">
-                            <a class="page-link" href="?page=<?= $page - 1 ?>">
-                                <i class="fa-solid fa-angle-left" href="?page"></i>
+                            <a class="page-link"  href="?page=<?= $page - 1 ?>&sort=<?= $sortColumn ?>&searchbar=<?= $search ?>&searchbar_id=<?= $searchbar_id ?>&submit=">
+                                <i class="fa-solid fa-angle-left"></i>
                             </a>
                         </li>
                         <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
                             if ($i >= 1 and $i <= $totalPages) : ?>
                                 <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                                    <a class="page-link" href="?page=<?= $i ?>">
+                                    <a class="page-link" href="?page=<?= $i ?>&sort=<?= $sortColumn ?>&searchbar=<?= $search ?>&searchbar_id=<?= $searchbar_id ?>&submit=">
                                         <?= $i ?>
                                     </a>
                                 </li>
                         <?php endif;
                         endfor; ?>
                         <li class="page-item">
-                            <a class="page-link" href="?page=<?= $page + 1 ?>">
+                            <a class="page-link" href="?page=<?= $page + 1 ?>&sort=<?= $sortColumn ?>&searchbar=<?= $search ?>&searchbar_id=<?= $searchbar_id ?>&submit=">
                                 <i class="fa-solid fa-angle-right"></i>
                             </a>
                         </li>
                     </ul>
+                </nav>
             </div>
             <!-- <prev><?php
                         print_r($stmt->fetch());
@@ -277,20 +283,28 @@ if (empty($pageName)) {
             let submit = document.getElementById('submit')
 
             function changeUrl() {
+                let currentPage = document.getElementById('currentPage').getAttribute('data-page');
                 let sortValue = sort.value
                 let searchbar = document.getElementById('searchbar').value
-                window.location.href = `live_get_point-list-admin.php?&sort=${sortValue}&searchbar=${searchbar}&submit=`
+                let searchbar_id = document.getElementById('searchbar_id').value
+                window.location.href = `live_get_point-list-admin.php?page=${currentPage}&sort=${sortValue}&searchbar=${searchbar}&searchbar_id=${searchbar_id}&submit=`
             }
 
             sort.addEventListener('change', changeUrl);
             searchbar.addEventListener("change", changeUrl)
+            searchbar_id.addEventListener("change", changeUrl)
+
 
             document.addEventListener('DOMContentLoaded', function() {
                 const searchResult = new URLSearchParams(window.location.search);
                 const getSearchResult = searchResult.get('searchbar');
+                const getSearchResult_id = searchResult.get('searchbar_id');
 
                 if (getSearchResult !== null) {
                     searchbar.value = decodeURIComponent(getSearchResult);
+                }
+                if (getSearchResult_id !== null) {
+                    searchbar_id.value = decodeURIComponent(getSearchResult_id);
                 }
             });
 

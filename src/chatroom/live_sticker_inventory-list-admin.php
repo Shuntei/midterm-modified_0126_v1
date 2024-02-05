@@ -41,12 +41,12 @@ if (isset($_GET['sort'])) {
             break;
         default:
             $sortColumn = "sticker_inventory_id";
-            $sortDisplay = 'ASC';
+            $sortDisplay = 'DESC';
             break;
     }
 } else {
     $sortColumn = "sticker_inventory_id";
-    $sortDisplay = 'ASC';
+    $sortDisplay = 'DESC';
 }
 
 $search = isset($_GET['searchbar']) ? $_GET['searchbar'] : "";
@@ -153,7 +153,6 @@ if (empty($pageName)) {
     .outline {
         border: 1px solid hsl(0, 0%, 0%, 0.2) !important;
         padding: 3px 5px;
-
     }
 
     .reset {
@@ -171,15 +170,14 @@ if (empty($pageName)) {
         <!-- 功能欄位在這裡 -->
         <div class="col">
             <form method="GET" class="d-flex justify-content-center my-3">
-
                 <input type="text" id="searchbar" name="searchbar" class="searchbar distance ps-2 me-3 page-link border" type="search" placeholder="輸入關鍵字">
 
                 <select name="sort" id="sort" class="me-3 page-link border">
                     <option value="" selected disabled>誰排在前面？</option>
-                    <option value="original">小編碼</option>
-                    <option value="id_descend">大編碼</option>
-                    <option value="cost_ascend">小金額</option>
-                    <option value="cost_descend">大金額</option>
+                    <option value="id_descend">最新資料</option>
+                    <option value="original">最舊資料</option>
+                    <option value="cost_ascend">金額小👉大</option>
+                    <option value="cost_descend">金額大👉小</option>
                 </select>
 
                 <button type="button" class="reset me-3 page-link border border-light outline">重置</button>
