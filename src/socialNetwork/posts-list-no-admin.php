@@ -225,10 +225,10 @@ function highlightSearchTerm($content, $searchTerm)
                                                 <div class="modal-body">
                                                     <?php foreach ($row_cm as $r_cm) : ?>
                                                         <?php if ($r['post_id'] === $r_cm['post_id']) : ?>
-                                                            <?= $r_cm['content'] . $r_cm['post_id'] . "<br>"; ?>
+                                                            <?= $r_cm['content'] . "post id: " . $r_cm['post_id'] . "<br>"; ?>
                                                             <!-- 用api寫 -->
                                                             <button onclick="checkReply(<?= $r_cm['comment_id'] ?>)" style="margin-top: 5px" class="border-0 rounded px-2 py-1">查看回覆</button>
-                                                            <?= "comment id:" . $r_cm['comment_id'] ?>
+                                                            <?= "comment id: " . $r_cm['comment_id'] ?>
                                                             <div id='showReply<?= $r_cm['comment_id'] ?>' style="margin-top: 5px;white-space: normal;"></div>
                                                             <!-- api結束 -->
                                                         <?php endif; ?>

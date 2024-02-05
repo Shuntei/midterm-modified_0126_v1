@@ -1,6 +1,6 @@
 <?php require __DIR__ . '/parts/db_connect.php';
-$pageName = 'edit';
-$title = '編輯';
+$pageName = '編輯貼文';
+$title = '編輯貼文';
 
 $post_id = isset($_GET['post_id']) ? $_GET['post_id'] : 0;
 $sql = "SELECT * FROM sn_posts WHERE post_id=$post_id";

@@ -1,6 +1,6 @@
 <?php require __DIR__ . '/parts/db_connect.php';
-$pageName = 'add';
-$title = '新增';
+$pageName = '發文';
+$title = '發文';
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
 <?php include __DIR__ . '/../package/packageUp.php' ?>
@@ -20,7 +20,7 @@ $title = '新增';
             <h5 class="card-title text-light">發文</h5>
             <a href="./posts-list-no-admin.php" class="ms-2"><i class="fa-solid fa-xmark fs-5 text-light"></i></a>
           </div>
-          <form name="form1" method="post" onsubmit="sendForm(event)">
+          <form name="form1" method="post" onsubmit="sendForm(event)" enctype="multipart/form-data">
             <div class="mb-2">
               <label for="content" class="form-label text-light">content</label>
               <textarea type="text" id="content" name="content" style="border: 1px solid #dee2e6;
@@ -28,15 +28,18 @@ $title = '新增';
               <div class="form-text"></div>
             </div>
             <div class="mb-2">
-              <!-- <label for="image_url" class="form-label">上傳圖片</label> -->
-              <!-- <input type="text" class="form-control" id="image_url" name="image_url" value=""> -->
-              <!-- <div class="form-text"></div> -->
-              <!-- <form name="form1" hidden> -->
-              <input type="file" id="image_url" name="image_url[]" multiple accept="image/*" onchange="uploadFile()" />
-              <!-- <div style="cursor: pointer" onclick="image_url.click()">選擇多個檔案</div> -->
+              <!-- 多張
+              <input type="file" id="image_url" name="image_url" multiple accept="image/*" onchange="uploadFile()" />
               <div style="cursor: pointer;background-color: #f0f0f0;border:1px solid #000;width:110px;border-radius:3px;padding:1px 6px" class="text-center mt-1" onclick="image_url.click()">選擇多個檔案</div>
+              <div class="card-container w-100"></div> -->
+              <!-- 單張 -->
+              <div style="cursor: pointer;" onclick="document.form1.image_url.click()" class="text-light">點選上傳圖片</div>
+              <!-- <form name="uploadForm1" hidden> -->
+              <input type="file" id="picture" name="picture" onchange="uploadFile()" class="bg-light rounded" />
               <!-- </form> -->
-              <div class="card-container w-100"></div>
+              <div style="width: 300px">
+                <img src="" alt="" id="image_url" name="image_url" width="100%" />
+              </div>
             </div>
             <div class="mb-2">
               <label for="video_url" class="form-label text-light">video_url</label>
@@ -170,8 +173,6 @@ $title = '新增';
     }
   }
 
-  const container = document.querySelector(".card-container");
-
   function uploadFile() {
     const fd = new FormData(document.form1);
 
@@ -181,25 +182,44 @@ $title = '新增';
       })
       .then((r) => r.json())
       .then((data) => {
-        console.log({
-          data
-        });
-        if (data.success && data.files.length) {
-          let str = "";
-          for (let i of data.files) {
-            str += `
-          <div class="my-card">
-            <img
-              src="./upload-photos/${i}"
-              alt=""
-            />
-          </div>
-          `;
-          }
-          container.innerHTML = str;
+        if (data.success) {
+          // let image_url = document.getElementById('image_url');
+          image_url.src = "./upload-photos/" + data.file;
         }
       });
   }
+
+  // 多張
+  // const container = document.querySelector(".card-container");
+
+  // function uploadFile() {
+  //   const fd = new FormData(document.form1);
+
+  //   fetch("upload-photos.php", {
+  //       method: "POST",
+  //       body: fd, // enctype="multipart/form-data"
+  //     })
+  //     .then((r) => r.json())
+  //     .then((data) => {
+  //       console.log({
+  //         data
+  //       });
+  //       if (data.success && data.files.length) {
+  //         let str = "";
+  //         for (let i of data.files) {
+  //           str += `
+  //         <div class="my-card">
+  //           <img
+  //             src="./upload-photos/${i}"
+  //             alt=""
+  //           />
+  //         </div>
+  //         `;
+  //         }
+  //         container.innerHTML = str;
+  //       }
+  //     });
+  // }
 
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
 </script>

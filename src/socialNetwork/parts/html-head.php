@@ -1,5 +1,5 @@
 <?php
-$title = isset($title) ? $title . '-小新的網站' : '小新的網站'
+$title = isset($title) ? $title . '-Social Media' : 'Social Media'
 ?>
 <!DOCTYPE html>
 <html lang="zh">

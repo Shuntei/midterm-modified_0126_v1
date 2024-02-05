@@ -1,6 +1,6 @@
 <?php require __DIR__ . '/parts/db_connect.php';
 $pageName = 'add';
-$title = '新增';
+$title = '創建好友';
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
 <?php include __DIR__ . '/../package/packageUp.php' ?>

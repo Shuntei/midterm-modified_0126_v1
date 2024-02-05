@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/parts/db_connect.php';
-$pageName = 'friends';
-$title = 'friends';
+$pageName = '好友';
+$title = '好友';
 
 $perPage = 20;
 
@@ -189,7 +189,9 @@ if ($totalRows > 0) {
                                 <td><?= $r['friendship_id'] ?></td>
                                 <td><?= $r['user_id'] ?></td>
                                 <td><?= $r['friend_id'] ?></td>
-                                <td><?= $r['status'] ?></td>
+                                <td><?php if(!$r['status']) :?>
+                                    <span class="text-danger">未加好友</span><?php else: ?><?= $r['status'] ?><?php endif; ?>
+                                </td>
                                 <td><?= $r['friend_timestamp'] ?></td>
                             </tr>
                             <!-- endwhile  -->

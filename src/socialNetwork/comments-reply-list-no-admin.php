@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/parts/db_connect.php';
-$pageName = 'list';
-$title = 'comments_reply';
+$pageName = '留言回覆';
+$title = '留言回覆';
 
 $perPage = 20;
 

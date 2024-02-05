@@ -1,7 +1,7 @@
 <?php
 require __DIR__ . '/parts/db_connect.php';
-$pageName = 'list';
-$title = 'public-boards';
+$pageName = '看板';
+$title = '看板';
 
 $perPage = 20;
 

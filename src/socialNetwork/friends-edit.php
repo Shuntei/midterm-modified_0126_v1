@@ -1,6 +1,6 @@
 <?php require __DIR__ . '/parts/db_connect.php';
 $pageName = 'edit';
-$title = '編輯';
+$title = '修改關係';
 
 $friendship_id = isset($_GET['friendship_id']) ? $_GET['friendship_id'] : 0;
 $sql = "SELECT * FROM sn_friends WHERE friendship_id=$friendship_id";
@@ -36,7 +36,7 @@ $rows = $stmt->fetchAll();
               <label for="status" class="form-label text-light">status</label>
               <select type="text" class="form-control" id="status" name="status" value="<?= $row['status'] ?>">
                 <?php foreach ($rows as $option) : ?>
-                  <option value="<?= $option['status'] ?>" <?= ($row['status'] === $option['status']) ? 'selected' : '' ?> <?= $option['status'] ?>>
+                  <option value="<?= $option['status'] ?>" <?= ($row['status'] === $option['status']) ? 'selected' : '' ?>>
                     <?= $option['status'] ?>
                   </option>
                 <?php endforeach; ?>
