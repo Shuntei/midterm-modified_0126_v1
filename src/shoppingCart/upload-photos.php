@@ -1,5 +1,5 @@
 <?php
-$dir = __DIR__ . '/upload-photos/'; # 存放檔案的資料夾
+$dir = __DIR__ . './upload-photos/'; # 存放檔案的資料夾
 
 $exts = [   # 檔案類型的篩選
   'image/jpeg' => '.jpg',
