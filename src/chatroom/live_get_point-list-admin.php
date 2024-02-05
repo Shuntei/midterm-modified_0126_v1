@@ -20,6 +20,10 @@ $totalRows = $row[0];
 $totalPages = 0;
 $rows = [];
 
+if ($totalRows > 0) {
+    $totalPages = ceil($totalRows / $perPage);
+}
+
 if (isset($_GET['sort'])) {
     $selectedSort = $_GET["sort"];
     switch ($selectedSort) {
@@ -75,7 +79,7 @@ if ($totalRows > 0) {
         header('Location: ?page=' . $totalPages);
         exit;
     }
-    $sql = sprintf("SELECT * FROM live_get_point %s %s ORDER BY %s %s  LIMIT %s %s", $searchingid_sql, $searching_sql, $sortColumn, $sortDisplay, ($page - 1) * $perPage, $perPage);
+    $sql = sprintf("SELECT * FROM live_get_point %s %s ORDER BY %s %s LIMIT %s, %s", $searchingid_sql, $searching_sql, $sortColumn, $sortDisplay, ($page - 1) * $perPage, $perPage);
     $stmt = $pdo->query($sql);
     $rows = $stmt->fetchAll();
 }
@@ -241,21 +245,21 @@ if (empty($pageName)) {
                 <nav aria-label="Page navigation example">
                     <ul class="pagination mt-2 mb-2">
                         <li class="page-item">
-                            <a class="page-link"  href="?page=<?= $page - 1 ?>&sort=<?= $sortColumn ?>&searchbar=<?= $search ?>&searchbar_id=<?= $searchbar_id ?>&submit=">
+                            <a class="page-link"  href="?page=<?= $page - 1 ?>">
                                 <i class="fa-solid fa-angle-left"></i>
                             </a>
                         </li>
                         <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
                             if ($i >= 1 and $i <= $totalPages) : ?>
                                 <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                                    <a class="page-link" href="?page=<?= $i ?>&sort=<?= $sortColumn ?>&searchbar=<?= $search ?>&searchbar_id=<?= $searchbar_id ?>&submit=">
+                                    <a class="page-link" href="?page=<?= $i ?>">
                                         <?= $i ?>
                                     </a>
                                 </li>
                         <?php endif;
                         endfor; ?>
                         <li class="page-item">
-                            <a class="page-link" href="?page=<?= $page + 1 ?>&sort=<?= $sortColumn ?>&searchbar=<?= $search ?>&searchbar_id=<?= $searchbar_id ?>&submit=">
+                            <a class="page-link" href="?page=<?= $page + 1 ?>">
                                 <i class="fa-solid fa-angle-right"></i>
                             </a>
                         </li>
@@ -283,11 +287,10 @@ if (empty($pageName)) {
             let submit = document.getElementById('submit')
 
             function changeUrl() {
-                let currentPage = document.getElementById('currentPage').getAttribute('data-page');
                 let sortValue = sort.value
                 let searchbar = document.getElementById('searchbar').value
                 let searchbar_id = document.getElementById('searchbar_id').value
-                window.location.href = `live_get_point-list-admin.php?page=${currentPage}&sort=${sortValue}&searchbar=${searchbar}&searchbar_id=${searchbar_id}&submit=`
+                window.location.href = `live_get_point-list-admin.php?sort=${sortValue}&searchbar=${searchbar}&searchbar_id=${searchbar_id}&submit=`
             }
 
             sort.addEventListener('change', changeUrl);
@@ -299,12 +302,16 @@ if (empty($pageName)) {
                 const searchResult = new URLSearchParams(window.location.search);
                 const getSearchResult = searchResult.get('searchbar');
                 const getSearchResult_id = searchResult.get('searchbar_id');
+                const getSortValue = searchResult.get('sort');
 
                 if (getSearchResult !== null) {
                     searchbar.value = decodeURIComponent(getSearchResult);
                 }
                 if (getSearchResult_id !== null) {
                     searchbar_id.value = decodeURIComponent(getSearchResult_id);
+                }
+                if(getSortValue !==null){
+                    sort.value=getSortValue
                 }
             });
 

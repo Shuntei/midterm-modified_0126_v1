@@ -32,10 +32,11 @@ $title = '新增';
               <label for="source" class="form-label">點數來源</label>
               <select class="form-control" id="point_source" name="point_source">
                 <option value="選擇取得方式" selected disabled>選擇取得方式</option>
-                <option value="中獎">幸運中獎</option>
+                <option value="管理員撒錢">管理員撒錢</option>
+                <option value="幸運中獎">幸運中獎</option>
                 <option value="遊戲獲勝">遊戲獲勝</option>
-                <option value="打賞回饋">點數回饋</option>
-                <option value="人氣獎勵">互動獎勵</option>
+                <option value="點數回饋">點數回饋</option>
+                <option value="互動獎勵">互動獎勵</option>
                 <option value="刷頻懲罰">刷頻懲罰</option>
                 <option value="惡意攻擊">惡意攻擊</option>
               </select>
