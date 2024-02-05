@@ -63,8 +63,7 @@ if (empty($row)) {
                         <div class="mb-3">
                             <label for="comment_content" class="form-label">留言內容</label>
                             <br>
-                            <textarea type="text" id="comment_content" rows=2 name="comment_content"
-                            style="border: 1px solid #dee2e6; border-radius: 4px; width: 100%;padding: 14px 22px; "><?= $row['comment_content']; ?></textarea>
+                            <textarea type="text" id="comment_content" rows=2 name="comment_content" style="border: 1px solid #dee2e6; border-radius: 4px; width: 100%;padding: 14px 22px; "><?= $row['comment_content']; ?></textarea>
                             <div class="form-text"></div>
                         </div>
                         <div class="mb-3">
@@ -91,7 +90,9 @@ if (empty($row)) {
                 </button>
             </div>
             <div class="modal-body">
-                編輯成功
+                <div class="alert alert-success" role="alert">
+                    編輯成功
+                </div>
             </div>
             <div class="modal-footer">
                 <a type="button" class="btn btn-primary" href="tr_tour_comment_list_admin.php">前往列表</a>
