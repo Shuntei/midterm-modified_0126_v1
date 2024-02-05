@@ -200,9 +200,9 @@ function highlightSearchTerm($content, $searchTerm)
                                 <td><?= $r['post_id'] ?></td>
                                 <td><?= $r['user_id'] ?></td>
                                 <td><?= $r['board_id'] ?></td>
-                                <td class="d-flex justify-content-between align-items-center">
+                                <td class="d-flex justify-content-between align-items-center" style="padding-bottom: 25px">
                                     <?php if (!$r['content']) : ?>
-                                        <div class="text-danger fs-6">No contents.</div>
+                                        <div class="text-danger fs-6 pt-3">No contents.</div>
                                         <!-- modal -->
                                         <!-- Button trigger modal -->
                                     <?php else : ?>

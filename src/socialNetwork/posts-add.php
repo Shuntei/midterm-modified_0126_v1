@@ -11,7 +11,7 @@ $title = '發文';
   }
 </style>
 
-<div class="container-fluid d-flex justify-content-center" style="background-color: #6C757D; height: 100svh">
+<div class="container-fluid d-flex justify-content-center" style="background-color: #6C757D; height: 100000px">
   <div class="row d-flex justify-content-center py-5 w-75">
     <div class="col-6">
       <div class="card">
@@ -33,13 +33,11 @@ $title = '發文';
               <div style="cursor: pointer;background-color: #f0f0f0;border:1px solid #000;width:110px;border-radius:3px;padding:1px 6px" class="text-center mt-1" onclick="image_url.click()">選擇多個檔案</div>
               <div class="card-container w-100"></div> -->
               <!-- 單張 -->
-              <div style="cursor: pointer;" onclick="document.form1.image_url.click()" class="text-light">點選上傳圖片</div>
-              <!-- <form name="uploadForm1" hidden> -->
+              <div style="cursor: pointer;" onclick="document.form1.picture.click()" class="text-light">點選上傳圖片</div>
               <input type="file" id="picture" name="picture" onchange="uploadFile()" class="bg-light rounded" />
-              <!-- </form> -->
               <div style="width: 300px">
                 <input type="text" name="newPictureName" id='newPictureName' hidden>
-                <img src="" alt="" id="image_url" name="image_url" width="100%" />
+                <img src="" alt="" id="image_url" width="100%" />
               </div>
             </div>
             <div class="mb-2">
@@ -74,9 +72,7 @@ $title = '發文';
       </div>
     </div>
   </div>
-
   <!-- Button trigger modal -->
-
 
 </div>
 
@@ -97,11 +93,11 @@ $title = '發文';
 </div>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
-  // const goBack = () => {
-  //   setTimeout(() => {
-  //     location.href = "posts-list-no-admin.php";
-  //   }, 2000);
-  // }
+  const goBack = () => {
+    setTimeout(() => {
+      location.href = "posts-list-no-admin.php";
+    }, 2000);
+  }
 
   const {
     post_id: post_id_f,
@@ -186,7 +182,7 @@ $title = '發文';
         if (data.success) {
           // 將回傳的檔名放進Form1 送進資料庫
           const newPictureName = document.getElementById('newPictureName')
-          newPictureName.value=data.file;
+          newPictureName.value = data.file;
           // 即時預覽圖片
           image_url.src = "./upload-photos/" + data.file;
         }

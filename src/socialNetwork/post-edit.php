@@ -41,7 +41,15 @@ if (empty($row)) {
             </div>
             <div class="mb-3">
               <label for="image_url" class="form-label text-light">image_url</label>
-              <input type="text" class="form-control" id="image_url" name="image_url" value="<?= $row['image_url'] ?>">
+              <!-- <input type="text" class="form-control" id="image_url" name="image_url" value="<?= $row['image_url'] ?>"> -->
+              <!-- 修改圖片 -->
+              <div style="cursor: pointer;" onclick="document.form1.picture.click()" class="text-light">點選上傳圖片</div>
+              <input type="file" id="picture" name="picture" onchange="uploadFile()" class="bg-light rounded" value="<?= $row['image_url'] ?>" />
+              <div style="width: 300px">
+                <input type="text" name="newPictureName" id='newPictureName' hidden>
+                <img src="./upload-photos/<?= $r['image_url'] ?>" alt="" id="image_url" width="100%" />
+              </div>
+              <!-- 修改圖片 -->
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
@@ -167,6 +175,25 @@ if (empty($row)) {
           e => console.log(e)
         );
     }
+  }
+
+  function uploadFile() {
+    const fd = new FormData(document.form1);
+
+    fetch("upload-photos.php", {
+        method: "POST",
+        body: fd, // enctype="multipart/form-data"
+      })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success) {
+          // 將回傳的檔名放進Form1 送進資料庫
+          const newPictureName = document.getElementById('newPictureName')
+          newPictureName.value = data.file;
+          // 即時預覽圖片
+          image_url.src = "./upload-photos/" + data.file;
+        }
+      });
   }
 
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
