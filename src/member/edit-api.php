@@ -1,5 +1,6 @@
 <?php
 
+require './admin-required.php';
 require "./parts/db_connect_midterm.php";
 
 header('Content-Type: application/json');
