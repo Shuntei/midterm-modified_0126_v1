@@ -21,7 +21,7 @@ if (empty($sticker_inventory_id)) {
 $sql = "UPDATE `live_sticker_inventory` SET 
     `sticker_title`=?,
     `sticker_cost`=?,
-    `sticker_pic`=?
+    `newPictureName`=?
     WHERE sticker_inventory_id=? ";
 
 $stmt = $pdo->prepare($sql);
@@ -29,7 +29,7 @@ try {
     $stmt->execute([
         $_POST['sticker_title'],
         $_POST['sticker_cost'],
-        $_POST['sticker_pic'],
+        $_POST['newPictureName'],
         $sticker_inventory_id
     ]);
 } catch (PDOException $e) {
