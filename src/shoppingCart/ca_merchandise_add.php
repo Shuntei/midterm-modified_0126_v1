@@ -187,7 +187,7 @@ $title = '新增';
         e => console.log(e)
       );
   }
-  const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
+ 
 
 
   function uploadFile() {
@@ -208,6 +208,10 @@ $title = '新增';
         }
       });
   }
+  
+ const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
+
+
 </script>
 
 <?php include __DIR__ . '/parts/html-foot.php' ?>
