@@ -227,8 +227,8 @@ $rows2 = $stmt2->fetchAll();
                                                 <td><?= $r['unit_price'] ?></td>
                                                 
                                                 <td>
-                                                    <a href="#" class="view-image" data-toggle="modal" data-target="#imageModal" data-image="./imgs/<?= $r['product_img'] ?>">
-                                                        <img src="./imgs/<?= $r['product_img'] ?>" alt="商品圖片" class="img-thumbnail">
+                                                    <a href="#" class="view-image" data-toggle="modal" data-target="#imageModal" data-image="./upload-photos/<?= $r['product_img'] ?>">
+                                                        <img src="./upload-photos/<?= $r['product_img'] ?>" alt="商品圖片" class="img-thumbnail">
                                                     </a>
                                                 </td>
 
@@ -324,7 +324,7 @@ $rows2 = $stmt2->fetchAll();
                             </button>
                         </div>
                         <div class="modal-body">
-                            <img src="" alt="商品圖片" id="modalImage" class="img-fluid">
+                            <img src="./upload-photos/<?= $r['product_img'] ?>" alt="商品圖片" id="modalImage" class="img-fluid">
                         </div>
                     </div>
                 </div>
