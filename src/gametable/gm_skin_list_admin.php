@@ -29,7 +29,7 @@ if ($totalRows > 0) {
     header('Location: ?page=' . $totalPages);
     exit;
   }
-  $sql = sprintf("SELECT * FROM gm_skin ORDER BY skin_id ASC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
+  $sql = sprintf("SELECT * FROM gm_skin ORDER BY skin_id DESC LIMIT %s, %s", ($page - 1) * $perPage, $perPage);
   $stmt = $pdo->query($sql);
   $rows = $stmt->fetchAll();
 }
@@ -77,7 +77,7 @@ if (empty($pageName)) {
           </ul>
           <div>
             <div class="btn-wrapper">
-              <a href="#" class="btn btn-otline-dark align-items-center"><i class="icon-share"></i> Share</a>
+              <a href="#" class="btn btn-otline-dark align-items-center"id="share-btn"name="share-btn"><i class="icon-share"></i> Share</a>
 
               <a href="gm_skin_add.php" class="btn btn-primary text-white me-0"><i class="mdi mdi-plus fw-bold"></i>
                 Add</a>
@@ -223,14 +223,40 @@ if (empty($pageName)) {
             }
           }
         </script>
-        <!-- <script src="/js/boilerplate.js"></script>
-          <script src="/js/canvas-renderer.js"></script>
-          <script src="/js/vector.js"></script>
-          <script src="/js/anchor.js"></script>
-          <script src="/js/path-command.js"></script>
-          <script src="/js/shape.js"></script>
-          <script src="/js/dragger.js"></script>
-          <script src="/js/illustration.js"></script>
-          <script src="/js/kid-kit.js"></script> -->
+        
 
         <?php include __DIR__ . '/parts/html-foot.php' ?>
+
+        <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const shareBtn = document.getElementById('share-btn');
+
+        shareBtn.addEventListener('click', function () {
+            // 獲取當前頁面URL
+            const currentURL = window.location.href;
+
+            // 建立臨時textarea元素用存放URL
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = currentURL;
+
+            // 將textarea加到DOM
+            document.body.appendChild(tempTextArea);
+
+            // 選中textarea的内容
+            tempTextArea.select();
+            tempTextArea.setSelectionRange(0, 99999); /* For mobile devices */
+
+            try {
+                document.execCommand('copy');
+                alert('URL已複製');
+            } catch (err) {
+                console.error('複製失敗', err);
+            }
+
+            // 移除textarea
+            document.body.removeChild(tempTextArea);
+        });
+    });
+</script>
+
+<?php include __DIR__ . '/parts/html-foot.php' ?>
