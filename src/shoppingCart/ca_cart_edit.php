@@ -57,7 +57,7 @@ if (empty($row)) {
               <div class="form-text"></div>
             </div>
 
-            <button type="submit" class="btn btn-primary">修改</button>
+            <button type="submit" class="btn btn-outline-dark">修改</button>
           </form>
         </div>
       </div>
@@ -180,6 +180,8 @@ document.getElementById('item_id').addEventListener('input', function() {
       );
   }
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
+
+  
 </script>
 
 <?php include __DIR__ . '/parts/html-foot.php' ?>

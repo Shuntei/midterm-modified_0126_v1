@@ -221,17 +221,17 @@ $rows = $stmt->fetchAll();
                         </nav>  -->
 
                                 </div>
-                                <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true">
+                                <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true" data-search-highlight="true">
                                     <thead>
                                         <tr>
                                             <th><i class="fa-solid fa-trash-can"></i></th>
-                                            <th data-sortable="true"> 購物車ＩＤ</th>
-                                            <th data-sortable="true">使用者ＩＤ</th>
-                                            <th data-sortable="true">商品ＩＤ</th>
-                                            <th data-sortable="true">商品名稱</th>
-                                            <th data-sortable="true">數量</th>
-                                            <th data-sortable="true">單價</th>
-                                            <th data-sortable="true">總價</th>
+                                            <th data-sortable="true" data-search-highlight-formatter="customSearchFormatter"> 購物車ＩＤ</th>
+                                            <th data-sortable="true" data-search-highlight-formatter="customSearchFormatter">使用者ＩＤ</th>
+                                            <th data-sortable="true" data-search-highlight-formatter="customSearchFormatter">商品ＩＤ</th>
+                                            <th data-sortable="true" data-search-highlight-formatter="customSearchFormatter">商品名稱</th>
+                                            <th data-sortable="true" data-search-highlight-formatter="customSearchFormatter">數量</th>
+                                            <th data-sortable="true" data-search-highlight-formatter="customSearchFormatter">單價</th>
+                                            <th data-sortable="true" data-search-highlight-formatter="customSearchFormatter">總價</th>
                                             <th><i class="fa-solid fa-pen-to-square"></i></th>
                                         </tr>
                                     </thead>
@@ -274,10 +274,13 @@ $rows = $stmt->fetchAll();
             </div>
             <?php include __DIR__ . '/../package/packageDown.php' ?>
             <?php include __DIR__ . '/parts/scripts.php' ?>
+
             <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
             <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.2/dist/bootstrap-table.min.js"></script>
+
             <script>
                 $("#delete-selected-cart").click(function() {
                     var selectedCarts = [];
@@ -317,6 +320,10 @@ $rows = $stmt->fetchAll();
                     let name_value = search_byname.value;
                     location.href = "ca_cart_list_admin.php?user_id=" + name_value;
                 });
+
+                function customSearchFormatter(value, searchText) {
+                    return value.toString().replace(new RegExp('(' + searchText + ')', 'gim'), '<span style="background-color: pink;border: 1px solid red;border-radius:90px;padding:4px">$1</span>')
+                }
             </script>
 
             <?php include __DIR__ . '/parts/html-foot.php' ?>

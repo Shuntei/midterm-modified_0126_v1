@@ -100,6 +100,7 @@ $rows2 = $stmt2->fetchAll();
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
 <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css">
+
 <div class="container-scroller">
     <nav class="navbar default-layout col-lg-12 col-12 p-0 d-flex align-items-top flex-row fixed-top">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
@@ -329,19 +330,19 @@ $rows2 = $stmt2->fetchAll();
                         </nav>
             -->
                                 </div>
-                                <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true">
+                                <table id="table" class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true" data-search-highlight="true">
                                     <thead>
                                         <tr>
                                             <th><i class="fa-solid fa-trash-can"></i></th>
-                                            <th data-sortable="true">#
+                                            <th data-sortable="true" data-search-highlight-formatter="customSearchFormatter">#
                                                 <!-- <a href="ca_merchandise_list_admin.php?sort=item_id_desc"><i class="fa fa-arrow-down"></i></a>
                                     <a href="ca_merchandise_list_admin.php?sort=item_id_asc"><i class="fa fa-arrow-up"></i></a> -->
                                             </th>
-                                            <th data-sortable="true">商品名稱</th>
-                                            <th data-sortable="true">存貨</th>
-                                            <th data-sortable="true">種類ＩＤ</th>
-                                            <th data-sortable="true">商品描述</th>
-                                            <th data-sortable="true">單價</th>
+                                            <th data-sortable="true" data-search-highlight-formatter="customSearchFormatter">商品名稱</th>
+                                            <th data-sortable="true" data-search-highlight-formatter="customSearchFormatter">存貨</th>
+                                            <th data-sortable="true" data-search-highlight-formatter="customSearchFormatter">種類ＩＤ</th>
+                                            <th data-sortable="true" data-search-highlight-formatter="customSearchFormatter">商品描述</th>
+                                            <th data-sortable="true" data-search-highlight-formatter="customSearchFormatter">單價</th>
                                             <th>商品圖片 </th>
 
                                             <th><i class="fa-solid fa-pen-to-square"></i></th>
@@ -480,13 +481,13 @@ $rows2 = $stmt2->fetchAll();
                         </nav>
             -->
                                 </div>
-                                <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true">
+                                <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true" data-search-highlight="true">
                                     <thead>
                                         <tr>
                                             <th><i class="fa-solid fa-trash-can"></i></th>
 
-                                            <th data-sortable="true">類別ＩＤ</th>
-                                            <th data-sortable="true">類別名稱</th>
+                                            <th data-sortable="true" data-search-highlight-formatter="customSearchFormatter">類別ＩＤ</th>
+                                            <th data-sortable="true" data-search-highlight-formatter="customSearchFormatter">類別名稱</th>
                                             <th><i class="fa-solid fa-pen-to-square"></i></th>
                                         </tr>
                                     </thead>
@@ -522,10 +523,13 @@ $rows2 = $stmt2->fetchAll();
             </div>
             <?php include __DIR__ . '/../package/packageDown.php' ?>
             <?php include __DIR__ . '/parts/scripts.php' ?>
+
+
             <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" crossorigin="anonymous"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
             <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap-table@1.22.2/dist/bootstrap-table.min.js"></script>
             </body>
 
             </html>
@@ -589,6 +593,10 @@ $rows2 = $stmt2->fetchAll();
                     if (confirm(`是否要刪除編號為${category_id}的資料?`)) {
                         location.href = `ca_category_delete.php?category_id=${category_id}`;
                     }
+                }
+
+                function customSearchFormatter(value, searchText) {
+                    return value.toString().replace(new RegExp('(' + searchText + ')', 'gim'), '<span style="background-color: pink;border: 1px solid red;border-radius:90px;padding:4px">$1</span>')
                 }
             </script>
 
