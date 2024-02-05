@@ -16,6 +16,7 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
 <style>
     .profilePic {
         width: 150px;
+        min-height: 150px;
         border-radius: 50px;
         top: -180px;
         right: 20px;
@@ -37,10 +38,11 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
         right: 10px;
         z-index: 2;
     }
+
     .breadcrumb {
         border: none;
         background-color: #F4F5F7;
-        margin: 20px 0 0 20px ;
+        margin: 20px 0 0 20px;
         border-radius: 10px;
     }
 
@@ -51,10 +53,10 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
 
 <div class="d-flex position-absolute">
     <nav aria-label="breadcrumb" class="border-none">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="member.php" class="text-decoration-none fw-bold text-dark">User List</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Add</li>
-      </ol>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="member.php" class="text-decoration-none fw-bold text-dark">User List</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Add</li>
+        </ol>
     </nav>
 </div>
 <div class="container d-flex justify-content-center">
@@ -71,7 +73,7 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
                             <div class="bg-secondary cameraIcon img-thumbnail rounded-circle">
                                 <i class="bi bi-camera fw-bold"></i>
                             </div>
-                            <img id="userProfilePic" src="../assets/images/member/default-profile.jpeg" class="img-thumbnail rounded-circle position-relative" alt="">
+                            <img id="userProfilePic" src="../assets/images/member/default-profile.jpeg" width="150px" height="150px" class="object-fit-cover rounded-circle position-relative" alt="">
                         </div>
                         <input type="file" id="pictureInput" name="picture" class="d-none">
                         <input type="text" name="uploadedPicture" id="uploadedPicture" value="" hidden>
@@ -208,7 +210,7 @@ $skinRow = $pdo->query($skinSql)->fetchAll();
                 if (data.success) {
                     document.querySelector('#uploadedPicture').value = data.file;
                     const profilePic = document.querySelector('#userProfilePic')
-                    profilePic.src = `../assests/images/member/${data.file}`
+                    profilePic.src = `../assets/images/member/${data.file}`
                 }
             })
     }
