@@ -45,7 +45,7 @@
             $_POST['quantity'],
             $_POST['category_id'],
             $_POST['unit_price'],
-            $_POST['product_img'],
+            $_POST['newPictureName'],
             $_POST['description'],
             $item_id,
         ]);

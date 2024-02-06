@@ -11,24 +11,6 @@
 // TODO: 資料輸入之前, 要做檢查
 # filter_var('bob@example.com', FILTER_VALIDATE_EMAIL);
 
-// 圖片處理
-//     $fileName = $_FILES['image_url']['name'];
-
-//     $image_url = null;
-//     if (!empty($_FILES['image_url'])) {
-//     $uploadDirectory = __DIR__ . './upload-photos/';
-//     $fileName = $_FILES['image_url']['name'];
-//     $targetPath = $uploadDirectory . $fileName;
-
-//     if (move_uploaded_file($_FILES['image_url']['tmp_name'], $targetPath)) {
-//         $image_url = $fileName;
-//     } else {
-//         $output['errors'][] = 'Failed to move uploaded file.';
-//     }
-// }
-// 圖片處理
-
-
     $sql = "INSERT INTO `sn_posts` SET 
     `user_id`=?,
     `content`=?,
@@ -43,8 +25,7 @@
         $stmt->execute([
         $_POST['user_id'],
         $_POST['content'],
-        $_POST['image_url'],
-        // $image_url, // 使用處理過的圖片檔名
+        $_POST['newPictureName'],
         $_POST['video_url'],
         $_POST['location'],
         $_POST['tagged_users'],

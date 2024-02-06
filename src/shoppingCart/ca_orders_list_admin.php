@@ -176,7 +176,7 @@ $rows2 = $stmt2->fetchAll();
                                 <div class="nav-item me-4">
                                     <button type="button" class="btn btn-outline-secondary"><a class="nav-link" href="./ca_category_add.php">新增</a></button>
                                 </div>
-                                <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true">
+                                <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true">
                                     <thead>
                                         <tr>
                                             <th><i class="fa-solid fa-trash-can"></i></th>
@@ -241,7 +241,7 @@ $rows2 = $stmt2->fetchAll();
                                 <div class="container-fluid">
                                     
                                 </div>
-                                <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true">
+                                <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true">
                                     <thead>
                                         <tr>
                                             <th><i class="fa-solid fa-trash-can"></i></th>

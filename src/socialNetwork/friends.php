@@ -12,34 +12,11 @@ if ($page < 1) {
 }
 
 $t_sql = "SELECT COUNT(1) FROM sn_friends";
-
-// $t_stmt = $pdo->query($t_sql);
-// $row = $t_stmt->fetch(PDO::FETCH_NUM);
 $row = $pdo->query($t_sql)->fetch(PDO::FETCH_NUM);
 
 $totalRows = $row[0];
 $totalPages = 0;
 $rows = [];
-
-$order = isset($_GET['order']) ? $_GET['order'] : '';
-// 切換排序順序
-$newOrder = ($order === 'asc') ? 'desc' : 'asc';
-// 生成帶有新排序順序的 URL(第二種寫法,a href要帶入$toggleUrl)
-// $toggleUrl = $_SERVER['PHP_SELF'] . "?order=$newOrder";
-
-$toggle = isset($_GET['toggleImg']) ? $_GET['toggleImg'] : '';
-$imgChange = ($toggle === "<i class='fa-solid fa-down-long text-white'></i>") ? "<i class='fa-solid fa-up-long text-white'></i>" : "<i class='fa-solid fa-down-long text-white'></i>";
-
-$inputSearch = isset($_POST['search']) ? $_POST['search'] : '';
-$startDate = isset($_POST['start_date']) ? $_POST['start_date'] : '';
-$endDate = isset($_POST['end_date']) ? $_POST['end_date'] : '';
-
-$selectedOption = isset($_POST['search_type']) ? $_POST['search_type'] : '';
-
-// Add this query to fetch distinct values from the "status" column
-$statusQuery = "SELECT DISTINCT status FROM sn_friends";
-$statusStmt = $pdo->query($statusQuery);
-$statusOptions = $statusStmt->fetchAll(PDO::FETCH_COLUMN);
 
 if ($totalRows > 0) {
     $totalPages = ceil($totalRows / $perPage);
@@ -48,6 +25,26 @@ if ($totalRows > 0) {
         header('Location: ?page=' . $totalPages);
         exit;
     }
+
+    $order = isset($_GET['order']) ? $_GET['order'] : '';
+    // 切換排序順序
+    $newOrder = ($order === 'asc') ? 'desc' : 'asc';
+    // 生成帶有新排序順序的 URL(第二種寫法,a href要帶入$toggleUrl)
+    // $toggleUrl = $_SERVER['PHP_SELF'] . "?order=$newOrder";
+
+    $toggle = isset($_GET['toggleImg']) ? $_GET['toggleImg'] : '';
+    $imgChange = ($toggle === "<i class='fa-solid fa-down-long text-white'></i>") ? "<i class='fa-solid fa-up-long text-white'></i>" : "<i class='fa-solid fa-down-long text-white'></i>";
+
+    $inputSearch = isset($_POST['search']) ? $_POST['search'] : '';
+    $startDate = isset($_POST['start_date']) ? $_POST['start_date'] : '';
+    $endDate = isset($_POST['end_date']) ? $_POST['end_date'] : '';
+
+    $selectedOption = isset($_POST['search_type']) ? $_POST['search_type'] : '';
+
+    // Add this query to fetch distinct values from the "status" column
+    $statusQuery = "SELECT DISTINCT status FROM sn_friends";
+    $statusStmt = $pdo->query($statusQuery);
+    $statusOptions = $statusStmt->fetchAll(PDO::FETCH_COLUMN);
 
     if (!$startDate && !$endDate && !$inputSearch) {
         $sql = sprintf("SELECT * FROM sn_friends ORDER BY friend_timestamp $newOrder 
@@ -127,7 +124,7 @@ if ($totalRows > 0) {
                                         <option value="friendship_id" <?= ($selectedOption === 'status') ? 'selected' : '' ?>>friendship_id</option>
                                         <option value="status" <?= ($selectedOption === 'status') ? 'selected' : '' ?>>status</option>
                                     </select>
-                                    <button class="me-2 btn btn-outline-dark border-0 btn-sm"><i class="fa-solid fa-paper-plane"></i></button>
+                                    <button class="me-2 btn btn-outline-dark border-0 btn-sm"><i class="fa-solid fa-people-arrows"></i></button>
                                     <?php if ($selectedOption === 'status') : ?>
                                         <select name="search" class="form-select form-select-sm me-2 search-custom focus-ring focus-ring-light" style="height: 32px">
                                             <?php foreach ($statusOptions as $option) : ?>
@@ -189,8 +186,8 @@ if ($totalRows > 0) {
                                 <td><?= $r['friendship_id'] ?></td>
                                 <td><?= $r['user_id'] ?></td>
                                 <td><?= $r['friend_id'] ?></td>
-                                <td><?php if(!$r['status']) :?>
-                                    <span class="text-danger">未加好友</span><?php else: ?><?= $r['status'] ?><?php endif; ?>
+                                <td><?php if (!$r['status']) : ?>
+                                        <span class="text-danger">未加好友</span><?php else : ?><?= $r['status'] ?><?php endif; ?>
                                 </td>
                                 <td><?= $r['friend_timestamp'] ?></td>
                             </tr>

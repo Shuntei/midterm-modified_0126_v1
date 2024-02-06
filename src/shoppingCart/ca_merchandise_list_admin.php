@@ -8,67 +8,6 @@ $title = '列表';
 
 
 // $perPage = 20;
-
-// $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
-// if ($page < 1) {
-//     header('Location: ?page=1');
-//     exit;
-// }
-
-// $t_sql = "SELECT COUNT(1) FROM ca_merchandise";   //算筆數
-// $itemNameCondition = '';
-
-// if (isset($_GET['item_name']) && $_GET['item_name'] !== "") {
-//     $itemName = $_GET['item_name'];
-//     $itemNameCondition = " WHERE item_name LIKE :item_name";
-// }
-
-// $t_sql .= $itemNameCondition;
-
-// $stmt = $pdo->prepare($t_sql);
-
-// if ($itemNameCondition) {
-//     $stmt->bindValue(':item_name', '%' . $itemName . '%', PDO::PARAM_STR);
-// }
-
-// $stmt->execute();
-// $row = $stmt->fetch(PDO::FETCH_NUM);
-
-// $totalRows = $row[0];
-// $totalPages = 0;
-// $rows = [];
-
-
-// if ($totalRows > 0) {
-//     $totalPages = ceil($totalRows / $perPage);
-
-//     if ($page > $totalPages) {
-//         header('Location: ?page=' . $totalPages . '&item_name=' . urlencode($itemName));
-//         exit;
-//     }
-// }
-
-// $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
-
-// switch ($sort) {
-//     case 'item_id_asc':
-//         $orderBy = " ORDER BY item_id ASC";
-//         break;
-//     case 'item_id_desc':
-//         $orderBy = " ORDER BY item_id DESC";
-//         break;
-//     default:
-//         $orderBy = " ORDER BY item_id DESC";
-// }
-
-// $sql = sprintf("SELECT * FROM ca_merchandise %s %s LIMIT %s, %s", $itemNameCondition, $orderBy, ($page - 1) * $perPage, $perPage);
-// $stmt = $pdo->prepare($sql);
-
-// if ($itemNameCondition) {
-//     $stmt->bindValue(':item_name', '%' . $itemName . '%', PDO::PARAM_STR);
-// }
-
-// $stmt->execute();
 // $rows = $stmt->fetchAll();
 // 獲取篩選條件的價格值
 $price1 = isset($_GET['price1']) ? intval($_GET['price1']) : 0;
@@ -100,6 +39,7 @@ $rows2 = $stmt2->fetchAll();
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" crossorigin="anonymous">
 <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css">
+
 
 
 <div class="container-scroller">
@@ -250,89 +190,9 @@ $rows2 = $stmt2->fetchAll();
 
                                 </p>
                                 <div class="container-fluid">
-                                    <!--
 
-                        <nav class="navbar navbar-expand-lg bg-light rounded">
-                            <div class="container-fluid ">
-
-                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                    <span class="navbar-toggler-icon"></span>
-                                </button>
-                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                         <li class="nav-item">
-                                            <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./ca_merchandise_list_admin.php">列表</a>
-                                        </li> 
-                                        <li class="nav-item me-4">
-                                            <button type="button" class="btn btn-outline-secondary"><a class="nav-link" href="./ca_merchandise_add.php">新增</a></button>
-                                        </li>
-                                        <!--  page navigation start
-                                        <!-- <nav aria-label="Pagination example">
-                                            <ul class="pagination mx-3">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?page=1">
-                                                        <i class="fa-solid fa-angles-left"></i>
-                                                    </a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?page=<?= $page - 1 ?>">
-                                                        <i class="fa-solid fa-angle-left" href="?page"></i>
-                                                    </a>
-                                                </li>
-                                                <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
-                                                    if ($i >= 1 and $i <= $totalPages) : ?>
-                                                        <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                                                            <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
-                                                        </li>
-                                                <?php endif;
-                                                endfor; ?>
-
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?page=<?= $page + 1 ?>">
-                                                        <i class="fa-solid fa-angle-right"></i>
-                                                    </a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?page=<?= $totalPages ?>">
-                                                        <i class="fa-solid fa-angles-right"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </nav> 
-                                        <!-- search -->
-                                    <!-- <div class="mx-3 mb-3">
-                                            <form method="get" action="ca_merchandise_list_admin.php">
-                                                <input type="text" class="search_byname" name="item_name" id="search_byname" placeholder="請輸入商品名" aria-describedby="button-addon2" value="<?= isset($_GET['item_name']) ? $_GET['item_name'] : "" ?>">
-                                                <button class="btn btn-outline-primary" type="submit" id="button-addon2">搜尋</button>
-                                            </form>
-                                        </div> -->
-                                    <!-- search end-->
-                                    <!--  pagination end-->
-                                    </ul>
-                                    <!-- <ul class="navbar-nav mb-2 mb-lg-0">
-          <?php if (isset($_SESSION['admin'])) : ?>
-            <li class="nav-item">
-              <!-- <a class="nav-link">暱稱</a> 
-                <a class="nav-link"><?= $_SESSION['admin']['nickname'] ?></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./logout.php">登出</a>
-                </li>
-            <?php else : ?>
-                <li class="nav-item">
-                    <a class="nav-link <?= $pageName == 'login' ? 'active' : '' ?>" href="./login.php">登入</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <?= $pageName == 'register' ? 'active' : '' ?>" href="./register.php">註冊</a>
-                </li>
-            <?php endif ?>
-            </ul> 
                                 </div>
-                            </div>
-                        </nav>
-            -->
-                                </div>
-                                <table id="table" class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true" data-search-highlight="true">
+                                <table id="table" class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true" data-search-highlight="true">
                                     <thead>
                                         <tr>
                                             <th><i class="fa-solid fa-trash-can"></i></th>
@@ -365,7 +225,14 @@ $rows2 = $stmt2->fetchAll();
                                                 <td><?= $r['category_id'] ?></td>
                                                 <td><?= $r['description'] ?></td>
                                                 <td><?= $r['unit_price'] ?></td>
-                                                <td><?= $r['product_img'] ?></td>
+                                                
+                                                <td>
+                                                    <a href="#" class="view-image" data-toggle="modal" data-target="#imageModal" data-image="./upload-photos/<?= $r['product_img'] ?>">
+                                                        <img src="./upload-photos/<?= $r['product_img'] ?>" alt="商品圖片" class="img-thumbnail">
+                                                    </a>
+                                                </td>
+
+                                                
                                                 <!-- <td><?= htmlentities($r['address']) ?></td> -->
                                                 <!-- <td><?= strip_tags($r['address']) ?></td> -->
                                                 <td>
@@ -404,90 +271,9 @@ $rows2 = $stmt2->fetchAll();
                                 </div>
                                 </p>
                                 <div class="container-fluid">
-                                    <!--
-
-                        <nav class="navbar navbar-expand-lg bg-light rounded">
-                            <div class="container-fluid ">
-
-                                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                                    <span class="navbar-toggler-icon"></span>
-                                </button>
-                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                         <li class="nav-item">
-                                            <a class="nav-link <?= $pageName == 'list' ? 'active' : '' ?>" href="./ca_merchandise_list_admin.php">列表</a>
-                                        </li> 
-                                        <li class="nav-item me-4">
-                                            <button type="button" class="btn btn-outline-secondary"><a class="nav-link" href="./ca_merchandise_add.php">新增</a></button>
-                                        </li>
-                                        <!--  page navigation start
-                                        <!-- <nav aria-label="Pagination example">
-                                            <ul class="pagination mx-3">
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?page=1">
-                                                        <i class="fa-solid fa-angles-left"></i>
-                                                    </a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?page=<?= $page - 1 ?>">
-                                                        <i class="fa-solid fa-angle-left" href="?page"></i>
-                                                    </a>
-                                                </li>
-                                                <?php for ($i = $page - 5; $i <= $page + 5; $i++) :
-                                                    if ($i >= 1 and $i <= $totalPages) : ?>
-                                                        <li class="page-item <?= $i == $page ? 'active' : '' ?>">
-                                                            <a class="page-link" href="?page=<?= $i ?>"><?= $i ?></a>
-                                                        </li>
-                                                <?php endif;
-                                                endfor; ?>
-
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?page=<?= $page + 1 ?>">
-                                                        <i class="fa-solid fa-angle-right"></i>
-                                                    </a>
-                                                </li>
-                                                <li class="page-item">
-                                                    <a class="page-link" href="?page=<?= $totalPages ?>">
-                                                        <i class="fa-solid fa-angles-right"></i>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </nav> 
-                                        <!-- search -->
-                                    <!-- <div class="mx-3 mb-3">
-                                            <form method="get" action="ca_merchandise_list_admin.php">
-                                                <input type="text" class="search_byname" name="item_name" id="search_byname" placeholder="請輸入商品名" aria-describedby="button-addon2" value="<?= isset($_GET['item_name']) ? $_GET['item_name'] : "" ?>">
-                                                <button class="btn btn-outline-primary" type="submit" id="button-addon2">搜尋</button>
-                                            </form>
-                                        </div> -->
-                                    <!-- search end-->
-                                    <!--  pagination end-->
-                                    </ul>
-                                    <!-- <ul class="navbar-nav mb-2 mb-lg-0">
-          <?php if (isset($_SESSION['admin'])) : ?>
-            <li class="nav-item">
-              <!-- <a class="nav-link">暱稱</a> 
-                <a class="nav-link"><?= $_SESSION['admin']['nickname'] ?></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./logout.php">登出</a>
-                </li>
-            <?php else : ?>
-                <li class="nav-item">
-                    <a class="nav-link <?= $pageName == 'login' ? 'active' : '' ?>" href="./login.php">登入</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <?= $pageName == 'register' ? 'active' : '' ?>" href="./register.php">註冊</a>
-                </li>
-            <?php endif ?>
-            </ul> 
-                                </div>
-                            </div>
-                        </nav>
-            -->
 
                                 </div>
-                                <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true" data-search-highlight="true">
+                                <table class="table table-hover" data-toggle="table" data-pagination="true" data-search="true" data-show-search-clear-button="true" data-show-toggle="true" data-show-columns="true" data-show-columns-toggle-all="true" data-search-highlight="true">
                                     <thead>
                                         <tr>
                                             <th><i class="fa-solid fa-trash-can"></i></th>
@@ -527,6 +313,23 @@ $rows2 = $stmt2->fetchAll();
                             print_r($stmt->fetch());
                             ?></prev> -->
             </div>
+
+            <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="imageModalLabel">商品圖片</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <img src="./upload-photos/<?= $r['product_img'] ?>" alt="商品圖片" id="modalImage" class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <?php include __DIR__ . '/../package/packageDown.php' ?>
             <?php include __DIR__ . '/parts/scripts.php' ?>
@@ -605,7 +408,14 @@ $rows2 = $stmt2->fetchAll();
                 function customSearchFormatter(value, searchText) {
                     return value.toString().replace(new RegExp('(' + searchText + ')', 'gim'), '<span style="background-color: pink;border: 1px solid red;border-radius:90px;padding:4px">$1</span>')
                 }
+
+
+                $(document).ready(function() {
+                    $(".view-image").click(function() {
+                        var imagePath = $(this).data("image");
+                        $("#modalImage").attr("src", imagePath);
+                    });
+                });
             </script>
 
             <?php include __DIR__ . '/parts/html-foot.php' ?>
-

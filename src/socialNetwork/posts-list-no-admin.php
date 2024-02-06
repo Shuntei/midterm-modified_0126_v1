@@ -145,9 +145,9 @@ function highlightSearchTerm($content, $searchTerm)
                                     <!-- 測試 -->
                                     <label for="inputOptions" style="white-space:nowrap" class="me-2"><i class="fa-solid fa-filter fs-5 pt-1"></i></label>
                                     <select id="inputOptions" name="search_type" class="form-select form-select-sm me-2 search-custom focus-ring focus-ring-light" style="height: 32px">
-                                        <option value="content">content</option>
-                                        <option value="location">location</option>
-                                        <option value="board_id">border id</option>
+                                        <option value="content">content (posts)</option>
+                                        <option value="location">location (posts)</option>
+                                        <option value="board_id">border id (posts)</option>
                                     </select>
                                     <input type="date" name="start_date" value="<?= $startDate ?>" class="form-control me-2 px-1 search-custom" id="startDate">
                                     <input type="date" name="end_date" value="<?= $endDate ?>" class="form-control me-2 px-1 search-custom" id="endDate">
@@ -173,7 +173,7 @@ function highlightSearchTerm($content, $searchTerm)
                             <th>board_id</th>
                             <th class="text-center">content</th>
                             <th>image_url</th>
-                            <th>video_url</th>
+                            <!-- <th>video_url</th> -->
                             <th>location</th>
                             <th>tagged_users</th>
                             <th style="border-radius: 0 10px 0 0">posts_timestamp
@@ -200,9 +200,9 @@ function highlightSearchTerm($content, $searchTerm)
                                 <td><?= $r['post_id'] ?></td>
                                 <td><?= $r['user_id'] ?></td>
                                 <td><?= $r['board_id'] ?></td>
-                                <td class="d-flex justify-content-between align-items-center">
+                                <td class="d-flex justify-content-between align-items-center" style="padding-bottom: 25px">
                                     <?php if (!$r['content']) : ?>
-                                        <div class="text-danger fs-6">No contents.</div>
+                                        <div class="text-danger fs-6 pt-3">No contents.</div>
                                         <!-- modal -->
                                         <!-- Button trigger modal -->
                                     <?php else : ?>
@@ -211,24 +211,30 @@ function highlightSearchTerm($content, $searchTerm)
                                         ?>
                                         <div><?= highlightSearchTerm($r['content'], $inputSearch) ?></div>
                                         <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#detailCm-<?= $postId ?>" id="showCm-<?= $postId ?>">
-                                            查看留言
+                                            查看貼文
                                         </button>
                                     <?php endif; ?>
                                     <!-- Modal -->
                                     <div class="modal fade" id="detailCm-<?= $postId ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" id="yes">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
-                                                <div class="modal-header bg-secondary">
-                                                    <h5 class="modal-title" id="exampleModalLabel">留言</h5>
+                                                <div class="modal-header bg-secondary" style="height: 30px">
+                                                    <h6 class="modal-title" id="exampleModalLabel">貼文內容</h6>
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
+                                                <!-- 貼文 -->
+                                                <div class="bg-dark rounded" style="border: 10px solid #1E283D;">
+                                                    <img src="./upload-photos/<?= $r['image_url'] ?>" style="width:100%;height:auto;border-radius: 5px;" alt="">
+                                                    <div class="pt-3 fs-6 pb-5 text-light" style="margin-top: 5px;white-space: normal;padding-left:26px;"><?= $r['content'] ?></div>
+                                                </div>
+                                                <!-- 貼文 -->
                                                 <div class="modal-body">
                                                     <?php foreach ($row_cm as $r_cm) : ?>
                                                         <?php if ($r['post_id'] === $r_cm['post_id']) : ?>
-                                                            <?= $r_cm['content'] . "post id: " . $r_cm['post_id'] . "<br>"; ?>
+                                                            <span style="white-space:normal;"><?= $r_cm['content'] . "(post id: " . $r_cm['post_id'] . ")" . "<br>"; ?></span>
                                                             <!-- 用api寫 -->
-                                                            <button onclick="checkReply(<?= $r_cm['comment_id'] ?>)" style="margin-top: 5px" class="border-0 rounded px-2 py-1">查看回覆</button>
-                                                            <?= "comment id: " . $r_cm['comment_id'] ?>
+                                                            <button onclick="checkReply(<?= $r_cm['comment_id'] ?>)" style="margin-top: 5px" class="border-0 rounded px-2 py-1 mb-3">查看回覆</button>
+                                                            <?= "(comment id: " . $r_cm['comment_id'] . ")" ?>
                                                             <div id='showReply<?= $r_cm['comment_id'] ?>' style="margin-top: 5px;white-space: normal;"></div>
                                                             <!-- api結束 -->
                                                         <?php endif; ?>
@@ -236,7 +242,7 @@ function highlightSearchTerm($content, $searchTerm)
                                                     <form name="formCm<?= $r['post_id'] ?>" method="post" onsubmit="sendCmForm(<?= $r['post_id'] ?>)" class="d-flex flex-column">
                                                         <input type="hidden" name="post_id" value="<?= $r['post_id'] ?>">
                                                         <textarea type="text" id="content" name="content" placeholder="留言..." style="border: 1px solid #dee2e6;border-radius: 4px;width: 100%;padding: 14px 22px"></textarea>
-                                                        <button type="submit" class="btn btn-dark btn-sm mt-2 me-2 py-1 align-self-end" style="width: 10%"><i class="fa-regular fa-circle-right"></i></button>
+                                                        <button type="submit" class="btn btn-dark btn-sm mt-3 me-2 py-1 align-self-end" style="width: 10%"><i class="fa-regular fa-circle-right"></i></button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -244,8 +250,10 @@ function highlightSearchTerm($content, $searchTerm)
                                     </div>
                                     <!-- model -->
                                 </td>
-                                <td><?= $r['image_url'] ?></td>
-                                <td><?= $r['video_url'] ?></td>
+                                <td>
+                                    <img src="./upload-photos/<?= $r['image_url'] ?>" alt="">
+                                </td>
+                                <!-- <td><?= $r['video_url'] ?></td> -->
                                 <td><?= $r['location'] ?></td>
                                 <td><?= $r['tagged_users'] ?></td>
                                 <td><?= $r['posts_timestamp'] ?></td>

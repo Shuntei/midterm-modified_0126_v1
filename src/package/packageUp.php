@@ -15,17 +15,29 @@
     <div class="navbar-menu-wrapper d-flex align-items-top">
       <ul class="navbar-nav">
         <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-          <h1 class="welcome-text"><?= isset($_SESSION['admin']['userName']) ? $_SESSION['admin']['userName'] : 'Hello' ?><span class="text-black fw-bold"></span></h1>
+          <h1 class="welcome-text">
+            <?php
+            if (isset($_SESSION['admin'])) {
+              echo $_SESSION['admin']['role'];
+            } elseif (isset($_SESSION['moderator'])) {
+              echo $_SESSION['moderator']['role'];
+            } elseif (isset($_SESSION['viewer'])) {
+              echo $_SESSION['viewer']['role'];
+            } else {
+              echo 'Sign in to start';
+            }
+            ?>
+          </h1>
           <h3 class="welcome-sub-text"></h3>
         </li>
       </ul>
       <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-bs-toggle="offcanvas">
         <span class="mdi mdi-menu"></span>
       </button>
-      <?php if(isset($_SESSION['admin']) || isset($_SESSION['moderator'])) : ?>
-      <div class="ms-auto align-items-center d-flex logout-btn">
-        <a href="logout.php" class="logout-link">Logout</a>
-      </div>
+      <?php if (isset($_SESSION['admin']) || isset($_SESSION['moderator']) || isset($_SESSION['viewer'])) : ?>
+        <div class="ms-auto align-items-center d-flex logout-btn">
+          <a href="/midterm/src/member/logout.php" class="logout-link">Logout</a>
+        </div>
       <?php endif; ?>
     </div>
 
@@ -35,18 +47,23 @@
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
       <ul class="nav">
         <li class="nav-item nav-category">Forms and Datas</li>
-        <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="collapse" href="#account-key" aria-expanded="false" aria-controls="account-key">
-            <i class="menu-icon mdi mdi-account-key"></i>
-            <span class="menu-title">Settings</span>
-            <i class="menu-arrow"></i>
-          </a>
-          <div class="collapse" id="account-key">
-            <ul class="nav flex-column sub-menu">
-              <li class="nav-item"><a class="nav-link" href="/midterm/src/settings/settings.php">Admin Settings</a></li>
-            </ul>
-          </div>
-        </li>
+        <?php if (isset($_SESSION['admin'])) { ?>
+
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="collapse" href="#account-key" aria-expanded="false" aria-controls="account-key">
+              <i class="menu-icon mdi mdi-account-key"></i>
+              <span class="menu-title">Settings</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="account-key">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"><a class="nav-link" href="/midterm/src/settings/settings.php">Admin Settings</a></li>
+              </ul>
+            </div>
+          </li>
+        <?php
+        }
+        ?>
         <li class="nav-item">
           <a class="nav-link" data-bs-toggle="collapse" href="#form-elements" aria-expanded="false" aria-controls="form-elements">
             <i class="menu-icon mdi mdi-card-text-outline"></i>

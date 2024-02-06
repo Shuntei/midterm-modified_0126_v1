@@ -6,6 +6,7 @@ header("content-type: application/json");
 
 $output = [
     "success" => false,
+    "session" => false,
     "postData" => $_POST,
     "code" => 0, // 200, 302 etc 
     "error" => "",
@@ -17,7 +18,7 @@ if (empty($_POST['userName']) or empty($_POST['password'])) {
     exit;
 }
 
-$sql = "SELECT * from mb_team_member where user_name=?";
+$sql = "SELECT * from mb_team_member join mb_permission on fk_permission_id = permission_id where user_name=?";
 
 $stmt = $pdo->prepare($sql);
 
@@ -33,10 +34,32 @@ if (empty($row)) {
 $output['success'] = password_verify($_POST['password'], $row['password_hash']);
 
 if ($output['success']) {
-    $_SESSION['admin'] = [
+
+    if($row['permission_id'] == 1){
+        $_SESSION['admin'] = true;
+        $_SESSION['admin'] = [
         'id' => $row['id'],
-        'userName' => $row['user_name']
+        'userName' => $row['user_name'],
+        'role' => $row['role']
     ];
+    $output['session'] = true;
+    } else if ($row['permission_id'] == 2){
+        $_SESSION['moderator'] = true;
+        $_SESSION['moderator'] = [
+        'id' => $row['id'],
+        'userName' => $row['user_name'],
+        'role' => $row['role']
+        ];
+        $output['session'] = true;
+    } else if ($row['permission_id'] == '3') {
+        $_SESSION['viewer'] = true;
+        $_SESSION['viewer'] = [
+            'id' => $row['id'],
+            'userName' => $row['user_name'],
+            'role' => $row['role']
+        ];
+        $output['session'] = true;
+    }
 } else {
     $output['code'] = 3;
 }
