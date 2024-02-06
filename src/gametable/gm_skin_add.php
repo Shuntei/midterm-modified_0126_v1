@@ -41,9 +41,24 @@ $title = '新增';
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="upload_file" class="form-label">Upload Model</label>
+              <div style="cursor: pointer;" onclick="document.form1.model_url.click()" class="text-light">點選上傳檔案</div>
+              <!-- <form name="uploadForm1" hidden> -->
+              <input type="file" id="model" name="model" onchange="uploadFile()" class="bg-light rounded" />
+              <!-- </form> -->
+              <div style="width: 300px">
+                <input type="text" name="newModelName" id='newModelName' hidden>
+                <!-- <img id="myImg" src="" alt="" style="width: 100%"> -->
+                  <model-viewer src="" alt="" id="myImg" name="model_url" width="100%" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce" poster="poster.webp" shadow-intensity="0.94" exposure="1" shadow-softness="0.75" min-camera-orbit="auto auto 7.159m" min-field-of-view="30deg">
+                    <div class="progress-bar hide" slot="progress-bar">
+                    <div class="update-bar"></div>
+                    </div>
+                    <button slot="ar-button" id="ar-button">View in your space</button>
+                  </model-viewer>
+                <!-- <img src="" alt="" id="file_url" name="file_url" width="100%" /> -->
+              </div>
+              <!-- <label for="upload_file" class="form-label">Upload Model</label>
               <input type="file" class="form-control" id="upload_file" name="upload_file" placeholder=".gltf" name="file" accept=".gltf">
-              <div class="form-text"></div>
+              <div class="form-text"></div> -->
             </div>
             <div class="mb-3">
               <label for="skin_last_update" class="form-label">Last Update</label>
@@ -89,7 +104,7 @@ $title = '新增';
     skin_name: skin_name_f,
     skin_model_id: skin_model_id_f,
     role: role_f,
-    upload_file: upload_file_f,
+    model_url: model_url_f,
     skin_last_update: skin_last_update_f,
   } = document.form1;
 
@@ -108,27 +123,27 @@ $title = '新增';
 
   const sendForm = e => {
     e.preventDefault();
-    skin_id_f.style.border = '1px solid #CCC';
-    skin_id_f.nextElementSibling.innerHTML = "";
-    skin_name_f.style.border = '1px solid #CCC';
-    skin_name_f.nextElementSibling.innerHTML = "";
-    skin_model_id_f.style.border = '1px solid #CCC';
-    skin_model_id_f.nextElementSibling.innerHTML = "";
-    role_f.style.border = '1px solid #CCC';
-    role_f.nextElementSibling.innerHTML = "";
-    upload_file_f.style.border = '1px solid #CCC';
-    upload_file_f.nextElementSibling.innerHTML = "";
-    skin_last_update_f.style.border = '1px solid #CCC';
-    skin_last_update_f.nextElementSibling.innerHTML = "";
+    // skin_id_f.style.border = '1px solid #CCC';
+    // skin_id_f.nextElementSibling.innerHTML = "";
+    // skin_name_f.style.border = '1px solid #CCC';
+    // skin_name_f.nextElementSibling.innerHTML = "";
+    // skin_model_id_f.style.border = '1px solid #CCC';
+    // skin_model_id_f.nextElementSibling.innerHTML = "";
+    // role_f.style.border = '1px solid #CCC';
+    // role_f.nextElementSibling.innerHTML = "";
+    // model_url_f.style.border = '1px solid #CCC';
+    // model_url_f.nextElementSibling.innerHTML = "";
+    // skin_last_update_f.style.border = '1px solid #CCC';
+    // skin_last_update_f.nextElementSibling.innerHTML = "";
 
     // TODO: 資料送出之前, 要做檢查 (有沒有填寫, 格式對不對)
     let isPass = true;
 
-    if (skin_id_f.value.length != 4) {
-      isPass = false;
-      skin_id_f.style.border = '1px solid red';
-      skin_id_f.nextElementSibling.innerHTML = "請填寫正確格式ID";
-    }
+    // if (skin_id_f.value.length != 4) {
+    //   isPass = false;
+    //   skin_id_f.style.border = '1px solid red';
+    //   skin_id_f.nextElementSibling.innerHTML = "請填寫正確格式ID";
+    // }
 
     // if(email_f.value === '' || !validateEmail(email_f.value)) {
     //   isPass = false;
@@ -158,6 +173,25 @@ $title = '新增';
           e => console.log(e)
         );
     }
+  }
+
+  function uploadFile() {
+    const fd = new FormData(document.form1);
+
+    fetch("upload_gltf.php", {
+        method: "POST",
+        body: fd, // enctype="multipart/form-data"
+      })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success) {
+          // 將回傳的檔名放進Form1 送進資料庫
+          const newModelName = document.getElementById('newModelName')
+          newModelName.value=data.file;
+          // 即時預覽圖片
+          myImg.src = "./3dmodel/" + data.file;
+        }
+      });
   }
 
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
