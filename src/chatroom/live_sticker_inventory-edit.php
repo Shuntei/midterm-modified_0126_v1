@@ -11,7 +11,7 @@ if (empty($row)) {
 }
 ?>
 <?php include __DIR__ . '/parts/html-head.php' ?>
-<?php include ('./../package/packageUp.php') ?>
+<?php include('./../package/packageUp.php') ?>
 <?php include __DIR__ . '/parts/navbar.php' ?>
 
 <style>
@@ -53,12 +53,12 @@ if (empty($row)) {
               <div class="form-text"></div>
             </div>
             <div class="mb-3">
-              <label for="text" class="form-label">圖片</label>
-              <input type="text" class="form-control" id="sticker_pic" name="sticker_pic" value="<?= $row['sticker_pic'] ?>">
+              <label for="text" class="form-label">更新圖片</label>
+              <input type="text" name="newPictureName" id="newPictureName" hidden><br>
+              <input type="file" name="sticker" id="sticker" accept="image/*">
               <div class="form-text"></div>
-              <!-- <input type="file" name="upload_file" id="upload_file"> -->
               <div class="photo">
-                <img src="./imgs/<?= $row['sticker_pic'] ?>" class="photo" alt="picture">
+                <img id="displayPhoto" src="./imgs/<?= $row['sticker_pic'] ?>" class="photo" alt="picture">
               </div>
             </div>
             <button type="submit" class="btn btn-primary">修改</button>
@@ -89,14 +89,16 @@ if (empty($row)) {
     </div>
   </div>
 </div>
-<?php include ('./../package/packageDown.php') ?>
+<?php include('./../package/packageDown.php') ?>
 <?php include __DIR__ . '/parts/scripts.php' ?>
 <script>
   const {
     sticker_title: sticker_title_f,
     sticker_cost: sticker_cost_f,
-    sticker_pic: sticker_pic_f,
+    sticker: sticker_pic_f,
   } = document.form1;
+
+  let newPictureName = document.getElementById('newPictureName')
 
   const sendForm = e => {
     e.preventDefault();
@@ -125,7 +127,7 @@ if (empty($row)) {
       sticker_cost_f.nextElementSibling.innerHTML = "此格不許空白";
     }
 
-    if (sticker_pic_f.value === '') {
+    if (newPictureName.value === '') {
       isPass = false;
       sticker_pic_f.style.border = '1px solid red';
       sticker_pic_f.nextElementSibling.innerHTML = "此格不許空白";
@@ -151,6 +153,33 @@ if (empty($row)) {
         );
     }
   }
+
+  // 抓圖片開始
+
+  document.getElementById('sticker').addEventListener("change", uploadFile)
+
+  function uploadFile() {
+    const fd = new FormData(document.form1);
+
+    fetch("live-upload-avatar.php", {
+
+        method: "POST",
+        body: fd, // enctype="multipart/form-data"
+      })
+
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.success) {
+          let displayPhoto = document.getElementById('displayPhoto')
+          let newPictureName = document.getElementById('newPictureName');
+          newPictureName.value = data.file;
+          displayPhoto.src = "./imgs/" + data.file;
+        }
+      })
+      .catch(e => console.log(e));
+  }
+
+  // 抓圖片結束
 
   const myModal = new bootstrap.Modal(document.getElementById('exampleModal'))
 </script>
