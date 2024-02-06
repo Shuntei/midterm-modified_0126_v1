@@ -2,7 +2,7 @@
     $db_host = 'localhost';
     $db_name = 'midterm_db';
     $db_user = 'root';
-    $db_pass = 'root';
+    $db_pass = '';
     
     $dsn = "mysql:host={$db_host};dbname={$db_name};charset=utf8mb4";
     // $pdo = new PDO($dsn, $db_user, $db_pass, $pdo_options);
