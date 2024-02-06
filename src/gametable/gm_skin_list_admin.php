@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 require __DIR__ . '/parts/db_connect_midterm.php';
 $pageName = 'list';
@@ -13,9 +13,6 @@ if ($page < 1) {
 }
 
 $t_sql = "SELECT COUNT(1) FROM gm_skin";
-
-// $t_stmt = $pdo->query($t_sql);
-// $row = $t_stmt->fetch(PDO::FETCH_NUM);
 $row = $pdo->query($t_sql)->fetch(PDO::FETCH_NUM);
 
 $totalRows = $row[0];
@@ -48,7 +45,7 @@ if (empty($pageName)) {
 
 <!-- Import the component -->
 <script type="module" src="https:unpack.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-<model-viewer src="/3dmodel/945b2683c15a874280229e320bad7f045aa87ebf.fbx" camera-controls></model-viewer>
+
 <!-- partial -->
 
 <div class="container-fluid content-wrapper">
@@ -105,7 +102,7 @@ if (empty($pageName)) {
                       <th>Skin Name</th>
                       <th>Skin Model ID</th>
                       <th>Role</th>
-                      <th>Upload File</th>
+                      <th>model_url</th>
                       <th>Last Update</th>
                       <th><i class="fa-solid fa-pen-to-square"></i></th>
                     </tr>
@@ -131,31 +128,9 @@ if (empty($pageName)) {
                         <td>
                           <?= $r['role'] ?>
                         </td>
+                    
                         <td>
-                          <?= $r['file'] ?>
-                          <!-- Button trigger modal -->
-                          <button type="button" class="btn btn-inverse-primary btn-rounded btn-icon"
-                            data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i
-                              class="mdi mdi-eye"></i>View</button>
-
-                          <!-- Modal -->
-                          <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title" id="staticBackdropLabel">Drag to rotate</h5>
-                                  <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                  <!-- <model-viewer autoplay ar camera-controls touch-action="pan-y" src="./3dmodel/Shine_Sprite.gltf" scale="0.01 0.01 0.01">
-                                    <effect-composer>
-                                      <pixelate-effect></pixelate-effect>
-                                    </effect-composer>
-                                  </model-viewer> -->
-
-                                  <model-viewer src="./3dmodel/Shine_Sprite.gltf" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce" poster="poster.webp" shadow-intensity="0.94" exposure="1" shadow-softness="0.75" min-camera-orbit="auto auto 7.159m" min-field-of-view="30deg">
+                        <model-viewer src="./3dmodel/<?= $r['model_url'] ?>" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="commerce" poster="poster.webp" shadow-intensity="0.94" exposure="1" shadow-softness="0.75" min-camera-orbit="auto auto 7.159m" min-field-of-view="30deg">
                                    <div class="progress-bar hide" slot="progress-bar">
                                         <div class="update-bar"></div>
                                     </div>
@@ -163,10 +138,7 @@ if (empty($pageName)) {
                                         View in your space
                                     </button>
                                   </model-viewer>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                          <!--  -->
                         </td>
                         <td>
                           <?= $r['skin_last_update'] ?>
